@@ -13,7 +13,7 @@ export default function Home() {
         </span>
         <span className={title({ color: "violet" })}>&nbsp;Hadith&nbsp;</span>
         <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern educational website.
+          Beautiful, fast and modern educational website
         </div>
       </div>
     </section>
