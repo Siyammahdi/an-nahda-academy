@@ -9,6 +9,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "gradient-dark": "linear-gradient(135deg, #0b1f1b, #080f21,  #1b012e)", 
+        "gradient-light": "linear-gradient(135deg, #c5fcf0, #d7e0f5, #e3c3fa)",
+      },
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
@@ -18,3 +22,8 @@ module.exports = {
   darkMode: "class",
   plugins: [nextui()],
 }
+
+
+//#181938 blue_1
+//#0e241f green_1
+//#0b1f1b green_2

@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -7,7 +9,6 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
@@ -21,12 +22,28 @@ import {
   TwitterIcon,
   GithubIcon,
   DiscordIcon,
-  HeartFilledIcon,
   SearchIcon,
   Logo,
 } from "@/components/icons";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
+
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -49,15 +66,30 @@ export const Navbar = () => {
   );
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
-          </NextLink>
-        </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+    <NextUINavbar className={clsx(
+      "transition-colors duration-300",
+      isScrolled ? "" : "bg-transparent"
+    )} maxWidth="xl" position="sticky">
+      <NavbarContent className="basis-1/5 sm:basis-full flex-col items-start py-3" justify="start">
+
+        <NavbarContent
+          className="hidden sm:flex basis-1/5 sm:basis-full"
+        >
+          <NavbarItem className="hidden sm:flex gap-2">
+            <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
+              <TwitterIcon className="text-default-500" />
+            </Link>
+            <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
+              <DiscordIcon className="text-default-500" />
+            </Link>
+            <Link isExternal aria-label="Github" href={siteConfig.links.github}>
+              <GithubIcon className="text-default-500" />
+            </Link>
+            <ThemeSwitch />
+          </NavbarItem>
+        </NavbarContent>
+
+        <ul className="hidden lg:flex gap-10 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
@@ -73,37 +105,6 @@ export const Navbar = () => {
             </NavbarItem>
           ))}
         </ul>
-      </NavbarContent>
-
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
-          </Link>
-          <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            isExternal
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
-            startContent={<HeartFilledIcon className="text-danger" />}
-            variant="flat"
-          >
-            Sponsor
-          </Button>
-        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -136,6 +137,16 @@ export const Navbar = () => {
           ))}
         </div>
       </NavbarMenu>
+
+      <NavbarBrand as="li" className="gap-3 max-w-fit">
+        <NextLink className="flex justify-start items-center gap-1" href="/">
+          <div className="flex flex-col justify-end items-end">
+            <Logo />
+            {/* <p className="text-right"><span className="text-xl">An nahda</span> <br /> Academy</p> */}
+          </div>
+        </NextLink>
+      </NavbarBrand>
+
     </NextUINavbar>
   );
 };
