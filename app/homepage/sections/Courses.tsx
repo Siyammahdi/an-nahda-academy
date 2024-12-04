@@ -86,7 +86,7 @@ const Courses: React.FC = () => {
 
          <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
             {list.map((item, index) => (
-               <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
+               <Card shadow="sm" key={index} >
                   <CardBody className="overflow-visible p-0">
                      <Image
                         shadow="sm"
