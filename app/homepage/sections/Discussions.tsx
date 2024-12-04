@@ -1,4 +1,3 @@
-"use client"
 import { title } from '@/components/primitives';
 
 const Discussions: React.FC = () => {
