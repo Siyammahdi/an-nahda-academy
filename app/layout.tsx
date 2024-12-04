@@ -8,6 +8,7 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import { LanguageProvider } from "@/utils/Contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +43,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark", enableSystem: true }}>
+          {/* <LanguageProvider></LanguageProvider> */}
           <div className="">
             <div className="relative flex flex-col bg-gradient-light dark:bg-gradient-dark">
               <Navbar />
