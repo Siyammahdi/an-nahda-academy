@@ -7,11 +7,11 @@ import grad1 from "@/public/grad/gradiant1.png"
 
 const Footer = () => {
     return (
-        <div className="relative bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950 ">
+        <div className="relative  bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950 ">
             <div className="flex justify-center">
                 <Image className="absolute z-10 -top-44" src={grad1} alt="gradiant" height={900} width={900} />
             </div>
-            <div className="w-full py-16 px-6 text-white">
+            <div className="w-full py-16 px-6 ">
                 {/* Top Sections */}
                 <div className=" max-w-screen-xl mx-auto flex justify-between">
                     <div className="grid grid-cols-2 w-2/3 gap-20">
@@ -80,18 +80,18 @@ const Footer = () => {
                         <p className="text-xs mt-3 text-gray-300">
                             এটি আপনার ব্যক্তিগত তথ্য সম্পূর্ণ গোপন রাখবে।
                         </p>
-                        <div className="flex space-x-6 mt-6">
+                        <div className="flex space-x-4 mt-6">
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaInstagram size={28} />
+                                <FaInstagram size={20} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaYoutube size={28} />
+                                <FaYoutube size={20} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaFacebook size={28} />
+                                <FaFacebook size={20} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaTwitter size={28} />
+                                <FaTwitter size={20} />
                             </Link>
                         </div>
                     </div>
