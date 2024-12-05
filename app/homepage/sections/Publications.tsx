@@ -29,21 +29,19 @@ const Publications: React.FC = () => {
       <div className='my-20'>
          <h2 className={title()}>Publications</h2>
          <div className='my-20'>
-            <div className="gap-2 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4">
+            <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                {list.map((item, index) => (
                   <div  key={index} >
                      
                         <Image
-                           shadow="sm"
-                           radius="lg"
                            width="100%"
                            alt={item.title}
-                           className="w-full object-cover h-[250px]"
+                           className="w-full object-cover rounded-3xl h-[250px]"
                            src={item.img}
                         />
                      
-                     <div className="text-small justify-between bg-opacity-1 my-5">
-                        <b className='text-3xl text-purple-700 '>{item.title}</b>
+                     <div className="text-small justify-between space-y-2 bg-opacity-1 my-5">
+                        <b className='text-2xl text-purple-700 '>{item.title}</b>
                         <p className="text-purple-700">{item.date}</p>
                      </div>
                   </div>

@@ -7,7 +7,7 @@ import StudentComments from "./homepage/sections/StudentComments";
 
 export default function Home() {
   return (
-    <div>
+    <div className="space-y-48">
       <Banner />
       <Arrengements />
       <Courses/>
