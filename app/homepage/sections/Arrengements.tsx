@@ -1,5 +1,3 @@
-
-import { title } from '@/components/primitives';
 import { Button } from '@nextui-org/button';
 import React from 'react';
 import { FaAudioDescription, FaBook, FaClock, FaFaceSmile, FaHandshake, FaLanguage, FaPenNib, FaUtensils, FaVideo } from 'react-icons/fa6';

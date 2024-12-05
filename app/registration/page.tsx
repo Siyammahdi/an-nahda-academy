@@ -7,7 +7,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 const Registration: React.FC = () => {
    return (
-      <div className=' flex  flex-col items-center justify-center '>
+      <div className=' flex  flex-col items-center justify-center mb-20'>
 
          <Fade className="w-full  ">
             <div className='lg:w-[80%] w-[95%] mx-auto shadow-lg border rounded-xl border-black lg:h-[550px] glass flex lg:flex-row flex-col items-center justify-center'>

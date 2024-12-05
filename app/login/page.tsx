@@ -7,7 +7,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 const Login: React.FC = () => {
    return (
-      <div className=' flex  flex-col items-center justify-center '>
+      <div className=' flex  flex-col items-center justify-center mb-20'>
 
          <Fade className="w-full  ">
             <div className='w-[80%] mx-auto shadow-lg border rounded-xl border-black lg:h-[550px] glass flex flex-col lg:flex-row-reverse items-center justify-center'>
@@ -15,7 +15,7 @@ const Login: React.FC = () => {
                   <Image
                      alt="Woman listing to music"
                      className="object-cover"
-                     height={400}
+                     height={300}
                      src="/logoDark.svg"
                      width={400}
                   />

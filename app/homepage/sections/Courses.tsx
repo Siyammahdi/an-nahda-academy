@@ -17,7 +17,7 @@ const Courses: React.FC = () => {
 
    return (
       <div>
-         <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-10">
+         <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-10 ">
             <h1 className={title()}>See Courses</h1>
             <Button radius="full" className="bg-blue-500 text-white">
                See All... <FaArrowRight />
@@ -86,14 +86,14 @@ const Courses: React.FC = () => {
 
          <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
             {list.map((item, index) => (
-               <Card shadow="sm" key={index} >
+               <Card className='bg-opacity-40 backdrop-blur-md rounded-3xl' shadow="sm" key={index} >
                   <CardBody className="overflow-visible p-0">
                      <Image
                         shadow="sm"
                         width="100%"
                         height={300}
                         alt={item.title}
-                        className="w-full object-cover "
+                        className="w-full object-cover rounded-none"
                         src={item.img}
                      />
                   </CardBody>

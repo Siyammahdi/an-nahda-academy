@@ -1,14 +1,11 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
 import clsx from "clsx";
-
 import { Providers } from "./providers";
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
-import { LanguageProvider } from "@/utils/Contexts/LanguageContext";
+import { Navbar } from "@/components/Shared/navbar";
+import Footer from "@/components/Shared/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -50,17 +47,10 @@ export default function RootLayout({
               <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
                 {children}
               </main>
-              <footer className="w-full flex items-center justify-center py-3">
-                <Link
-                  isExternal
-                  className="flex items-center gap-1 text-current"
-                  href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-                  title="nextui.org homepage"
-                >
-                  <span className="text-default-600">Powered by</span>
-                  <p className="text-primary">NextUI</p>
-                </Link>
-              </footer>
+              <div className="bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950 ">
+                <Footer />
+              </div>
+
             </div>
           </div>
         </Providers>
@@ -71,6 +61,6 @@ export default function RootLayout({
 
 
 //light:bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500
-//dark:bg-gradient-to-tr from-sky-950 via-indigo-950 to-purple-950 
+//dark:bg-gradient-to-tr from-sky-950 via-indigo-950 to-purple-950
 
 //bg-gradient-light dark:bg-gradient-dark

@@ -2,7 +2,9 @@
 "use client"
 import {Avatar} from "@nextui-org/react";
 import { title } from '@/components/primitives'
-import { Image } from "@nextui-org/image";
+
+
+
 const StudentComments:React.FC = () => {
    return (
       <div className='my-20'>
