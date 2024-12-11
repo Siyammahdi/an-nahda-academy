@@ -26,13 +26,24 @@ import {
   Logo,
 } from "@/components/icons";
 import { useEffect, useState } from "react";
+import LoginModal from "../loginModal";
 
 export const Navbar = () => {
 
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true)
+   
+  }
+  console.log(isModalOpen)
+  const handleModalClose = () => {
+    return setIsModalOpen(false)
+  }
   useEffect(() => {
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
@@ -66,6 +77,7 @@ export const Navbar = () => {
   );
 
   return (
+
     <NextUINavbar className={clsx(
       "transition-colors duration-300 h-24",
       isScrolled ? "" : "bg-transparent"
@@ -92,7 +104,17 @@ export const Navbar = () => {
         <ul className="hidden lg:flex gap-10 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
-              <NextLink
+              { item.label ==="Login" ?  <NextLink
+                className={clsx(
+                  linkStyles({ color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                )}
+                color="foreground"
+                href={item.href}
+                onClick={handleModalOpen}
+              >
+                {item.label}
+              </NextLink>: <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
                   "data-[active=true]:text-primary data-[active=true]:font-medium",
@@ -101,7 +123,8 @@ export const Navbar = () => {
                 href={item.href}
               >
                 {item.label}
-              </NextLink>
+              </NextLink>}
+             
             </NavbarItem>
           ))}
         </ul>
@@ -128,13 +151,14 @@ export const Navbar = () => {
                       ? "danger"
                       : "foreground"
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}
               </Link>
             </NavbarMenuItem>
           ))}
+
         </div>
       </NavbarMenu>
 
@@ -146,6 +170,13 @@ export const Navbar = () => {
           </div>
         </NextLink>
       </NavbarBrand>
+      <>
+
+
+
+        {isModalOpen && <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />}
+      </>
+
 
     </NextUINavbar>
   );

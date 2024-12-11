@@ -62,7 +62,7 @@ const Registration: React.FC = () => {
                         Registration
                      </Button>
                   </div>
-                  <span>Already Registered? Go for <Link className="text-red-600" href="/login">Login</Link></span>
+                  {/* <span>Already Registered? Go for <Link className="text-red-600" href="/login">Login</Link></span> */}
                </div>
             </div>
          </Fade>
