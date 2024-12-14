@@ -7,7 +7,7 @@ import { title } from '@/components/primitives'
 
 const StudentComments:React.FC = () => {
    return (
-      <div className='my-20'>
+      <div className=''>
          <h2 className={title()}>Student Comments</h2>
          <div className='my-20'>
          <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 my-10'>

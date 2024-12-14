@@ -17,7 +17,7 @@ const Courses: React.FC = () => {
 
    return (
       <div>
-         <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-10 ">
+         <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-20">
             <h1 className={title()}>See Courses</h1>
             <Button radius="full" className="bg-blue-500 text-white">
                See All... <FaArrowRight />

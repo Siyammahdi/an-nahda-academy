@@ -2,19 +2,19 @@
 import { Link } from "@nextui-org/link";
 import Image from "next/image";
 import React from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTelegramPlane, FaTwitter, FaYoutube } from "react-icons/fa";
 import grad1 from "@/public/grad/gradiant1.png"
 
 const Footer = () => {
     return (
-        <div className="relative  bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950 ">
+        <div className="relative text-white bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950">
             <div className="flex justify-center">
-                <Image className="absolute z-10 -top-44" src={grad1} alt="gradiant" height={900} width={900} />
+                <Image className="absolute z-10 -top-40" src={grad1} alt="gradiant" height={1000} width={1000} />
             </div>
             <div className="w-full py-16 px-6 ">
                 {/* Top Sections */}
-                <div className=" max-w-screen-xl mx-auto flex justify-between">
-                    <div className="grid grid-cols-2 w-2/3 gap-20">
+                <div className="relative z-20 max-w-screen-xl mx-auto flex justify-between">
+                    <div className=" grid grid-cols-2 w-2/3 gap-20">
 
                         {/* Column 1 */}
                         <div>
@@ -30,7 +30,7 @@ const Footer = () => {
                         </div>
 
                         {/* Column 2 */} 
-                        <div>
+                        <div className="">
                             <h4 className="text-lg font-semibold mb-8">বাংলা সংস্কৃতি</h4>
                             <ul className="space-y-3 text-sm">
                                 <li>বাংলা পত্রিকা</li>
@@ -80,18 +80,21 @@ const Footer = () => {
                         <p className="text-xs mt-3 text-gray-300">
                             এটি আপনার ব্যক্তিগত তথ্য সম্পূর্ণ গোপন রাখবে।
                         </p>
-                        <div className="flex space-x-4 mt-6">
+                        <div className="flex space-x-8 mt-16">
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaInstagram size={20} />
+                                <FaTelegramPlane size={28} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaYoutube size={20} />
+                                <FaInstagram size={28} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaFacebook size={20} />
+                                <FaYoutube size={28} />
                             </Link>
                             <Link href="#" className="text-white hover:text-gray-400">
-                                <FaTwitter size={20} />
+                                <FaFacebook size={28} />
+                            </Link>
+                            <Link href="#" className="text-white hover:text-gray-400">
+                                <FaTwitter size={28} />
                             </Link>
                         </div>
                     </div>

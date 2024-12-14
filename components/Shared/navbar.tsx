@@ -66,9 +66,9 @@ export const Navbar = () => {
   );
 
   return (
-    <NextUINavbar className={clsx(
-      "transition-colors duration-300 h-24",
-      isScrolled ? "" : "bg-transparent"
+    <NextUINavbar isBlurred={false} className={clsx(
+      "transition-colors duration-300 h-24 ",
+      isScrolled ? "bg-white/30 dark:bg-black/40 backdrop-blur-lg" : "bg-transparent"
     )} maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full flex-col items-start py-3 pt-0" justify="start">
 

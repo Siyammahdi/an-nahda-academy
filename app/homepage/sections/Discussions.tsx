@@ -10,9 +10,9 @@ const Discussions: React.FC = () => {
    ];
 
    return (
-      <div className="my-20">
+      <div className="">
          <h2 className={title()}>Discussions & Life Enhancing Videos</h2>
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 my-10">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 my-20">
             {videos.map((video, index) => (
                <div key={index} className="overflow-hidden rounded-3xl">
                   <iframe
