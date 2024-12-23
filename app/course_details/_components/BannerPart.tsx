@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa6";
 const BannerPart: React.FC = () => {
    return (
-      <div className=" glass2 h-[350px] rounded-full flexBetween">
+      <div className=" glass2 h-[440px] rounded-[100px] flexBetween">
          <div className="p-5 flex-1">
 
             <div className='flex flex-row items-center gap-2'>
@@ -28,8 +28,8 @@ const BannerPart: React.FC = () => {
             </div>
             </div>
          </div>
-         <div className="rounded-full flex-1 border p-5">
-            <Image className="rounded-2xl" alt="banner-image" src='/parenting2.png' height={350} width={400} style={{ width: '100%', height: '300px' }} />
+         <div className=" flex-1  p-5">
+            <Image className=" rounded-[80px]" alt="banner-image" src='/parenting (square v)-07.png' height={400} width={400} style={{ width: '100%', height: '400px' }} />
          </div>
 
       </div>
