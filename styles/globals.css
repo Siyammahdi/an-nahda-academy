@@ -13,10 +13,17 @@
 
 
  .glass{
- /* From https://css.glass */
-/* From https://css.glass */
 background: rgba(207, 236, 240, 0.44);
 border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(1.4px);
+-webkit-backdrop-filter: blur(1.4px);
+border: 1px solid rgba(207, 236, 240, 1);
+
+ }
+ .glass2{
+
+background: rgba(255, 195, 250, 0.44);
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(1.4px);
 -webkit-backdrop-filter: blur(1.4px);
@@ -29,6 +36,9 @@ border: 1px solid rgba(207, 236, 240, 1);
  }
  .flexStart{
    @apply flex flex-row items-center gap-3
+ }
+ .flexBetween{
+   @apply flex flex-row items-center justify-between
  }
  .alignCenter{
    @apply lg:w-[80%] mx-auto

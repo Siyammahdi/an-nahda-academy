@@ -1,15 +1,14 @@
 "use client"
 import { Image } from "@nextui-org/image";
-import { Checkbox, Input, Link, Button } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import { FaLock } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
-import { Fade } from "react-awesome-reveal";
 const Registration: React.FC = () => {
    return (
       <div className=' flex  flex-col items-center justify-center mb-20'>
 
-         <Fade className="w-full  ">
+         {/* <Fade className="w-full  "> */}
             <div className='lg:w-[80%] w-[95%] mx-auto shadow-lg border rounded-xl border-black lg:h-[550px] glass flex lg:flex-row flex-col items-center justify-center'>
                <div className='flex-1 flex flex-col items-center justify-center'>
                   <Image
@@ -65,7 +64,7 @@ const Registration: React.FC = () => {
                   {/* <span>Already Registered? Go for <Link className="text-red-600" href="/login">Login</Link></span> */}
                </div>
             </div>
-         </Fade>
+         {/* </Fade> */}
       </div>
    );
 };

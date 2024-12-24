@@ -3,13 +3,13 @@
 import React from "react";
 import { Image } from "@nextui-org/image";
 import {
-   Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure,
+   Modal, ModalContent, ModalBody,
    Checkbox, Input, Link, Button
 } from "@nextui-org/react";
 import { FaLock } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { FaUserAlt } from "react-icons/fa";
-import { Fade } from "react-awesome-reveal";
+// import { FaUserAlt } from "react-icons/fa";
+// import { Fade } from "react-awesome-reveal";
 
 export const MailIcon = (props) => {
    return (
@@ -144,7 +144,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   {/* <ModalHeader className="flex flex-col gap-1">Login Form</ModalHeader> */}
                   <ModalBody>
 
-                     <Fade >
+                     {/* <Fade > */}
                         <div className='  flex flex-col lg:flex-row-reverse items-center justify-center'>
                            <div className='flex-1 flex flex-col items-center justify-center'>
                               <Image
@@ -229,7 +229,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                               <span>New to this Academy? Go for <button className="text-red-600" onClick={handleRegistration} >Registration</button></span>
                            </div>
                         </div>
-                     </Fade>
+                     {/* </Fade> */}
 
                   </ModalBody>
                   {/* <ModalFooter>
