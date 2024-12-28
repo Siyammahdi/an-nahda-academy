@@ -1,6 +1,6 @@
 
 "use client"
-import React from "react";
+
 import { Image } from "@nextui-org/image";
 import {
    Modal, ModalContent, ModalBody,
@@ -8,8 +8,8 @@ import {
 } from "@nextui-org/react";
 import { FaLock } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-// import { FaUserAlt } from "react-icons/fa";
-// import { Fade } from "react-awesome-reveal";
+import { FaUserAlt } from "react-icons/fa";
+import { Fade } from "react-awesome-reveal";
 
 export const MailIcon = (props) => {
    return (
@@ -114,6 +114,12 @@ export const EyeFilledIcon = (props) => {
    );
 };
 
+type Inputs = {
+  
+   email: string;
+   phone: string;
+   password: string;
+};
 
 interface LoginModalProps {
    isOpen: boolean;
@@ -121,6 +127,12 @@ interface LoginModalProps {
 }
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
    // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+   const [showPassword, setShowPassword] = useState(false)
+   const onSubmit: SubmitHandler<Inputs> = (data) => {
+      console.log(data); // Handle the submitted data
+   };
+
    const handleLogin = () => {
       setTimeout(onClose, 1000)
 
@@ -158,74 +170,80 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                            </div>
                            <div className='flex-1 flexCenter p-10'>
                               <h1 className="text-3xl text-[#002E62] font-bold">Student Login</h1>
-                              <div className="w-full">
-
+                              <form
+                                 className="w-full max-w-xs"
+                                 onSubmit={handleSubmit(onSubmit)}
+                              >
+                                
                                  <Input
-
-                                    startContent={
+                                    {...register("email", { required: "Email is required" })}
+                                    endContent={
                                        <MdEmail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                     }
                                     label="Email"
                                     placeholder="Enter your email"
                                     variant="bordered"
                                     className="mb-5 shadow-2xl"
-
                                  />
-                                 {/* <Input
-                                    startContent={
-                                       <FaLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                                    }
-                                    label="Password"
-                                    placeholder="Enter your password"
-                                    type="password"
-                                    variant="bordered"
-                                    className="mb-5 shadow-2xl"
-                                 /> */}
+                                 {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+
                                  <Input
-                                    startContent={
-                                       <FaLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                                    }
+                                    {...register("phone", {
+                                       required: "Phone number is required",
+                                       pattern: {
+                                          value: /^[+]?[0-9]{7,15}$/,
+                                          message: "Invalid phone number",
+                                       },
+                                    })}
                                     endContent={
-                                       <button
-                                          aria-label="toggle password visibility"
-                                          className="focus:outline-none"
-                                          type="button"
-                                          onClick={toggleVisibility}
-                                       >
-                                          {isVisible ? (
-                                             <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          ) : (
-                                             <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          )}
-                                       </button>
+                                       <MdPhone className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                     }
-                                    label="Password"
-                                    placeholder="Enter your password"
-                                    type={isVisible ? "text" : "password"}
+                                    label="Phone Number"
+                                    placeholder="Enter your phone number"
                                     variant="bordered"
                                     className="mb-5 shadow-2xl"
                                  />
-                              </div>
-                              <div className="w-full flex flex-row items-center justify-between ">
-                                 <Checkbox
-                                    classNames={{
-                                       label: "text-small ",
-                                    }}
-                                 >
-                                    Remember me
-                                 </Checkbox>
-                                 <Link color="primary" href="#" size="sm">
-                                    Forgot password?
-                                 </Link>
+                                 {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+
+                                 <Input
+                                    {...register("password", { required: "Password is required" })}
+
+                                    endContent={
+                                       <span className="cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                                          {!showPassword ? <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none flex-shrink-0" /> : <FaRegEye className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
+                                       </span>
+                                    }
+                                   
+                                    label="Password"
+                                    placeholder="Enter your password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    variant="bordered"
+                                    className="mb-5 shadow-2xl"
+                                 />
+                                 {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+                                 <div className="w-full flex flex-row items-center justify-between my-5">
+                                    <Checkbox
+                                       classNames={{
+                                          label: "text-small ",
+                                       }}
+                                    >
+                                       Remember me
+                                    </Checkbox>
+                                    <Link color="primary" href="#" size="sm">
+                                       Forgot password?
+                                    </Link>
 
 
-                              </div>
-                              <div className="w-full">
+                                 </div>
+                                 <div className="w-full">
 
-                                 <Button onPress={handleLogin} className="w-full shadow-2xl" color="danger" variant="flat">
-                                    Login
-                                 </Button>
-                              </div>
+                                    <Button type="submit" className="w-full shadow-2xl" color="danger" variant="flat">
+                                       Login
+                                    </Button>
+                                 </div>
+                              </form>
+
+
                               <span>New to this Academy? Go for <button className="text-red-600" onClick={handleRegistration} >Registration</button></span>
                            </div>
                         </div>
