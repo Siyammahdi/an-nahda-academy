@@ -1,9 +1,8 @@
 
 "use client"
-import { Avatar, } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
+
 import Image from "next/image";
-import { FaRegHeart } from "react-icons/fa6";
+
 const AllFreePaidCourses: React.FC = () => {
    const list = [
       { title: "Learning Arabic Course", language: "Bangla,Arabic", age: "After 10 Years", time: "Total 2 Years (Recorded Class)", start: 'After Enrollemnt', img: "/learning_arabic.png", price: "550", classes: "20" },
@@ -30,7 +29,7 @@ const AllFreePaidCourses: React.FC = () => {
                          </div>
                          <button className="rounded-xl bg-[#0095FF] px-3 py-1 font-medium text-white duration-200 hover:bg-[#0095FF]/90">30% off</button>
                      </div>
-                     <img width={400} height={400} className="rounded-3xl bg-black/40 object-cover" src={item?.img} />
+                     <Image width={400} height={400} alt="course" className="rounded-3xl bg-black/40 object-cover" src={item?.img} />
                  </div>
                  <div className="space-y-2 font-semibold">
                      <h6 className="text-sm md:text-base lg:text-lg">{item?.title}</h6>

@@ -3,10 +3,10 @@ import React from 'react';
 
 const Discussions: React.FC = () => {
    const videos = [
-      "https://www.youtube.com/embed/oN428nn6dG0",
-      "https://www.youtube.com/embed/htuLhCOrbzc",
-      "https://www.youtube.com/embed/epPO-Bl929U",
-      "https://www.youtube.com/embed/P5W1C7TlBcI"
+      "https://www.youtube.com/embed/HVAnIPej18M",
+      "https://www.youtube.com/embed/SgnmSO9d7y0",
+      "https://www.youtube.com/embed/cr2b3PnPYJs",
+      "https://www.youtube.com/embed/-_gmfXcgLg0"
    ];
 
    return (
