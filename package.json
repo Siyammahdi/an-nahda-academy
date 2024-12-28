@@ -16,6 +16,7 @@
 		"@nextui-org/card": "^2.0.34",
 		"@nextui-org/code": "2.0.33",
 		"@nextui-org/dropdown": "^2.1.31",
+		"@nextui-org/form": "^2.1.7",
 		"@nextui-org/image": "^2.0.32",
 		"@nextui-org/input": "2.2.5",
 		"@nextui-org/kbd": "2.0.34",
@@ -29,6 +30,7 @@
 		"@nextui-org/theme": "^2.2.11",
 		"@react-aria/ssr": "3.9.4",
 		"@react-aria/visually-hidden": "3.8.12",
+		"axios": "^1.7.9",
 		"clsx": "2.1.1",
 		"framer-motion": "~11.1.1",
 		"intl-messageformat": "^10.5.0",
@@ -37,6 +39,7 @@
 		"react": "18.3.1",
 		"react-awesome-reveal": "^4.2.14",
 		"react-dom": "18.3.1",
+		"react-hook-form": "^7.54.2",
 		"react-icons": "^5.4.0"
 	},
 	"devDependencies": {

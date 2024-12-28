@@ -25,6 +25,7 @@ export default function RootLayout({
 }) {
   const location = usePathname()
   const detailPage = location.includes('/course_details')
+  const noHeaderFooter = location.includes('/dashboard')
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -38,17 +39,17 @@ export default function RootLayout({
           {/* <LanguageProvider></LanguageProvider> */}
           <div className="">
             <div className="relative flex flex-col bg-gradient-light dark:bg-gradient-dark">
-              <Navbar />
+              {noHeaderFooter || <Navbar />}
 
               <main className={clsx(
-                "container mx-auto pt-16 px-6 flex-grow",
-                detailPage ? "max-w-full" : "max-w-7xl",
+                "container mx-auto pt-10 px-6 flex-grow",
+                detailPage ? "max-w-full" : "max-w-7xl", noHeaderFooter && 'max-w-full pt-0 px-0'
               )}>
                 {children}
               </main>
 
               <div className="bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950 ">
-                <Footer />
+                {noHeaderFooter || <Footer/>}
               </div>
 
             </div>
