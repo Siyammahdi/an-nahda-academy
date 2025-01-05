@@ -16,6 +16,8 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
+        liAdor: ['"Li Ador Noirrit"', 'sans-serif'], 
+
       },
       animation: {
         "fade-in": "fadeIn 1s ease-in-out forwards",

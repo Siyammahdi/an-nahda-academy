@@ -40,7 +40,7 @@ const Slider: React.FC = () => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`item`}
+            className={`item `}
             style={{ backgroundImage: `url(${slide.image})` }}
           >
             <div className="content">

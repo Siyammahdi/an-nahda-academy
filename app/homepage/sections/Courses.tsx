@@ -1,4 +1,4 @@
-"use client"; // Add this line to the top of your file
+"use client";
 
 import { title } from '@/components/primitives';
 import { Card, CardBody, CardFooter, Button } from "@nextui-org/react";
@@ -6,87 +6,69 @@ import { Image } from "@nextui-org/image";
 import { FaArrowRight, FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
-const Courses: React.FC = () => {
-   const list = [
-      { title: "Learning Arabic Course", language: "Bangla,Arabic", age: "After 10 Years", time: "Total 2 Years (Recorded Class)", start: 'After Enrollemnt', img: "/learning_arabic.png", price: "550", classes: "20" },
-      { title: "Tajweed Course", language: "Bangla,Arabic", age: "After 10 Years", time: "Total 10Hours (Live Class)", start: 'After Enrollemnt', img: "/learning_arabic.png", price: "1050", classes: "20" },
-      { title: "Character Formation", language: "Bangla,Arabic", age: "After 10 Years", time: "Total 5 Hours (Recorded Class)", start: 'After Enrollemnt', img: "/learning_arabic.png", price: "550", classes: "20" },
-      { title: "Hifz Course", language: "Bangla,Arabic", age: "After 10 Years", time: "Total 4 years (Live Class)", start: 'After Enrollemnt', img: "/learning_arabic.png", price: "1050", classes: "20" },
+import Link from 'next/link';
 
-   ];
+type ReusableButtonProps = {
+   labelTop?: string;
+   labelMiddle: string | number;
+   labelBottom?: string;
+   variant?: any;
+   className?: string;
+   onClick?: () => void;
+};
+
+const ReusableButton: React.FC<ReusableButtonProps> = ({
+   labelTop,
+   labelMiddle,
+   labelBottom,
+   variant = "bordered",
+   className = "",
+   onClick,
+}) => {
+   return (
+      <Button
+         variant={variant}
+         className={` text-violet-950 dark:text-violet-400 border-violet-950/30 hover:border-violet-700 hover:bg-purple-200 dark:border-violet-400 border-3 flex flex-col justify-center items-center rounded-[35.51] h-32 w-32 hover:scale-105 transition-transform text-center ${className}`}
+         onClick={onClick}
+      >
+         {labelTop && <span className="text-sm font-medium text-stone-500/70">{labelTop}</span>}
+         <span className="text-3xl mb-2 text-violet-950 font-bold">{labelMiddle}</span>
+         {labelBottom && <span className="text-sm font-medium text-stone-500/70">{labelBottom}</span>}
+      </Button>
+   );
+};
+
+const Courses: React.FC = () => {
+
 
    return (
       <div>
          <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-20">
             <h1 className={title()}>See Courses</h1>
-            <Button radius="full" className="bg-blue-500 text-white">
-               See All... <FaArrowRight />
-            </Button>
+            <Link href="/courses">
+               <Button radius="full" className="bg-blue-500 text-white">
+                  See All... <FaArrowRight />
+               </Button>
+            </Link>
          </div>
+
+         {/* Date and Course Type Buttons */}
          <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:items-end lg:justify-between mb-10">
             <div className="flex flex-row items-start justify-center gap-2">
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black"
-               >
-                  <span className="text-sm font-medium text-stone-500">Year</span>
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">2024</span>
-                  <span className="text-sm font-medium text-stone-500">A.F</span>
-               </Button>
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black"
-               >
-                  <span className="text-sm font-medium text-stone-500">Month</span>
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">12</span>
-                  <span className="text-sm font-medium text-stone-500">December</span>
-               </Button>
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black "
-               >
-                  <span className="text-sm font-medium text-stone-500">Day</span>
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">4</span>
-                  <span className="text-sm font-medium text-stone-500">Wednesday</span>
-               </Button>
+               <ReusableButton labelTop="Year" labelMiddle={2024} labelBottom="A.F" />
+               <ReusableButton labelTop="Month" labelMiddle={12} labelBottom="December" />
+               <ReusableButton labelTop="Day" labelMiddle={4} labelBottom="Wednesday" />
             </div>
             <div className="flex flex-row items-start justify-center gap-2">
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black"
-               >
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">Free</span>
-                  <span className="text-sm font-medium text-stone-500">Courses</span>
-               </Button>
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black"
-               >
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">Paid</span>
-                  <span className="text-sm font-medium text-stone-500">Courses</span>
-               </Button>
-               <Button
-
-                  variant='bordered'
-                  className="flex flex-col justify-center items-center rounded-xl  h-32 w-32 hover:scale-105 transition-transform text-center border-black"
-               >
-                  <span className="text-3xl mb-2 text-blue-900 font-extrabold">All</span>
-                  <span className="text-sm font-medium text-stone-500">Courses</span>
-               </Button>
+               <ReusableButton labelMiddle="Free" labelBottom="Courses" />
+               <ReusableButton labelMiddle="Paid" labelBottom="Courses" />
+               <ReusableButton labelMiddle="All" labelBottom="Courses" />
             </div>
-
          </div>
-
-
-
+         {/* Courses List */}
          <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
             {list.map((item, index) => (
-               <Card className='bg-opacity-40 backdrop-blur-md rounded-3xl' shadow="sm" key={index} >
+               <Card className="bg-opacity-40 backdrop-blur-md rounded-3xl" shadow="sm" key={index}>
                   <CardBody className="overflow-visible p-0">
                      <Image
                         shadow="sm"
@@ -97,50 +79,101 @@ const Courses: React.FC = () => {
                         src={item.img}
                      />
                   </CardBody>
-                  <CardFooter className=" flex flex-col items-start gap-4">
-                     <div className='w-full flex flex-row  justify-between'>
-                        <div className='flex flex-row items-center gap-2'>
-                           <Button size="sm" radius="full" className="bg-purple-200 text-purple-600 text-xs">
+                  <CardFooter className="flex flex-col items-start gap-4">
+                     <div className="w-full flex flex-row justify-between">
+                        <div className="flex flex-row items-center gap-2">
+                           <Button size="sm" radius="full" className="bg-purple-200 text-purple-600 text-[10px] h-6">
                               About Course
                            </Button>
-                           <Button size="sm" radius="full" className="bg-green-200 text-green-600 text-xs">
-                              Message Us
-                           </Button>
+                           <Link href="https://www.facebook.com/messages/t/103915368128673">
+                              <Button size="sm" radius="full" className="bg-green-200 text-green-600 text-[10px] h-6">
+                                 Message Us
+                              </Button>
+                           </Link>
                         </div>
-                        <div className='w-[30px] h-[30px] rounded-full flex flex-col items-center justify-center border'>
-                           <FaRegHeart className='text-red-500' />
+                        <div className="w-[30px] h-[30px] rounded-full flex flex-col items-center justify-center border">
+                           <FaRegHeart className="text-red-500" />
                         </div>
                      </div>
-                     <b className='text-xl'>{item.title}</b>
+                     <b className="text-xl">{item.title}</b>
 
-                     <div>
-                        <div className='flex flex-nowrap items-center gap-2'>
-                           <SlCalender /><span className='break-words'>{item.start}</span>
+                     <div className='text-xs space-y-2'>
+                        <div className="flex flex-nowrap items-center gap-2">
+                           <SlCalender />
+                           <span className="break-words">{item.start}</span>
                         </div>
-                        <div className='flex flex-nowrap items-center gap-2'>
-                           <FaRegClock /><span className='break-words'>{item.time}</span>
+                        <div className="flex flex-nowrap items-center gap-2">
+                           <FaRegClock />
+                           <span className="break-words">{item.time}</span>
                         </div>
-                        <div className='flex flex-nowrap items-center gap-2'>
-                           <TbTimeDuration10 /><span className='break-words'>{item.age}</span>
+                        <div className="flex flex-nowrap items-center gap-2">
+                           <TbTimeDuration10 />
+                           <span className="break-words">{item.age} Years</span>
                         </div>
-                        <div className='flex flex-nowrap items-center gap-2'>
-                           <TbWorld /><span className='break-words'>{item.language}</span>
+                        <div className="flex flex-nowrap items-center gap-2">
+                           <TbWorld />
+                           <span className="break-words">{item.language}</span>
                         </div>
-
                      </div>
-                     <span className='text-purple-600'>+{item.classes} Classes</span>
-                     <div className='w-full'>
-                        <Button radius="full" className="w-full bg-purple-600  text-white ">
-                           Course Fee {item.price}Tk.
+                     <span className={`text-purple-600 ${item.classes ? "block" : "hidden"}`}>{item.classes}</span>
+                     <div className="w-full">
+                        <Button radius="full" className="w-full bg-purple-600 text-white">
+                           Fee {item.price}
                         </Button>
                      </div>
                   </CardFooter>
                </Card>
             ))}
          </div>
-
       </div>
    );
 };
+
+
+
+const list = [
+   {
+      title: "Learning Arabic Course",
+      language: "Bangla,Arabic",
+      age: "10+",
+      time: "9+ months (Live Class)",
+      start: 'After Enrollemnt',
+      img: "/course_poster/learning-arabic.svg",
+      price: "650 Tk. monthly",
+      classes: "Flexible class schedule"
+   },
+   {
+      title: "Fiqhun-Nisa",
+      language: "Bangla,Arabic",
+      age: "10+",
+      time: "18+ hours (Live + Recorded)",
+      start: 'After Enrollemnt',
+      img: "/course_poster/fiqhun-nisa.svg",
+      price: "1050 Tk.",
+      classes: "20+ Classes"
+   },
+   {
+      title: "Alima Course ",
+      language: "Bangla,Arabic",
+      age: "12+",
+      time: "3 Years (Live Class)",
+      start: 'After Enrollemnt',
+      img: "/course_poster/alima.svg",
+      price: "550 Tk. monthly",
+      classes: "Flexible class schedule"
+   },
+   {
+      title: "Parenting Course",
+      language: "Bangla,Arabic",
+      age: "18+",
+      time: "Total 4 years (Live Class)",
+      start: 'After Enrollemnt',
+      img: "/course_poster/parenting.svg",
+      price: "2050 Tk.",
+      classes: "20+ Classes"
+   },
+];
+
+
 
 export default Courses;

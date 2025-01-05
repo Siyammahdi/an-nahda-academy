@@ -1,17 +1,17 @@
-import { title } from '@/components/primitives';
+
 import React from 'react';
 
 const Discussions: React.FC = () => {
    const videos = [
       "https://www.youtube.com/embed/HVAnIPej18M",
       "https://www.youtube.com/embed/SgnmSO9d7y0",
-      "https://www.youtube.com/embed/cr2b3PnPYJs",
-      "https://www.youtube.com/embed/-_gmfXcgLg0"
+      // "https://www.youtube.com/embed/cr2b3PnPYJs",
+      // "https://www.youtube.com/embed/-_gmfXcgLg0"
    ];
 
    return (
       <div className="">
-         <h2 className={title()}>Discussions & Life Enhancing Videos</h2>
+         <h2 className="text-5xl text-blue-950 font-semibold">জীবনমূখী ভিডিওসমূহ</h2>
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 my-20">
             {videos.map((video, index) => (
                <div key={index} className="overflow-hidden rounded-3xl">

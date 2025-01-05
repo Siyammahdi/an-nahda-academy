@@ -41,7 +41,7 @@ export default function CourseCard() {
           </div>
           <span className='text-purple-600'>+20 Classes</span>
           <div className='w-full'>
-            <Button radius="full" className="w-full bg-purple-600  text-white ">
+            <Button radius="full" className="w-full bg-purple-600 text-white ">
               Course Fee 9000Tk.
             </Button>
           </div>

@@ -3,7 +3,7 @@
 import { title } from '@/components/primitives';
 import { Card, CardBody, CardFooter, Button } from "@nextui-org/react";
 import { Image } from "@nextui-org/image";
-import { FaArrowRight, FaRegClock, FaRegHeart } from "react-icons/fa6";
+import { FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
 const OtherCourses: React.FC = () => {

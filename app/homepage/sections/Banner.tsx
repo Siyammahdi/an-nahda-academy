@@ -1,60 +1,43 @@
 "use client"
 
-import { SearchIcon } from '@/components/icons';
-import { subtitle, title } from '@/components/primitives';
+// import { subtitle, title } from '@/components/primitives';
 import { Button } from '@nextui-org/button';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/dropdown';
-import { Input } from '@nextui-org/input';
+import Image from 'next/image';
 import React from 'react';
-import { FaAngleDown } from "react-icons/fa6";
+// import saturn from "@/public/elements/saturn.avif"
+import book from "@/public/elements/book.png"
 
 const Banner = () => {
     return (
-        <div className='h-[70vh] flex flex-col justify-center'>
-            <div className="inline-block max-w-xl text-left justify-center">
-                <div>
-                    <span className={title({size:'lg'})}>In the way of&nbsp;</span>
-                    <span className={title({size:'lg', color: "violet" })}>Qur&apos;an&nbsp;</span>
-                    <br />
-                    <span className={title({size:'lg'})}>
-                        and
-                    </span>
-                    <span className={title({size:'lg', color: "violet" })}>&nbsp;Hadith&nbsp;</span>
-                    <div className={subtitle({ class: "mt-4" })}>
-                        Beautiful, fast and modern educational website.
-                    </div>
+        <div className=' relative h-[70vh] w-fit'>
+
+            <div className=''>
+                <div
+                    className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 left-96 top-64 lg:w-[600px] lg:h-[400px] blur-3xl">
                 </div>
-                <div className='space-y-4 mt-4'>
-                    <Input
-                        classNames={{
-                            base: "w-2/3 h-10",
-                            mainWrapper: "h-full",
-                            input: "text-small",
-                            inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-                        }}
-                        placeholder="Type to search..."
-                        size="md"
-                        startContent={<SearchIcon size={18} />}
-                        type="search"
-                    />
+                <div
+                    className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[0px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
+                </div>
+                {/* <div className='absolute z-40 w-28 top-3/4 left-[400px] transform translate-x-1/2 -translate-y-1/2'>
+                    <Image className='' src={saturn} alt='saturn' height={120} width={120} />
+                </div> */}
+                <div className="absolute z-40 w-36 top-[20%] -left-10 transform -translate-x-1/2 -translate-y-1/2">
+                    <Image className="" src={book} alt="book" height={150} width={150} />
+                </div>
+
+            </div>
 
 
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <Button
-                                variant="bordered"
-                            >
-                                See courses <FaAngleDown />
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label="Static Actions">
-                            <DropdownItem key="new">New file</DropdownItem>
-                            <DropdownItem key="copy">Copy link</DropdownItem>
-                            <DropdownItem key="edit">Edit file</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+            <div className="absolute w-[600px] top-60 text-left">
+                <div className='text-blue-950 dark:text-white'>
+                    <h3 className='mb-7 text-violet-400 text-medium'>শুরু হোক জ্ঞানযাত্রা এখন থেকেই</h3>
+                    <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold leading-relaxed' ><span>ইলমের আলোয় জাগরূক</span> <span>জীবনের প্রত্যয়...</span></h1>
+                </div>
+                <div className='space-y-4 mt-10'>
+                    <Button className='rounded-full bg-violet-500 text-white border-none' variant="bordered">Explore Courses</Button>
                 </div>
             </div>
+
 
         </div>
     );
