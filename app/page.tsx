@@ -12,11 +12,11 @@ import { Testimonials } from "./homepage/sections/Testimonials";
 export default function Home() {
   return (
     <div>
-      <div className="absolute mt-32">
+      {/* <div className="absolute mt-32">
         <Slider />
-      </div>
+      </div> */}
       <div className="space-y-48 max-w-7xl mx-auto mb-20">
-        <Banner />
+        {/* <Banner /> */}
         <Arrengements />
         <Courses />
         <Discussions />

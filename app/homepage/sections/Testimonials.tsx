@@ -20,14 +20,14 @@ export const Testimonials: React.FC = () => {
    };
 
    return (
-      <div className="my-20">
-          <h2 className="text-5xl text-blue-950 dark:text-white font-semibold mb-10">
+      <div className="my-20 lg:mx-0 mx-5">
+          <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold mb-10">
           শিক্ষার্থীদের মন্তব্য</h2>
-          <div className="bg-pink-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full h-[500px] p-10 flex flex-row  justify-between">
+          <div className="bg-pink-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">
          {/* Blurry Black Backdrop */}
          
-         <div className="flex-1 flex flex-col justify-between">
-            <div className=" relative w-2/3 h-[350px] border  rounded-[30px] overflow-hidden flex flex-col items-center justify-center "
+         <div className="flex-1 flex flex-col justify-between gap-5 lg:gap-0">
+            <div className=" relative lg:w-2/3 w-full h-[350px]  border  rounded-[30px] overflow-hidden flex flex-col items-center justify-center "
             >
                {slides.map((slide, index) => (
                   <div
@@ -65,7 +65,7 @@ export const Testimonials: React.FC = () => {
          </div>
 
 
-         <div className="flex flex-col justify-end ">
+         <div className="flex flex-col lg:justify-end items-end">
             {/* Navigation Buttons */}
 
             <div>
