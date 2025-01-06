@@ -20,8 +20,6 @@ export default function Home() {
         <Arrengements />
         <Courses />
         <Discussions />
-        {/* <Publications/> */}
-        {/* <StudentComments /> */}
         <Testimonials/>
       </div>
     </div>

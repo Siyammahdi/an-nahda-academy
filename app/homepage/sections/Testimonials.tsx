@@ -23,11 +23,11 @@ export const Testimonials: React.FC = () => {
       <div className="my-20 lg:mx-0 mx-5">
           <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold mb-10">
           শিক্ষার্থীদের মন্তব্য</h2>
-          <div className="bg-pink-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">
+          <div className="bg-pink-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full lg:h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">
          {/* Blurry Black Backdrop */}
          
          <div className="flex-1 flex flex-col justify-between gap-5 lg:gap-0">
-            <div className=" relative lg:w-2/3 w-full h-[350px]  border  rounded-[30px] overflow-hidden flex flex-col items-center justify-center "
+            <div className=" relative lg:w-2/3 w-full lg:h-[350px] h-[450px] border  rounded-[30px] overflow-hidden flex flex-col items-center justify-center "
             >
                {slides.map((slide, index) => (
                   <div
@@ -37,12 +37,12 @@ export const Testimonials: React.FC = () => {
 
                   >
                      <div className=' m-10 '>
-                        <div className="flex flex-row items-center gap-4 mb-3">
-                           <Avatar className="bg-white" src={slide?.avatar} size="lg" />
-                           <h2 className=" text-2xl font-bold">{slide?.title}</h2>
+                        <div className="flex flex-row items-center lg:gap-5 gap-3 mb-3">
+                           <Avatar  className="bg-white" src={slide?.avatar} size="lg" />
+                           <h2 className=" lg:text-2xl text-xl font-bold">{slide?.title}</h2>
                         </div>
-                        <div className="overflow-y-scroll">
-                           <p className="text-justify">{slide?.text}</p>
+                        <div className="overflow-auto">
+                           <p className="text-justify ">{slide?.text}</p>
                         </div>
                      </div>
                   </div>

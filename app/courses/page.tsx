@@ -12,13 +12,13 @@ const Courses: React.FC = () => {
 
    ];
    return (
-      <div>
+      <div className="lg:mx-0 mx-5">
          <div>
             <h1 className="text-center md:text-4xl text-3xl font-bold text-pink-700 my-10">All Courses</h1>
          </div>
          
 
-         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
+         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10 lg:mx-0 mx-5">
             {list.map((item, index) => (
                  <div key={index} className="w-full max-w-[340px] space-y-3 rounded-[36px] bg-white p-4 shadow-lg dark:bg-[#18181B]">
                  <div className="relative flex h-48 w-full justify-center lg:h-[260px]">
