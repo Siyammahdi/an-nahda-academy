@@ -1,8 +1,5 @@
 "use client"
 import React, { useRef, useState } from 'react';
-import Carousel from "react-spring-3d-carousel";
-import { v4 as uuidv4 } from 'uuid';
-import { config } from "react-spring";
 import { Card } from '@nextui-org/card';
 
 const Discussions: React.FC = () => {
@@ -50,7 +47,7 @@ const Discussions: React.FC = () => {
                {sliders.map((video, index) => (
 
                   <Card key={index}
-                     className={`${currentSlider === index ? "h-[350px] md:w-[500px] w-[350px] z-10" : "z-0 h-[250px] md:w-[350px] w-[250px] scale-95 opacity-40"} min-w-[50%] relative duration-200`}
+                     className={`${currentSlider === index ? "h-[350px] md:w-[500px] w-[350px] z-10" : "z-0 h-[250px] md:w-[350px]  scale-95 opacity-40"} min-w-[50%] relative duration-200`}
                      style={{ perspective: "200px" }} >
                      <div key={index} className="overflow-hidden rounded-3xl">
                         <iframe

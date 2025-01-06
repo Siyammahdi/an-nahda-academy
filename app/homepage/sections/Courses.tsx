@@ -28,11 +28,11 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
    return (
       <Button
          variant={variant}
-         className={` text-violet-950 dark:text-violet-400 border-violet-950/30 hover:border-violet-700 hover:bg-purple-200 dark:border-violet-400 border-3 flex flex-col justify-center items-center rounded-[35.51] h-32 w-32 hover:scale-105 transition-transform text-center ${className}`}
+         className={` text-violet-950 dark:text-violet-400 border-violet-950/30 hover:border-violet-700 hover:bg-purple-200 dark:border-violet-400 border-3 flex flex-col justify-center items-center rounded-[35.51] md:h-32 h-28 md:w-32 w-28  hover:scale-105 transition-transform text-center ${className}`}
          onClick={onClick}
       >
          {labelTop && <span className="text-sm font-medium text-stone-500/70">{labelTop}</span>}
-         <span className="text-3xl mb-2 text-violet-950 font-bold">{labelMiddle}</span>
+         <span className="md:text-3xl text-2xl mb-2 text-violet-950 font-bold">{labelMiddle}</span>
          {labelBottom && <span className="text-sm font-medium text-stone-500/70">{labelBottom}</span>}
       </Button>
    );
@@ -42,7 +42,7 @@ const Courses: React.FC = () => {
 
 
    return (
-      <div>
+      <div className='lg:mx-0 mx-5'>
          <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-20">
             <h1 className={title()}>See Courses</h1>
             <Link href="/courses">
@@ -53,14 +53,14 @@ const Courses: React.FC = () => {
          </div>
 
          {/* Date and Course Type Buttons */}
-         <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:items-end lg:justify-between mb-10">
-            <div className="flex flex-row items-start justify-center gap-2">
+         <div className=" flex flex-col items-center justify-center gap-4 lg:flex-row lg:items-end lg:justify-between mb-10">
+            <div className="grid grid-cols-3 gap-2">
                <ReusableButton labelTop="Year" labelMiddle={2024} labelBottom="A.F" />
                <ReusableButton labelTop="Month" labelMiddle={12} labelBottom="December" />
                <ReusableButton labelTop="Day" labelMiddle={4} labelBottom="Wednesday" />
             </div>
-            <div className="flex flex-row items-start justify-center gap-2">
-               <ReusableButton labelMiddle="Free" labelBottom="Courses" />
+            <div className="grid grid-cols-3 gap-2">
+               <ReusableButton  labelMiddle="Free" labelBottom="Courses" />
                <ReusableButton labelMiddle="Paid" labelBottom="Courses" />
                <ReusableButton labelMiddle="All" labelBottom="Courses" />
             </div>

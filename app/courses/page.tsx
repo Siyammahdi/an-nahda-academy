@@ -18,7 +18,7 @@ const Courses: React.FC = () => {
          </div>
          
 
-         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10 lg:mx-0 mx-5">
+         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10 ">
             {list.map((item, index) => (
                  <div key={index} className="w-full max-w-[340px] space-y-3 rounded-[36px] bg-white p-4 shadow-lg dark:bg-[#18181B]">
                  <div className="relative flex h-48 w-full justify-center lg:h-[260px]">
