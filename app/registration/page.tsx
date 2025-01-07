@@ -15,17 +15,8 @@ const Registration: React.FC = () => {
    return (
       <div className=' flex  flex-col items-center justify-center mb-20'>
             <div className='lg:w-[80%] w-[95%] mx-auto shadow-lg border rounded-[40px] border-black/10 lg:h-[550px] flex lg:flex-row flex-col items-center justify-end'>
-               {/* <div className='flex-1 flex flex-col items-center justify-center'>
-                  <Image
-                     alt="Woman listing to music"
-                     className="object-cover"
-                     height={300}
-                     src="/logoDark.svg"
-                     width={400}
-                  />
-                  <h1 className="text-[#002E62] font-bold text-lg">An-Nahda Islamic Academy NIA </h1>
-               </div> */}
-               <div className='flexCenter p-10 w-3/5'>
+               
+               <div className='flexCenter p-10 '>
                <h1 className="text-3xl text-[#002E62] font-bold py-4 bg-purple-500/20 w-full rounded-full text-end px-10">Student Registration</h1>
                   <div className="w-full rounded-full">
                      <Input

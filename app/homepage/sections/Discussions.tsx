@@ -27,8 +27,8 @@ const Discussions: React.FC = () => {
 
 
    return (
-      <div className="">
-         <h2 className="text-5xl text-blue-950 dark:text-white font-semibold ">জীবনমূখী ভিডিওসমূহ</h2>
+      <div className="lg:mx-0 mx-5">
+         <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold ">জীবনমূখী ভিডিওসমূহ</h2>
          <div className="max-w-6xl mx-auto h-[540px] md:h-[670px] flex flex-col xl:flex-row items-center overflow-hidden gap-5 lg:gap-10 relative">
             <div className="absolute w-full h-full flex items-center justify-between z-50 px-5">
                {/* arrow left */}
