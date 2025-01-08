@@ -13,6 +13,7 @@ import React, { useState } from "react";;
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import Link from "next/link";
+import RegistrationModal from "./registrationModal";
 
 
 type Inputs = {
@@ -27,10 +28,20 @@ interface LoginModalProps {
    onClose: () => void;
 }
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
-   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+   //  const { isOpen, onOpen, onOpenChange } = useDisclosure();
  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const [showPassword, setShowPassword] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true)
+
+  }
+  console.log(isModalOpen)
+  const handleModalClose = () => {
+    return setIsModalOpen(false)
+  }
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data); 
   };
@@ -48,7 +59,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                      {/* <Fade > */}
                      <div className="flex flex-col items-start justify-start  gap-3 p-8 w-full">
                         <h1 className="text-2xl text-[#002E62] dark:text-white lg:text-left text-center font-bold py-4 ">
-                           Student Registration
+
+                           Student Login
                         </h1>
                         <Divider className="w-full" />
                         <div className="w-fit rounded-full">
@@ -107,9 +119,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                                  </div>
 
                               </div>
-                              <div className="flex lg:flex-row flex-col-reverse lg:items-center items-start lg:gap-0  gap-5 lg:justify-between justify-center w-full">
+                              <div className="flex  flex-col-reverse  items-start   gap-5  justify-center w-full">
                                  <Button onClick={handleSubmit(onSubmit)} type="submit" className="text-white md:w-fit w-full bg-purple-400" >Register</Button>
-                                 <h1 className="text-[#002E62] dark:text-white">New to the Kafela? <Link className="font-bold text-red-600" href='/registration'>Registration</Link></h1>
+                                 <h1 className="text-[#002E62] dark:text-white">New to the Kafela? <Button variant="light" onClick={handleModalOpen} >Register</Button></h1>
                               </div>
 
 
@@ -124,6 +136,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
             </ModalContent>
          </Modal>
+         {isModalOpen && <RegistrationModal isOpen={isModalOpen} onClose={handleModalClose} />}
       </>
    );
 }
