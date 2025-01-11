@@ -1,7 +1,7 @@
 "use client"
-import BannerPart from "./_components/BannerPart";
+// import BannerPart from "./_components/BannerPart";
 import Details from "./_components/Details";
-import CourseCard from "./_components/CourseCard";
+// import CourseCard from "./_components/CourseCard";
 import OtherCourses from "./_components/OtherCourses";
 
 
@@ -15,14 +15,14 @@ const CourseDetails: React.FC = () => {
          <div>
             <h1 className="text-center md:text-4xl text-3xl font-bold text-pink-700 my-10">Course Details</h1>
          </div>
-         <BannerPart />
+         {/* <BannerPart /> */}
          <div className="flex flex-row items-start justify-center  mb-10">
             <div className="p-5 w-[70%]">
                <Details />
             </div>
 
             <div className="p-5 w-[30%]">
-               <CourseCard />
+               {/* <CourseCard /> */}
             </div>
 
          </div>
