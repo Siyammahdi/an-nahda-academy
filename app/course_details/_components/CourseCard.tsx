@@ -1,5 +1,5 @@
 "use client"
-import { Card, CardFooter, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useState } from "react";
 import { FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
