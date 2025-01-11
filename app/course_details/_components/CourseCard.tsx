@@ -17,7 +17,7 @@ export default function CourseCard() {
     }
   return (
     <div>
-      <div className="p-5 rounded-[48px] border border-zinc-100 shadow-lg">
+      <Card className="p-5 rounded-[48px] border border-zinc-100 shadow-lg">
         <div className=" flex flex-col items-start gap-4">
           <div className='w-full flex flex-row  justify-between'>
             <div className='flex flex-row items-center gap-2'>
