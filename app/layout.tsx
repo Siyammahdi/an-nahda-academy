@@ -6,6 +6,7 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/Shared/navbar";
 import Footer from "@/components/Shared/footer";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 // import localFont from 'next/font/local'
 
 
@@ -23,6 +24,7 @@ import { usePathname } from "next/navigation";
 //     { media: "(prefers-color-scheme: dark)", color: "black" },
 //   ],
 // };
+
 
 export default function RootLayout({
   children,

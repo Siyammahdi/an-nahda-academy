@@ -21,19 +21,29 @@ import {
   Logo,
 } from "@/components/icons";
 import { useEffect, useState } from "react";
-import LoginModal from "../loginModal";
 import { Button } from "@nextui-org/button";
 import { FaCartShopping } from "react-icons/fa6";
+import RegistrationModal from "../registrationModal";
+import LoginModal from "../loginModal";
 
 export const Navbar = () => {
 
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isLoginClicked, setIsLoginClicked] = useState(false)
+  const handleLoginOpen = () => {
+    setIsModalOpen(false)
+    return setIsLoginClicked(true)
+
+  }
+  const handleLoginClose = () => {
+    return setIsLoginClicked(false)
+  }
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
-
+    return setIsLoginClicked(false)
   }
   console.log(isModalOpen)
   const handleModalClose = () => {
@@ -114,7 +124,7 @@ export const Navbar = () => {
         </NavbarContent>
 
         <div>
-          <Link href="/registration"><Button className="border-none rounded-full bg-violet-500" color="primary">Login/Register</Button></Link>
+          <Button onClick={handleModalOpen} className="border-none rounded-full bg-violet-500" color="primary">Login/Register</Button>
         </div>
 
       </NavbarContent>
@@ -155,7 +165,8 @@ export const Navbar = () => {
 
 
 
-        {isModalOpen && <LoginModal isOpen={isModalOpen} onClose={handleModalClose} />}
+        {isModalOpen && <RegistrationModal handleLoginOpen={handleLoginOpen} isOpen={isModalOpen} onClose={handleModalClose} />}
+        {isLoginClicked && <LoginModal handleModalOpen={handleModalOpen}  isOpen={isLoginClicked} onClose={handleLoginClose} />}
       </>
 
 
