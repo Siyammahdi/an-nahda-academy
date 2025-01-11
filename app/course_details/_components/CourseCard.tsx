@@ -1,14 +1,24 @@
 "use client"
 import { Card, CardFooter, Button } from "@nextui-org/react";
+import { useState } from "react";
 import { FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
+import PaymentDetailsModal from "./PaymentDetailsModal";
 
 export default function CourseCard() {
+   const [isEnrolButtonClicked, setIsEnrolButtonClicked] = useState(false)
+    const handleEnrolButtonOpen = () => {
+      
+      return setIsEnrolButtonClicked(true)
+    }
+    const handleEnrolButtonClose = () => {
+      return setIsEnrolButtonClicked(false)
+    }
   return (
     <div>
-      <Card className="py-4">
-        <CardFooter className=" flex flex-col items-start gap-4">
+      <div className="p-5 rounded-[48px] border border-zinc-100 shadow-lg">
+        <div className=" flex flex-col items-start gap-4">
           <div className='w-full flex flex-row  justify-between'>
             <div className='flex flex-row items-center gap-2'>
               <Button size="sm" radius="full" className="bg-purple-200 text-purple-600 text-xs">
@@ -41,14 +51,14 @@ export default function CourseCard() {
           </div>
           <span className='text-purple-600'>+20 Classes</span>
           <div className='w-full'>
-            <Button radius="full" className="w-full bg-purple-600 text-white ">
+            <Button onClick={handleEnrolButtonOpen} radius="full" className="w-full bg-purple-600 text-white ">
               Course Fee 9000Tk.
             </Button>
           </div>
-        </CardFooter>
+        </div>
 
-      </Card>
-      <div className="my-10 bg-white rounded-full flexBetween p-5">
+      </div>
+      <div className="my-10 bg-white rounded-full flexBetween p-5 border border-zinc-100 shadow-lg">
         <div>
           Free 1st class
         </div>
@@ -56,6 +66,7 @@ export default function CourseCard() {
           <FaRegHeart className='text-red-500' />
         </div>
       </div>
+       {isEnrolButtonClicked && <PaymentDetailsModal   isOpen={isEnrolButtonClicked} onClose={handleEnrolButtonClose} />}
     </div>
   );
 }
