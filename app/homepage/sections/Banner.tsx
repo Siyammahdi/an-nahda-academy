@@ -4,7 +4,7 @@
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import React from 'react';
-// import saturn from "@/public/elements/saturn.avif"
+import saturn from "@/public/elements/saturn.avif"
 import book from "@/public/elements/book.png"
 
 const Banner = () => {
@@ -18,9 +18,9 @@ const Banner = () => {
                 <div
                     className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[0px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
                 </div>
-                {/* <div className='absolute z-40 w-28 top-3/4 left-[400px] transform translate-x-1/2 -translate-y-1/2'>
+                <div className='absolute z-40 w-28 top-3/4 left-[400px] transform translate-x-1/2 -translate-y-1/2'>
                     <Image className='' src={saturn} alt='saturn' height={120} width={120} />
-                </div> */}
+                </div>
                 <div className="absolute z-40 w-36 top-[20%] -left-10 transform -translate-x-1/2 -translate-y-1/2">
                     <Image className="" src={book} alt="book" height={150} width={150} />
                 </div>
