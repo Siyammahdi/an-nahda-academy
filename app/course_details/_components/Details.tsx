@@ -1,11 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router"; // Import useRouter to get the course id from the route
 
 interface Feature {
   [key: string]: string;
 }
 
 interface CourseData {
+  id: number;
   title: string;
   description: string;
   introduction: string[];
@@ -19,7 +21,7 @@ interface CourseData {
     schedule: { [key: string]: string }[];
     platform: string;
     fees: {
-      monthlyFee: string;
+      courseFee: string;
       scholarships: string;
     };
   };
@@ -33,23 +35,39 @@ interface CourseData {
 export default function Details() {
   const [data, setData] = useState<CourseData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // Add client-side state
+  const router = useRouter(); // useRouter will be used only on client side
 
   useEffect(() => {
+    setIsClient(true); // Mark component as mounted on client side
+  }, []);
+
+  useEffect(() => {
+    if (!isClient || !router.query.id) return; // Ensure it's client-side and the ID is available
+
     async function fetchData() {
       try {
         const response = await fetch("/courseData.json"); // Ensure this path points to your JSON file
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const jsonData = await response.json();
-        setData(jsonData);
+        const jsonData: CourseData[] = await response.json();
+
+        // Find the course with the matching ID
+        const course = jsonData.find((course) => course.id === parseInt(router.query.id as string));
+
+        if (course) {
+          setData(course);
+        } else {
+          setError("Course not found");
+        }
       } catch (err) {
         setError((err as Error).message);
         console.error("Error fetching data:", err);
       }
     }
     fetchData();
-  }, []);
+  }, [router.query.id, isClient]);
 
   if (error) {
     return <p>Error: {error}</p>;
@@ -62,7 +80,7 @@ export default function Details() {
   return (
     <div className="p-5 space-y-6">
       <h1 className="font-bold">{data.title}</h1>
-      <p className="">{data.description}</p>
+      <p>{data.description}</p>
 
       <div className="space-y-4">
         {data.introduction.map((intro, index) => (
@@ -105,7 +123,7 @@ export default function Details() {
           <span className="font-medium">Platform:</span> {data.courseDetails.platform}
         </p>
         <p>
-          <span className="font-medium">Monthly Fee:</span> {data.courseDetails.fees.monthlyFee}
+          <span className="font-medium">Course fee:</span> {data.courseDetails.fees.courseFee}
         </p>
         <p>
           <span className="font-medium">Scholarships:</span> {data.courseDetails.fees.scholarships}
