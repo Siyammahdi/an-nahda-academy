@@ -12,8 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useState } from "react";;
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-import Link from "next/link";
-import RegistrationModal from "./registrationModal";
+
 
 
 type Inputs = {
@@ -26,22 +25,14 @@ type Inputs = {
 interface LoginModalProps {
    isOpen: boolean;
    onClose: () => void;
+   handleModalOpen: () => void;
 }
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose,handleModalOpen }: LoginModalProps) {
    //  const { isOpen, onOpen, onOpenChange } = useDisclosure();
  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const [showPassword, setShowPassword] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true)
-
-  }
-  console.log(isModalOpen)
-  const handleModalClose = () => {
-    return setIsModalOpen(false)
-  }
+ 
+ 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data); 
   };
@@ -136,7 +127,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
             </ModalContent>
          </Modal>
-         {isModalOpen && <RegistrationModal isOpen={isModalOpen} onClose={handleModalClose} />}
+      
       </>
    );
 }

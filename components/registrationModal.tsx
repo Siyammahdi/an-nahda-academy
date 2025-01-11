@@ -11,8 +11,7 @@ import { Button, Divider } from "@nextui-org/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import Link from "next/link";
-import LoginModal from "./loginModal";
+
 
 interface Inputs {
    first_name: string;
@@ -28,20 +27,13 @@ interface Inputs {
 interface RegistrationModalProps {
    isOpen: boolean;
    onClose: () => void;
+   handleLoginOpen: () => void;
 }
-export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
+export default function RegistrationModal({ isOpen, onClose,handleLoginOpen }: RegistrationModalProps) {
    //  const { isOpen, onOpen, onOpenChange } = useDisclosure();
    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
    const [showPassword, setShowPassword] = useState(false);
-   const [isLoginClicked, setIsLoginClicked] = useState(false)
-   const handleLoginOpen = () => {
-      
-      return setIsLoginClicked(true)
-  
-   }
-   const handleLoginClose = () => {
-      return setIsLoginClicked(false)
-   }
+   
    const onSubmit: SubmitHandler<Inputs> = (data) => {
       console.log(data);
    };
@@ -248,7 +240,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
 
             </ModalContent>
          </Modal>
-         {isLoginClicked && <LoginModal isOpen={isLoginClicked} onClose={handleLoginClose} />}
+        
       </>
    );
 }

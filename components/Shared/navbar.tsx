@@ -24,17 +24,26 @@ import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/button";
 import { FaCartShopping } from "react-icons/fa6";
 import RegistrationModal from "../registrationModal";
+import LoginModal from "../loginModal";
 
 export const Navbar = () => {
 
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
-  
+  const [isLoginClicked, setIsLoginClicked] = useState(false)
+  const handleLoginOpen = () => {
+    setIsModalOpen(false)
+    return setIsLoginClicked(true)
+
+  }
+  const handleLoginClose = () => {
+    return setIsLoginClicked(false)
+  }
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
-
+    return setIsLoginClicked(false)
   }
   console.log(isModalOpen)
   const handleModalClose = () => {
@@ -156,7 +165,8 @@ export const Navbar = () => {
 
 
 
-        {isModalOpen && <RegistrationModal isOpen={isModalOpen} onClose={handleModalClose} />}
+        {isModalOpen && <RegistrationModal handleLoginOpen={handleLoginOpen} isOpen={isModalOpen} onClose={handleModalClose} />}
+        {isLoginClicked && <LoginModal handleModalOpen={handleModalOpen}  isOpen={isLoginClicked} onClose={handleLoginClose} />}
       </>
 
 
