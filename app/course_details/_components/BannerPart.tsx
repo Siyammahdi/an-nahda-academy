@@ -15,21 +15,22 @@ const BannerPart: React.FC = () => {
                   Instructors
                </Button>
             </div>
-            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5">Parenting Course </h1>
+            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5">Learning Arabic Course
+            </h1>
 
             <div className="flex gap-4">
-            <div className=''>
-               <Button radius="full" className="w-fit bg-purple-600 px-10 text-white ">
-                  Course Fee 1000Tk.
-               </Button>
-            </div>
-            <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border'>
-               <FaRegHeart className='text-red-500' />
-            </div>
+               <div className=''>
+                  <Button radius="full" className="w-fit bg-purple-600 px-10 text-white ">
+                     Course Fee 1000Tk.
+                  </Button>
+               </div>
+               <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border'>
+                  <FaRegHeart className='text-red-500' />
+               </div>
             </div>
          </div>
-         <div className=" flex justify-end  p-5">
-            <Image className=" rounded-[80px]" alt="banner-image" src='/parenting (square v)-07.png' height={400} width={400}  />
+         <div className=" flex justify-end p-5 ">
+            <Image className=" rounded-[80px]" alt="banner-image" src='/course_poster/parenting.png' height={400} width={400} />
          </div>
 
       </div>

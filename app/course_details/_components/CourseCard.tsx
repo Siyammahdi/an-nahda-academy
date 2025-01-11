@@ -48,14 +48,14 @@ export default function CourseCard() {
         </CardFooter>
 
       </Card>
-      <div className="my-10 bg-white rounded-full flexBetween p-5">
+      {/* <div className="my-10 bg-white rounded-full flexBetween p-5">
         <div>
           Free 1st class
         </div>
         <div className='w-[30px] h-[30px] rounded-full flex flex-col items-center justify-center border'>
           <FaRegHeart className='text-red-500' />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
