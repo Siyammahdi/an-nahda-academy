@@ -20,12 +20,6 @@ const Discussions: React.FC = () => {
 
 
 
-
-
-
-
-
-
    return (
       <div className="relative lg:mx-0 mx-5">
          <div>
