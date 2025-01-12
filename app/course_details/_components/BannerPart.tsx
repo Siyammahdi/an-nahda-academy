@@ -2,7 +2,17 @@
 import { Button } from "@nextui-org/button";
 import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa6";
-const BannerPart: React.FC = () => {
+
+
+interface BannerPartProps {
+   courseName: string;
+   courseFee: string;
+   imagePath: string;
+}
+
+
+
+const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePath }) => {
    return (
       <div className=" glass2 h-[440px] rounded-[100px] flexBetween">
          <div className="px-20 flex-1">
@@ -15,12 +25,12 @@ const BannerPart: React.FC = () => {
                   Instructors
                </Button>
             </div>
-            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5">Parenting Course </h1>
+            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5">{courseName}</h1>
 
             <div className="flex gap-4">
             <div className=''>
                <Button radius="full" className="w-fit bg-purple-600 px-10 text-white ">
-                  Course Fee 1000Tk.
+                  Course Fee {courseFee}.
                </Button>
             </div>
             <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border'>
@@ -29,11 +39,11 @@ const BannerPart: React.FC = () => {
             </div>
          </div>
          <div className=" flex justify-end  p-5">
-            <Image className=" rounded-[80px]" alt="banner-image" src='/parenting (square v)-07.png' height={400} width={400}  />
+            <Image className=" rounded-[80px]" alt="banner-image" src={imagePath} height={400} width={400}  />
          </div>
 
       </div>
    );
 };
 
-export default BannerPart;
+export default BannerPart;

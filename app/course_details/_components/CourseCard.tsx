@@ -1,12 +1,24 @@
 "use client"
-import { Card, CardFooter, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useState } from "react";
 import { FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
 import PaymentDetailsModal from "./PaymentDetailsModal";
 
-export default function CourseCard() {
+interface CourseCardProps {
+  courseLanguage: string;
+  ageRequirement: string;
+  courseDuration: string;
+  startingTime: string;
+}
+
+const CourseCard: React.FC<CourseCardProps> = ({ 
+  courseLanguage, 
+  ageRequirement, 
+  courseDuration, 
+  startingTime 
+}) => {
    const [isEnrolButtonClicked, setIsEnrolButtonClicked] = useState(false)
     const handleEnrolButtonOpen = () => {
       
@@ -36,16 +48,16 @@ export default function CourseCard() {
 
           <div className="flex flex-col items-start gap-3">
             <div className='flex flex-nowrap items-center gap-2'>
-              <SlCalender /><span className='break-words'>Classes After Enrollment</span>
+              <SlCalender /><span className='break-words'>{startingTime}</span>
             </div>
             <div className='flex flex-nowrap items-center gap-2'>
-              <FaRegClock /><span className='break-words'>total 10 hrs (pre-recorded)</span>
+              <FaRegClock /><span className='break-words'>{courseDuration}</span>
             </div>
             <div className='flex flex-nowrap items-center gap-2'>
-              <TbTimeDuration10 /><span className='break-words'>2 Hrs-3days/week</span>
+              <TbTimeDuration10 /><span className='break-words'>{ageRequirement}</span>
             </div>
             <div className='flex flex-nowrap items-center gap-2'>
-              <TbWorld /><span className='break-words'>Bangla ,Arabic</span>
+              <TbWorld /><span className='break-words'>{courseLanguage}</span>
             </div>
 
           </div>
@@ -70,3 +82,6 @@ export default function CourseCard() {
     </div>
   );
 }
+
+
+export default CourseCard;

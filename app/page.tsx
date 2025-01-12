@@ -1,5 +1,5 @@
 
-import Slider from "@/components/slider";
+// import Slider from "@/components/slider";
 import Arrengements from "./homepage/sections/Arrengements";
 import Banner from "./homepage/sections/Banner";
 import Courses from "./homepage/sections/Courses";
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div>
       <div className="absolute mt-32">
-        <Slider />
+        {/* <Slider /> */}
       </div>
       <div className="space-y-48 max-w-7xl mx-auto mb-20">
         <Banner />
