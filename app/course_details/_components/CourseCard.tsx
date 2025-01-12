@@ -7,17 +7,11 @@ import { TbTimeDuration10, TbWorld } from "react-icons/tb";
 import PaymentDetailsModal from "./PaymentDetailsModal";
 
 interface CourseCardProps {
-  courseLanguage: string;
-  ageRequirement: string;
-  courseDuration: string;
-  startingTime: string;
+  data:array
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ 
-  courseLanguage, 
-  ageRequirement, 
-  courseDuration, 
-  startingTime 
+  data 
 }) => {
    const [isEnrolButtonClicked, setIsEnrolButtonClicked] = useState(false)
     const handleEnrolButtonOpen = () => {
@@ -27,6 +21,12 @@ const CourseCard: React.FC<CourseCardProps> = ({
     const handleEnrolButtonClose = () => {
       return setIsEnrolButtonClicked(false)
     }
+
+    console.log(data)
+    const startingTime=data[6]?.startingTime;
+    const courseDuration=data[5]?.courseDuration;
+    const ageRequirement=data[4]?.ageRequirement;
+    const courseLanguage=data[3]?.courseLanguage;
   return (
     <div>
       <div className="p-5 rounded-[48px] border border-zinc-100 shadow-lg">

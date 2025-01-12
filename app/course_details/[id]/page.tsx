@@ -92,10 +92,7 @@ const CoursePage = () => {
                 </div>
                 <div className='w-2/5'>
                     <CourseCard
-                        courseLanguage={data.courseDetails.language}
-                        ageRequirement={data.courseDetails.ageRequirement}
-                        courseDuration={data.courseDetails.duration}
-                        startingTime={data.courseDetails.startingTime}
+                        data={data.courseDetails?.schedule}
                     />
                 </div>
             </div>

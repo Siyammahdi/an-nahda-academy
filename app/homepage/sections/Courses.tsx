@@ -7,6 +7,7 @@ import { FaArrowRight, FaRegClock, FaRegHeart } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 type ReusableButtonProps = {
    labelTop?: string;
@@ -16,6 +17,42 @@ type ReusableButtonProps = {
    className?: string;
    onClick?: () => void;
 };
+
+interface Feature {
+   [key: string]: string;
+}
+
+interface CourseData {
+   id: number;
+   courseName: string;
+   title: string;
+   description: string;
+   introduction: string[];
+   courseHighlights: {
+       title: string;
+       description: string;
+       features: Feature[];
+   };
+   courseDetails: {
+       title: string;
+       schedule: { [key: string]: string }[];
+       platform: string;
+       fees: {
+           courseFee: string;
+           scholarships: string;
+       };
+       language: string; // New field
+       ageRequirement: string; // New field
+       duration: string; // New field
+       startingTime: string; // New field
+   };
+   callToAction: {
+       title: string;
+       description: string;
+       encouragement: string;
+   };
+   imagePath: string; // Existing field
+}
 
 const ReusableButton: React.FC<ReusableButtonProps> = ({
    labelTop,
@@ -40,6 +77,30 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
 
 const Courses: React.FC = () => {
 
+     const [data, setCourse] = useState<CourseData | null>(null);
+   
+       useEffect(() => {
+           const fetchCourseData = async () => {
+               try {
+                   const res = await fetch('/courseData.json');
+                   const allData: CourseData[] = await res.json();
+   
+                   if (allData.length>1) {
+                       setCourse(allData);
+                   } else {
+                       console.error('Course not found');
+                   }
+               } catch (error) {
+                   console.error('Error fetching course data:', error);
+               }
+           };
+   
+           fetchCourseData();
+       }, []); // Dependency on 'id'
+   
+       if (!data) {
+           return <p>Loading...</p>;
+       }
 
    return (
       <div className='lg:mx-0 mx-5'>
@@ -67,7 +128,7 @@ const Courses: React.FC = () => {
          </div>
          {/* Courses List */}
          <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
-            {list.map((item, index) => (
+            {list?.map((item, index) => (
                <Card className="bg-opacity-40 backdrop-blur-md rounded-3xl" shadow="sm" key={index}>
                   <CardBody className="overflow-visible p-0">
                      <Image
@@ -115,11 +176,13 @@ const Courses: React.FC = () => {
                            <span className="break-words">{item.language}</span>
                         </div>
                      </div>
-                     <span className={`text-purple-600 ${item.classes ? "block" : "hidden"}`}>{item.classes}</span>
+                     <span className={`text-purple-600 ${item.classes ? "block" : "hidden"}`}>{item.classes?.slice(0, 25)}...</span>
                      <div className="w-full">
-                        <Button radius="full" className="w-full bg-purple-600 text-white">
+                       <Link href={`course_details/${item?.id}`}>
+                       <Button radius="full" className="w-full bg-purple-600 text-white">
                            Fee {item.price}
                         </Button>
+                       </Link>
                      </div>
                   </CardFooter>
                </Card>
@@ -133,46 +196,52 @@ const Courses: React.FC = () => {
 
 const list = [
    {
+      id:1,
       title: "Learning Arabic Course",
       language: "Bangla,Arabic",
       age: "10+",
       time: "9+ months (Live Class)",
-      start: 'After Enrollemnt',
+      start: "After Enrollment",
       img: "/course_poster/learning-arabic.svg",
       price: "650 Tk. monthly",
-      classes: "Flexible class schedule"
+      classes: "Flexible class schedule",
    },
    {
+      id:2,
+      title: "Hasanul Khuluk",
+      language: "Bangla, Arabic",
+      age: "12+",
+      time: "2 months",
+      start: "Next batch starts on March 1st, 2025",
+      img: "/course_poster/husnul.svg",
+      price: "1000 Tk.",
+      classes: "Online, combining engaging pre-recorded videos, live discussions, and assignments.",
+   },
+   {
+      id:3,
       title: "Fiqhun-Nisa",
       language: "Bangla,Arabic",
       age: "10+",
       time: "18+ hours (Live + Recorded)",
-      start: 'After Enrollemnt',
+      start: "After Enrollment",
       img: "/course_poster/fiqhun-nisa.svg",
       price: "1050 Tk.",
-      classes: "20+ Classes"
+      classes: "20+ Classes",
    },
    {
-      title: "Alima Course ",
+      id:4,
+      title: "Alima Course",
       language: "Bangla,Arabic",
       age: "12+",
       time: "3 Years (Live Class)",
-      start: 'After Enrollemnt',
+      start: "After Enrollment",
       img: "/course_poster/alima.svg",
       price: "550 Tk. monthly",
-      classes: "Flexible class schedule"
+      classes: "Flexible class schedule",
    },
-   {
-      title: "Parenting Course",
-      language: "Bangla,Arabic",
-      age: "18+",
-      time: "Total 4 years (Live Class)",
-      start: 'After Enrollemnt',
-      img: "/course_poster/parenting.svg",
-      price: "2050 Tk.",
-      classes: "20+ Classes"
-   },
+  
 ];
+
 
 
 

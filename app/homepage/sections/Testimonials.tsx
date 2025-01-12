@@ -23,7 +23,7 @@ export const Testimonials: React.FC = () => {
       <div className="my-20 lg:mx-0 mx-5">
           <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold mb-10">
           শিক্ষার্থীদের মন্তব্য</h2>
-          <div className="bg-pink-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full lg:h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">
+          <div className="bg-blue-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full lg:h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">
          {/* Blurry Black Backdrop */}
          
          <div className="flex-1 flex flex-col justify-between gap-5 lg:gap-0">
