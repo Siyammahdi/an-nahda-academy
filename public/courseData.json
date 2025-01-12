@@ -79,6 +79,7 @@
       "title": "Course Details:",
       "schedule": [
         {"Mode of Learning": "Online, combining engaging pre-recorded videos, live discussions, and assignments."},
+        {"Class Schedule": "Three days a week—Saturday, Monday, and Wednesday."},
         {"Interactive Live Discussions": "Scheduled at convenient times for students from different time zones."},
         {"courseLanguage": "Bangla, Arabic"},
         {"ageRequirement": "12+"},

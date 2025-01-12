@@ -47,8 +47,8 @@ const Footer = () => {
                             <h4 className="text-lg font-semibold mb-8">যোগাযোগ</h4>
                             <ul className="space-y-3 text-sm">
                                 <li>যোগাযোগের ফোন: +৮৮০ ১২৩৪ ৫৬৭৮৯</li>
-                                <li>ইমেল: media@anbata.com</li>
-                                <li>ফ্যাক্স: +৮৮০ ৭৮৯০ ১২৩৪</li>
+                                <li>ইমেল: media@annahda.com</li>
+                                <li>ফ্যাক্স: +৮৮০ ১৭১৭২১৫০৭০</li>
                             </ul>
                         </div>
 

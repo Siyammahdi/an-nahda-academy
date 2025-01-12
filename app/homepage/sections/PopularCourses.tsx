@@ -41,17 +41,17 @@ interface CourseData {
            courseFee: string;
            scholarships: string;
        };
-       language: string; // New field
-       ageRequirement: string; // New field
-       duration: string; // New field
-       startingTime: string; // New field
+       language: string;
+       ageRequirement: string;
+       duration: string; 
+       startingTime: string;
    };
    callToAction: {
        title: string;
        description: string;
        encouragement: string;
    };
-   imagePath: string; // Existing field
+   imagePath: string;
 }
 
 const ReusableButton: React.FC<ReusableButtonProps> = ({
@@ -75,37 +75,37 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
    );
 };
 
-const Courses: React.FC = () => {
+const PopularCourses: React.FC = () => {
 
-     const [data, setCourse] = useState<CourseData | null>(null);
+   const [course, setCourse] = useState<CourseData[] | null>(null);
+
+   useEffect(() => {
+       const fetchCourseData = async () => {
+           try {
+               const res = await fetch('/courseData.json');
+               const allData: CourseData[] = await res.json();
    
-       useEffect(() => {
-           const fetchCourseData = async () => {
-               try {
-                   const res = await fetch('/courseData.json');
-                   const allData: CourseData[] = await res.json();
-   
-                   if (allData.length>1) {
-                       setCourse(allData);
-                   } else {
-                       console.error('Course not found');
-                   }
-               } catch (error) {
-                   console.error('Error fetching course data:', error);
+               if (allData.length > 0) {
+                   setCourse(allData);
+               } else {
+                   console.error('Course not found');
                }
-           };
+           } catch (error) {
+               console.error('Error fetching course data:', error);
+           }
+       };
    
-           fetchCourseData();
-       }, []); // Dependency on 'id'
+       fetchCourseData();
+   }, []); // No need for 'id' dependency
    
-       if (!data) {
+       if (!course) {
            return <p>Loading...</p>;
        }
 
    return (
       <div className='lg:mx-0 mx-5'>
          <div className="flex md:flex-row flex-col gap-4 items-center justify-center md:items-end md:justify-between mb-20">
-            <h1 className={title()}>See Courses</h1>
+            <h1 className={title()}>কোর্স সমূহ</h1>
             <Link href="/courses">
                <Button radius="full" className="bg-blue-500 text-white">
                   See All... <FaArrowRight />
@@ -247,4 +247,4 @@ const list = [
 
 
 
-export default Courses;
+export default PopularCourses;

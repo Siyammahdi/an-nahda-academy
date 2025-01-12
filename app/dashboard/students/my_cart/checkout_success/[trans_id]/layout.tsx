@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react';
 
-
-
-function SuccessLayout({children}) {
-  return (
-    <div>
-      {children}
-    </div>
-  )
+interface SuccessLayoutProps {
+  children: ReactNode;
 }
 
-export default SuccessLayout
+const SuccessLayout: React.FC<SuccessLayoutProps> = ({ children }) => {
+  return <div>{children}</div>;
+};
+
+export default SuccessLayout;

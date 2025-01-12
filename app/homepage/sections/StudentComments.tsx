@@ -50,33 +50,17 @@ const StudentComments: React.FC = () => {
 
    return (
       <div className='relative'>
-      <div className='absolute top-[70%] right-[10%] transform -translate-x-1/2 -translate-y-1/2'>
-          <Image className='' src={wave} alt='saturn' height={1200} width={1200} />
-      </div>
-      <div
-          className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-60 top-64 lg:w-[600px] lg:h-[400px] blur-3xl">
-      </div>
-      <div
-          className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[800px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
-      </div>
-      {/* <div className="">
-         <h2 className="text-5xl font-semibold text-blue-950">মন্তব্য</h2>
-         <div className="my-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 my-10">
-               {comments.map((comment, index) => (
-                  <CommentCard
-                     key={index}
-                     avatar={comment.avatar}
-                     title={comment.title}
-                     text={comment.text}
-                     gradient={comment.gradient}
-                  />
-               ))}
-            </div>
+         <div className='absolute top-[70%] right-[10%] transform -translate-x-1/2 -translate-y-1/2'>
+            <Image className='' src={wave} alt='saturn' height={1200} width={1200} />
          </div>
-      </div> */}
-  </div>
-    
+         <div
+            className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-60 top-64 lg:w-[600px] lg:h-[400px] blur-3xl">
+         </div>
+         <div
+            className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[800px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
+         </div>
+      </div>
+
    );
 };
 

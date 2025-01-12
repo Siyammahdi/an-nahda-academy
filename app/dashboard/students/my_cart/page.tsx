@@ -1,10 +1,10 @@
 
 "use client"
-import { Card, CardBody, CardHeader } from '@nextui-org/card'
-import { Button, Divider, Image } from '@nextui-org/react'
+import { Card, CardHeader } from '@nextui-org/card'
+import { Button, Image } from '@nextui-org/react'
 import Link from 'next/link'
 import React from 'react'
-import { FaArrowRightLong, FaGraduationCap } from 'react-icons/fa6'
+import { FaArrowRightLong } from 'react-icons/fa6'
 
 
 

@@ -1,11 +1,11 @@
 "use client"
 
-// import { subtitle, title } from '@/components/primitives';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import React from 'react';
 import saturn from "@/public/elements/saturn.avif"
 import book from "@/public/elements/book.png"
+import Link from 'next/link';
 
 const Banner = () => {
     return (
@@ -34,7 +34,9 @@ const Banner = () => {
                     <h1 className='text-2xl md:text-4xl lg:text-5xl font-semibold leading-relaxed' ><span>ইলমের আলোয় জাগরূক</span> <span>জীবনের প্রত্যয়...</span></h1>
                 </div>
                 <div className='space-y-4 mt-10'>
-                    <Button className='rounded-full bg-violet-500 text-white border-none' variant="bordered">Explore Courses</Button>
+                    <Link href="/courses">
+                        <Button className='rounded-full bg-violet-500 text-white border-none' variant="bordered">Explore Courses</Button>
+                    </Link>
                 </div>
             </div>
 

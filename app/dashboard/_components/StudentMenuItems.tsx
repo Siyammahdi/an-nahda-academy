@@ -2,14 +2,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
 	FiHome,
-	FiCheckCircle,
-	FiBarChart,
-	FiTool,
-	FiSearch,
-	FiGlobe,
-	FiCode,
-	FiLayers,
-	FiDollarSign,
 } from "react-icons/fi";
 import { LuLayoutDashboard,LuWallet } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";

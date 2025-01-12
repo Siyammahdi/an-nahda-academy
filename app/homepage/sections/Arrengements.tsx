@@ -29,7 +29,7 @@ const Arrengements = () => {
             <div
                 className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[800px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
             </div>
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-blue-950">আমাদের আয়োজনগুলো</h2>
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-blue-950 dark:text-white">আমাদের আয়োজনগুলো</h2>
             <div>
                 <div className="flex justify-center items-center my-20 ">
                     <div className="grid grid-cols-3 gap-2 md:gap-4 lg:gap-8 p-5 lg:p-10 bg-black/5 backdrop-blur-md dark:bg-white/5 rounded-[38px] lg:rounded-[46.80px]">

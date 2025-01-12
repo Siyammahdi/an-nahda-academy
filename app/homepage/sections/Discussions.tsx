@@ -1,10 +1,10 @@
 "use client"
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@nextui-org/card';
 
 const Discussions: React.FC = () => {
 
-  
+
    const sliders = [
       "https://www.youtube.com/embed/HVAnIPej18M",
       "https://www.youtube.com/embed/SgnmSO9d7y0",
@@ -23,11 +23,19 @@ const Discussions: React.FC = () => {
 
 
 
-   
+
 
 
    return (
-      <div className="lg:mx-0 mx-5">
+      <div className="relative lg:mx-0 mx-5">
+         <div>
+            <div
+               className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 left-0  lg:w-[600px] lg:h-[400px] blur-3xl">
+            </div>
+            <div
+               className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[0px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
+            </div>
+         </div>
          <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold ">জীবনমূখী ভিডিওসমূহ</h2>
          <div className="max-w-6xl mx-auto h-[540px] md:h-[670px] flex flex-col xl:flex-row items-center overflow-hidden gap-5 lg:gap-10 relative">
             <div className="absolute w-full h-full flex items-center justify-between z-50 px-5">

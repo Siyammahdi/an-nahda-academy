@@ -2,20 +2,16 @@
 import "@/styles/globals.css";
 import clsx from "clsx";
 import { Providers } from "./providers";
-import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/Shared/navbar";
 import Footer from "@/components/Shared/footer";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-// import localFont from 'next/font/local'
+import { Hind_Siliguri } from "next/font/google";
 
-
-
-// const myFont = localFont({
-//   src: '/fonts/ador-noirrit-regular.ttf',
-//   display: 'swap',
-// })
-
+const hindSiliguri = Hind_Siliguri({
+  subsets: ['latin', 'bengali'], // Include subsets based on your content
+  weight: ['400', '500', '600', '700'], // Add required font weights
+  display: 'swap', // Improves font loading performance
+});
 
 
 // export const viewport: Viewport = {
@@ -36,17 +32,15 @@ export default function RootLayout({
   const noHeaderFooter = location.includes('/dashboard');
 
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang="en" >
       <head />
       <body
         className={clsx(
-          // myFont.className,
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          "min-h-screen bg-background antialiased",
+          hindSiliguri.className
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark", enableSystem: true }}>
-          {/* <LanguageProvider></LanguageProvider> */}
           <div className="">
             <div className="relative flex flex-col bg-white dark:bg-gradient-dark">
               {noHeaderFooter || <Navbar />}

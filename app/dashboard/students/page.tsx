@@ -1,13 +1,8 @@
 "use client"
 import React from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
-import { FaAward, FaBookOpenReader, FaGraduationCap } from 'react-icons/fa6';
+import { Divider } from "@nextui-org/react";
 import StudentCards from './_components/Cards';
 
-
-
-
-// type Props = {}
 
 function StudentDashboard() {
    return (

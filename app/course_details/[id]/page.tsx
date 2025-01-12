@@ -67,7 +67,7 @@ const CoursePage = () => {
     }, [id]); // Dependency on 'id'
 
     if (!data) {
-        return <p>Loading...</p>;
+        return <p className='h-screen text-3xl'>Loading...</p>;
     }
 
     return (
@@ -92,7 +92,7 @@ const CoursePage = () => {
                 </div>
                 <div className='md:w-2/5 w-full'>
                     <CourseCard
-                        data={data.courseDetails?.schedule}
+                        data={data.courseDetails}
                     />
                 </div>
             </div>

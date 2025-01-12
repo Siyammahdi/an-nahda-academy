@@ -14,9 +14,10 @@ module.exports = {
         "gradient-light": "linear-gradient(135deg, #c5fcf0, #d7e0f5, #e3c3fa)",
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
+        // sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
         liAdor: ['"Li Ador Noirrit"', 'sans-serif'], 
+        sans: ['Hind Siliguri', 'sans-serif'],
 
       },
       animation: {

@@ -1,7 +1,9 @@
 "use client"
 import { Avatar } from "@nextui-org/react";
+import Image from "next/image";
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import wave from "@/public/elements/side-wave.png"
 
 export const Testimonials: React.FC = () => {
    const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,7 +22,10 @@ export const Testimonials: React.FC = () => {
    };
 
    return (
-      <div className="my-20 lg:mx-0 mx-5">
+      <div className="relative z-20 my-20 lg:mx-0 mx-5">
+           <div className='absolute top-[70%] -right-[30%] overflow-hidden rotate-180 transform  -translate-y-1/2'>
+                <Image className='' src={wave} alt='saturn' height={1200} width={1200} />
+            </div>
           <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold mb-10">
           শিক্ষার্থীদের মন্তব্য</h2>
           <div className="bg-blue-100/40 backdrop-blur-md dark:bg-white/5 rounded-[38px] w-full lg:h-[500px] p-10 flex lg:flex-row flex-col justify-center gap-10 lg:gap-0 lg:justify-between">

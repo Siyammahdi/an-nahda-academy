@@ -13,7 +13,7 @@ interface EnrollModalProps {
 }
 export default function PaymentDetailsModal({ isOpen, onClose }: EnrollModalProps) {
    return (
-      <Modal className="border-black  " isOpen={isOpen} onClose={onClose} size="5xl" placement="top-center" >
+      <Modal className="border-black  "  isOpen={isOpen} onClose={onClose} size="5xl" placement="top-center" >
          <ModalContent>
 
             <>
