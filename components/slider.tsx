@@ -117,7 +117,7 @@ const Slider = () => {
 const items = [
     {
         id: 1,
-        category: "Bread and Juice",
+        category: "Enroll Now!",
         title: "All Natural Style Chicken Meatballs",
         price: 52.85,
         originalPrice: 55.80,
@@ -129,7 +129,7 @@ const items = [
     },
     {
         id: 2,
-        category: "Baking material",
+        category: "Buy Now!",
         title: "Angie’s Sweet & Salty Kettle Corn",
         price: 48.85,
         originalPrice: 52.80,
@@ -141,7 +141,7 @@ const items = [
     },
     {
         id: 3,
-        category: "Baking material",
+        category: "Enroll Now!",
         title: "Foster Farms Takeout Crispy Classic",
         price: 17.85,
         originalPrice: 19.80,
@@ -153,7 +153,7 @@ const items = [
     },
     {
         id: 4,
-        category: "Fresh Fruit",
+        category: "Buy Now!",
         title: "Blue Almonds Lightly Salted Vegetables",
         price: 23.85,
         originalPrice: 25.80,
@@ -165,7 +165,7 @@ const items = [
     },
     {
         id: 5,
-        category: "Fresh Fruit",
+        category: "Enroll Now!",
         title: "Blue Almonds Lightly Salted Vegetables",
         price: 23.85,
         originalPrice: 25.80,

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import React from 'react';

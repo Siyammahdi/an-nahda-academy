@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation";
 import { Hind_Siliguri } from "next/font/google";
 
 const hindSiliguri = Hind_Siliguri({
-  subsets: ['latin', 'bengali'], // Include subsets based on your content
-  weight: ['400', '500', '600', '700'], // Add required font weights
-  display: 'swap', // Improves font loading performance
+  subsets: ['latin', 'bengali'], 
+  weight: ['400', '500', '600', '700'], 
+  display: 'swap',
 });
 
 
@@ -20,6 +20,8 @@ const hindSiliguri = Hind_Siliguri({
 //     { media: "(prefers-color-scheme: dark)", color: "black" },
 //   ],
 // };
+
+
 
 
 export default function RootLayout({

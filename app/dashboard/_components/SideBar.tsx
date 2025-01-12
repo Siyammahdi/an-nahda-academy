@@ -3,15 +3,6 @@
 import React from "react";
 import MenuItem, { menuItems } from "./StudentMenuItems";
 
-
-// import Logo from "./Logo";
-// import Button from "./ui-components/Button";
-
-
-
-
-
-
 const Sidebar: React.FC = () => {
 	return (
 		<div className="h-screen bg-violet-950 lg:w-[250px]">

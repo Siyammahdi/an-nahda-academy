@@ -22,10 +22,10 @@ const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePat
    const handleEnrolButtonClose = () => setIsEnrolButtonClicked(false);
 
    return (
-      <div className=" bg-blue-100/40 backdrop-blur-md dark:bg-white/5 lg:h-[440px] lg: rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
-         <div className="md:px-20 md:py-0 py-10 flex-1">
+      <div className=" bg-blue-100/40 backdrop-blur-md dark:bg-white/5 lg:h-[440px] rounded-2xl lg:rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
+         <div className=" md:px-20 md:py-0 py-10 flex-1 ">
 
-            <div className='flex flex-row items-center gap-2'>
+            <div className='flex flex-row items-center gap-2 mx-2'>
                <Button size="sm" radius="full" className="bg-purple-200 border border-purple-600 text-purple-600 text-xs">
                   Enrolled 800+
                </Button>
@@ -33,7 +33,7 @@ const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePat
                   Instructors
                </Button>
             </div>
-            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5">{courseName}</h1>
+            <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5 mx-2">{courseName}</h1>
 
             <div className="flex gap-4">
                <div className=''>

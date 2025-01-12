@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from 'react';
 import { Virtual, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';

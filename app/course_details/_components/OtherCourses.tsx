@@ -1,4 +1,4 @@
-"use client"; // Add this line to the top of your file
+"use client"
 
 import { title } from '@/components/primitives';
 import { Card, CardBody, CardFooter, Button } from "@nextui-org/react";

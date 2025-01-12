@@ -1,21 +1,22 @@
+"use client"
+
 // components/Footer.tsx
 import { Link } from "@nextui-org/link";
 import Image from "next/image";
 import React from "react";
 import { FaFacebook, FaInstagram, FaTelegramPlane, FaTwitter, FaYoutube } from "react-icons/fa";
-import grad1 from "@/public/grad/gradiant1.png"
+import grad1 from "@/public/grad/gradiant1.png";
 
 const Footer = () => {
     return (
-        <div className="relative text-white bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950">
+        <div className="relative overflow-hidden text-white bg-gradient-to-r from-purple-950 via-sky-950 to-indigo-950">
             <div className="flex justify-center">
                 <Image className="absolute z-10 -top-40" src={grad1} alt="gradiant" height={1000} width={1000} />
             </div>
-            <div className="w-full py-16 px-6 ">
+            <div className="w-full py-16 px-6">
                 {/* Top Sections */}
-                <div className="relative z-20 max-w-screen-xl mx-auto flex justify-between">
-                    <div className=" grid grid-cols-2 w-2/3 gap-20">
-
+                <div className="relative z-20 max-w-screen-xl mx-auto flex flex-wrap justify-between gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full lg:w-2/3 gap-10">
                         {/* Column 1 */}
                         <div>
                             <h4 className="text-lg font-semibold mb-8">আন নাহদা</h4>
@@ -30,7 +31,7 @@ const Footer = () => {
                         </div>
 
                         {/* Column 2 */} 
-                        <div className="">
+                        <div>
                             <h4 className="text-lg font-semibold mb-8">বাংলা সংস্কৃতি</h4>
                             <ul className="space-y-3 text-sm">
                                 <li>বাংলা পত্রিকা</li>
@@ -40,9 +41,7 @@ const Footer = () => {
                             </ul>
                         </div>
 
-
                         {/* Column 3 */}
-
                         <div>
                             <h4 className="text-lg font-semibold mb-8">যোগাযোগ</h4>
                             <ul className="space-y-3 text-sm">
@@ -62,16 +61,15 @@ const Footer = () => {
                                 <li>অফিস সময়: ৯টা - ৫টা</li>
                             </ul>
                         </div>
-
                     </div>
                     {/* Column 5 */}
-                    <div>
+                    <div className="w-full lg:w-auto">
                         <h4 className="text-lg font-semibold mb-4">আমাদের সংবাদপত্রে সদস্য হোন</h4>
                         <div className="flex items-center mt-4">
                             <input
                                 type="email"
                                 placeholder="এখানে ইমেল লিখুন"
-                                className="w-full p-3 text-black rounded-l-lg"
+                                className="w-full lg:w-auto p-3 text-black rounded-l-lg"
                             />
                             <button className="bg-indigo-500 px-4 py-3 rounded-r-lg text-sm font-semibold hover:bg-indigo-400 transition">
                                 সাবমিট
@@ -80,7 +78,7 @@ const Footer = () => {
                         <p className="text-xs mt-3 text-gray-300">
                             এটি আপনার ব্যক্তিগত তথ্য সম্পূর্ণ গোপন রাখবে।
                         </p>
-                        <div className="flex space-x-8 mt-16">
+                        <div className="flex justify-center lg:justify-start space-x-8 mt-10">
                             <Link href="#" className="text-white hover:text-gray-400">
                                 <FaTelegramPlane size={28} />
                             </Link>
@@ -101,8 +99,8 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Section */}
-                <div className=" mt-20 pt-6">
-                    <div className="max-w-screen-xl mx-auto flex justify-between text-sm text-center sm:text-left">
+                <div className="mt-20 pt-6">
+                    <div className="max-w-screen-xl mx-auto flex flex-wrap justify-between gap-4 text-sm text-center sm:text-left">
                         <p>কপিরাইট © ২০২৪ আন বাতা। সকল অধিকার সংরক্ষিত।</p>
                         <p>ভর্তি পলিসি</p>
                         <p>টার্মস এন্ড কন্ডিশন</p>

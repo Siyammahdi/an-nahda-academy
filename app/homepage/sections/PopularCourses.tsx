@@ -65,12 +65,12 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
    return (
       <Button
          variant={variant}
-         className={` text-violet-950 dark:text-violet-400 border-violet-950/30 hover:border-violet-700 hover:bg-purple-200 dark:border-violet-400 border-3 flex flex-col justify-center items-center rounded-[35.51] md:h-32 h-28 md:w-32 w-28  hover:scale-105 transition-transform text-center ${className}`}
+         className={` text-violet-950 dark:text-violet-400 border-violet-950/30 hover:border-violet-700 hover:bg-purple-200 dark:border-violet-400 border-3 flex flex-col justify-center items-center rounded-3xl md:rounded-[35.51] md:h-32 md:w-32 h-16 w-16  hover:scale-105 transition-transform text-center ${className}`}
          onClick={onClick}
       >
-         {labelTop && <span className="text-sm font-medium text-stone-500/70">{labelTop}</span>}
-         <span className="md:text-3xl text-2xl mb-2 text-violet-950 font-bold">{labelMiddle}</span>
-         {labelBottom && <span className="text-sm font-medium text-stone-500/70">{labelBottom}</span>}
+         {labelTop && <span className="text-xs md:text-sm font-medium text-stone-500/70">{labelTop}</span>}
+         <span className="md:text-3xl text-xl mb-2 text-violet-950 font-bold">{labelMiddle}</span>
+         {labelBottom && <span className="text-xs md:text-sm font-medium text-stone-500/70">{labelBottom}</span>}
       </Button>
    );
 };
