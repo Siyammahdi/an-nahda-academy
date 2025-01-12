@@ -47,7 +47,7 @@ const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePat
             </div>
          </div>
          <div className="flex-1 flex justify-end  p-5">
-            <Image className=" rounded-[80px]" alt="banner-image" src={imagePath} height={400} width={400} />
+            <Image className="rounded-2xl lg:rounded-[80px]" alt="banner-image" src={imagePath} height={400} width={400} />
          </div>
          {isEnrolButtonClicked && (
             <PaymentDetailsModal isOpen={isEnrolButtonClicked} onClose={handleEnrolButtonClose} />
