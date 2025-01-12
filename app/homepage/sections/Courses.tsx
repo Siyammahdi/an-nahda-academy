@@ -143,9 +143,11 @@ const Courses: React.FC = () => {
                   <CardFooter className="flex flex-col items-start gap-4">
                      <div className="w-full flex flex-row justify-between">
                         <div className="flex flex-row items-center gap-2">
+                           <Link href={`course_details/${item?.id}`}>
                            <Button size="sm" radius="full" className="bg-purple-200 text-purple-600 text-[10px] h-6">
                               About Course
                            </Button>
+                           </Link>
                            <Link href="https://www.facebook.com/messages/t/103915368128673">
                               <Button size="sm" radius="full" className="bg-green-200 text-green-600 text-[10px] h-6">
                                  Message Us

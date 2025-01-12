@@ -77,7 +77,7 @@ const CoursePage = () => {
                 courseFee={data.courseDetails.fees.courseFee}
                 imagePath={data.imagePath} // Replace with actual image path or dynamic value
             />
-            <div className='w-full flex gap-20 items-center'>
+            <div className='w-full flex md:flex-row flex-col gap-20 items-center'>
                 <div className='w-4/5 '>
                     <h1 className="font-bold">{data.title}</h1>
                     <p className='my-4 text-justify'>{data.description}</p>
@@ -90,7 +90,7 @@ const CoursePage = () => {
                     </div>
 
                 </div>
-                <div className='w-2/5'>
+                <div className='md:w-2/5 w-full'>
                     <CourseCard
                         data={data.courseDetails?.schedule}
                     />

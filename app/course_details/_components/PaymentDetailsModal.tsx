@@ -25,7 +25,7 @@ export default function PaymentDetailsModal({ isOpen, onClose }: EnrollModalProp
                      <div className="flex flex-col items-start justify-start  gap-3 p-8 w-full">
                      <p className='text-xl font-bold'>ইনরোল ইন্সট্রাকশন</p>
                         <Divider className="w-full" />
-                        <div className="w-full flex flex-row items-center justify-between ">
+                        <div className="w-full flex lg:flex-row flex-col items-center justify-between ">
                            <div className='flex-1'>
                               
                                  <ul className='list-disc ml-5'>
@@ -36,7 +36,7 @@ export default function PaymentDetailsModal({ isOpen, onClose }: EnrollModalProp
                                     <li>অতিরিক্ত সাহায্যের জন্য হেল্পলাইনে যোগাযোগ করুন। সকাল ১০টা থেকে রাত ৮টা পর্যন্ত হেল্পলাইন পরিষেবা পাওয়া যাবে। মোবাইল: +880 1912-232838 হোয়াটসঅ্যাপ: +880 1912-232838</li>
                                  </ul>
                            </div>
-                           <div className='flex-1 flex flex-row gap-4 bg-stone-100 p-5'>
+                           <div className='flex-1 w-full flex flex-row gap-4 bg-stone-100 p-5'>
                             <Image src='/bkash_QR.jpg ' width={200} height={200} alt="bkash_QR" />
                             <Image src='/text.jpg ' width={200} height={200} alt="text" />
                            </div>

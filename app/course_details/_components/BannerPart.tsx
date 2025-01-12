@@ -14,8 +14,8 @@ interface BannerPartProps {
 
 const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePath }) => {
    return (
-      <div className=" glass2 h-[440px] rounded-[100px] flexBetween">
-         <div className="px-20 flex-1">
+      <div className=" bg-blue-100/40 backdrop-blur-md dark:bg-white/5 lg:h-[440px] lg: rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
+         <div className="md:px-20 md:py-0 py-10 flex-1">
 
             <div className='flex flex-row items-center gap-2'>
                <Button size="sm" radius="full" className="bg-purple-200 border border-purple-600 text-purple-600 text-xs">
@@ -38,7 +38,7 @@ const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePat
             </div>
             </div>
          </div>
-         <div className=" flex justify-end  p-5">
+         <div className="flex-1 flex justify-end  p-5">
             <Image className=" rounded-[80px]" alt="banner-image" src={imagePath} height={400} width={400}  />
          </div>
 
