@@ -12,11 +12,11 @@ const Courses: React.FC = () => {
             <h1 className="text-center md:text-4xl text-3xl font-bold text-pink-700 my-10">All Courses</h1>
          </div>
 
-         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10">
+         <div className="gap-5 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 my-10 mx-5">
             {list.map((item, index) => (
                <div
                   key={index}
-                  className="relative z-20 w-full max-w-[340px] space-y-3 rounded-[36px] bg-white p-4 shadow-lg dark:bg-[#18181B]"
+                  className="relative z-20 w-full space-y-3 rounded-[36px] bg-white p-4 shadow-lg dark:bg-[#18181B]"
                >
                   <div className="relative flex h-48 w-full justify-center lg:h-[260px]">
                      <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
@@ -75,7 +75,7 @@ const list = [
       age: "10+",
       time: "9+ months (Live Class)",
       start: "After Enrollment",
-      img: "/course_poster/learning-arabic.svg",
+      img: "/course_poster/learing_arabic.png",
       price: "650 Tk. monthly",
       classes: "Flexible class schedule",
       startingTime: "Next batch starts on February 1st, 2025",
@@ -87,7 +87,7 @@ const list = [
       age: "12+",
       time: "2 months",
       start: "Next batch starts on March 1st, 2025",
-      img: "/course_poster/husnul.svg",
+      img: "/course_poster/husnul_khuluk.png",
       price: "1000 Tk.",
       classes:
          "Online, combining engaging pre-recorded videos, live discussions, and assignments.",
@@ -100,7 +100,7 @@ const list = [
       age: "10+",
       time: "18+ hours (Live + Recorded)",
       start: "After Enrollment",
-      img: "/course_poster/fiqhun-nisa.svg",
+      img: "/course_poster/fiqhun_nisa.png",
       price: "1050 Tk.",
       classes: "20+ Classes",
       startingTime: "Next batch starts on March 15th, 2025",
@@ -112,7 +112,7 @@ const list = [
       age: "12+",
       time: "3 Years (Live Class)",
       start: "After Enrollment",
-      img: "/course_poster/alima.svg",
+      img: "/course_poster/aleema.png",
       price: "550 Tk. monthly",
       classes: "Flexible class schedule",
       startingTime: "Next batch starts on April 1st, 2025",

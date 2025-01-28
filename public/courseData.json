@@ -2,7 +2,7 @@
   {
     "id": 1,
     "courseName": "Learning Arabic",
-    "imagePath": "/learning_arabic(square v)-04.png",
+    "imagePath": "/poster_square/learing_arabic.png",
     "title": "Learn Language of Qur’an and Hadith",
     "description": "Have you ever dreamed of mastering the language of the Qur’an? Wouldn’t it be wonderful to understand the divine message sent by our Lord and the noble words of our beloved Prophet ﷺ? Imagine being able to delve into the treasures left by the early generations through Arabic texts and teaching your children this beautiful language with confidence.",
     "introduction": [
@@ -54,7 +54,7 @@
   {
     "id": 2,
     "courseName": "Husn al-Khuluq",
-    "imagePath": "/hasanul_khuluq (square v)-06.png",
+    "imagePath": "/poster_square/husnul_khuluk.png",
     "title": "Husn al-Khuluq (The Beauty of Character)",
     "description": "Imagine a world where everyone treats each other with kindness, respect, and sincerity. Good character, or akhlaq, is the foundation of such a world, and it is a cornerstone of Islamic teachings. The Prophet Muhammad (peace be upon him) said, 'I was only sent to perfect good character.' The course Husn al-Khuluq offers you the chance to embark on a transformative journey to understand, cultivate, and embody the principles of noble character in your everyday life.",
     "introduction": [
@@ -102,7 +102,7 @@
   {
     "id": 3,
     "courseName": "Fiqh un-Nisa",
-    "imagePath": "/fiqhunnisasquare v)-05.png",
+    "imagePath": "/poster_square/fiqhun_nisa.png",
     "title": "Fiqh un-Nisa (Understanding Women’s Jurisprudence in Islam)",
     "description": "Women hold a central and elevated status in Islam, celebrated for their pivotal roles in families and society. Yet, navigating modern challenges while staying true to one’s Islamic identity can be overwhelming without proper guidance. To empower and educate women in the light of Qur'an and Sunnah, An-Nahda Islamic Academy presents Fiqh un-Nisa, a comprehensive course tailored specifically for understanding the rules, rights, and responsibilities of women in Islam.",
     "introduction": [
@@ -147,7 +147,7 @@
   {
     "id": 4,
     "courseName": "Alima Course",
-    "imagePath": "/aleema (square v)-08.png",
+    "imagePath": "/poster_square/aleema.png",
     "title": "Alima Course: A Comprehensive Three-Year Journey",
     "description": "The Alima Course at An-Nahda Islamic Academy is a meticulously designed program that provides women with essential Islamic knowledge, fosters spiritual growth, and equips them to navigate modern challenges. Over three years, this transformative journey delves into Islamic fundamentals, enabling women to live with faith and purpose.",
     "introduction": [

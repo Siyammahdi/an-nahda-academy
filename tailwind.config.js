@@ -16,7 +16,7 @@ module.exports = {
       fontFamily: {
         // sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
-        liAdor: ['"Li Ador Noirrit"', 'sans-serif'], 
+        ador: ['adorNoiritt', 'sans-serif'],
         sans: ['Hind Siliguri', 'sans-serif'],
 
       },

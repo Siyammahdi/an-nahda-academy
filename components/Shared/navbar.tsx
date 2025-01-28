@@ -17,14 +17,13 @@ import { GrFavorite } from "react-icons/gr";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
-  GithubIcon,
   Logo,
 } from "@/components/icons";
 import { useEffect, useState } from "react";
-import { Button } from "@nextui-org/button";
 import { FaCartShopping } from "react-icons/fa6";
 import RegistrationModal from "../registrationModal";
 import LoginModal from "../loginModal";
+import { Button } from "@nextui-org/button";
 
 export const Navbar = () => {
 
@@ -130,9 +129,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

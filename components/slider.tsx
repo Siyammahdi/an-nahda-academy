@@ -97,7 +97,7 @@ const Slider = () => {
                                             <Image
                                                 src={item.image}
                                                 alt={`Slide ${item.id}`}
-                                                className="object-cover w-full h-full hover:scale-110 transition-all duration-1000 img-solve"
+                                                className="object-cover w-full h-full hover:scale-110 transition-all duration-1000 img-solve select-none"
                                                 width={1000}
                                                 height={200}
                                             />
@@ -122,7 +122,7 @@ const items = [
         price: 52.85,
         originalPrice: 55.80,
         sold: "142/456",
-        image: "/course_poster/learning-arabic.png",
+        image: "/course_poster/learing_arabic.png",
         rating: 3,
         discount: 6,
         isNew: false,
@@ -134,7 +134,7 @@ const items = [
         price: 48.85,
         originalPrice: 52.80,
         sold: "122/233",
-        image: "/course_poster/fiqhun-nisa.svg",
+        image: "/course_poster/fiqhun_nisa.png",
         rating: 1,
         discount: 8,
         isNew: false,
@@ -146,7 +146,7 @@ const items = [
         price: 17.85,
         originalPrice: 19.80,
         sold: "327/500",
-        image: "/course_poster/husnul.png",
+        image: "/course_poster/husnul_khuluk.png",
         rating: 0,
         discount: 10,
         isNew: false,
@@ -158,7 +158,7 @@ const items = [
         price: 23.85,
         originalPrice: 25.80,
         sold: "141/160",
-        image: "/course_poster/alima.png",
+        image: "/course_poster/aleema.png",
         rating: 1,
         discount: 8,
         isNew: true,
