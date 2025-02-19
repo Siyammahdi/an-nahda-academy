@@ -4,7 +4,6 @@
 import Arrengements from "./homepage/sections/Arrengements";
 import Banner from "./homepage/sections/Banner";
 import PopularCourses from "./homepage/sections/PopularCourses";
-import Discussions from "./homepage/sections/Discussions";
 import { Testimonials } from "./homepage/sections/Testimonials";
 import Slider from "@/components/slider";
 import VideoSlider from "./homepage/sections/VideoSlider";
