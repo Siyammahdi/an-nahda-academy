@@ -7,6 +7,7 @@ import PopularCourses from "./homepage/sections/PopularCourses";
 import Discussions from "./homepage/sections/Discussions";
 import { Testimonials } from "./homepage/sections/Testimonials";
 import Slider from "@/components/slider";
+import VideoSlider from "./homepage/sections/VideoSlider";
 
 
 export const metadata = {
@@ -21,7 +22,7 @@ export const metadata = {
 export default function Home() {
   return (
     <div>
-      <div className="absolute hidden lg:block mt-32">
+      <div className="absolute mt-32">
         <Slider />
       </div>
       <div className="mx-5 lg:mx-0">
@@ -29,9 +30,10 @@ export default function Home() {
           <Banner />
           <Arrengements />
           <PopularCourses />
-          <Discussions />
+
           <Testimonials />
         </div>
+        <VideoSlider />
       </div>
     </div>
   );
