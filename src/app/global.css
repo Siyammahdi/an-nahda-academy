@@ -1,0 +1,53 @@
+/* @import url('https://fonts.cdnfonts.com/css/li-ador-noirrit'); */
+
+@keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+
+  body {
+    font-family: "li_ador_noirrit_a-v1regular";
+  }
+  
+
+  /* @font-face {
+    font-family: "Li Ador Noirrit A-V1";
+    src: url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.eot");
+    src: url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/4e2ffdd669618de8991fddb0b820892a.svg#Li Ador Noirrit A-V1")format("svg");
+} */
+  
+
+@font-face {
+  font-family: 'li_ador_noirrit_a-v1regular';
+  src: url('/fonts/ador-noirrit-regular-webfont.woff2') format('woff2'),
+       url('/fonts/ador-noirrit-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+  
+
+  
+    /* body {
+      font-family: 'ador', sans-serif;
+    }
+    
+
+  @font-face {
+    font-family: 'ador';
+    src: url('/fonts/ador-noirrit-regular.ttf') format('truetype'); 
+    font-weight: normal; 
+    font-style: normal;
+  } */
