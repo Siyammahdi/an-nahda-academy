@@ -78,6 +78,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Image from "next/image";
 
 // Mock data for documents
 const documentsData = [
@@ -462,13 +463,16 @@ const DocumentsPage = () => {
             </CardHeader>
             <CardContent className="px-2">
               <div className="space-y-4">
-                {certificatesData.map((cert) => (
+                {certificatesData.map((cert, index) => (
                   <Card key={cert.id} className="overflow-hidden">
                     <div className="aspect-[1.6/1] w-full relative">
-                      <img 
+                      <Image 
                         src={cert.thumbnailUrl} 
                         alt={cert.name} 
-                        className="object-cover w-full h-full"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover"
+                        priority={index === 0}
                       />
                       <div className="absolute top-2 right-2">
                         <Badge variant="secondary" className="bg-white/80 text-primary">

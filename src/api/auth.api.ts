@@ -1,4 +1,5 @@
 import Axios from "./Axios";
+import { AxiosError } from "axios";
 
 // Types
 export interface LoginCredentials {
@@ -25,6 +26,11 @@ export interface AuthResponse {
   };
 }
 
+interface ErrorResponse {
+  success: boolean;
+  message: string;
+}
+
 // Auth API services
 export const AuthAPI = {
   // Register a new user
@@ -39,8 +45,9 @@ export const AuthAPI = {
       }
       
       return response.data;
-    } catch (error: any) {
-      throw error.response?.data || { success: false, message: "Registration failed" };
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: "Registration failed" };
     }
   },
 
@@ -56,8 +63,9 @@ export const AuthAPI = {
       }
       
       return response.data;
-    } catch (error: any) {
-      throw error.response?.data || { success: false, message: "Login failed" };
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: "Login failed" };
     }
   },
 
@@ -71,18 +79,20 @@ export const AuthAPI = {
       localStorage.removeItem("auth-user");
       
       return { success: true, message: "Logout successful" };
-    } catch (error: any) {
-      throw error.response?.data || { success: false, message: "Logout failed" };
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: "Logout failed" };
     }
   },
 
   // Get the current user
   getCurrentUser: async () => {
     try {
-      const response = await Axios.get<{ success: boolean; data: any }>("/auth/me");
+      const response = await Axios.get<{ success: boolean; data: Record<string, unknown> }>("/auth/me");
       return response.data;
-    } catch (error: any) {
-      throw error.response?.data || { success: false, message: "Failed to get current user" };
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: "Failed to get current user" };
     }
   },
 

@@ -25,19 +25,20 @@ export const Navbar = () => {
 
   const handleLoginOpen = () => {
     setIsModalOpen(false);
-    return setIsLoginClicked(true);
+    setIsLoginClicked(true);
   };
 
   const handleLoginClose = () => {
-    return setIsLoginClicked(false);
+    setIsLoginClicked(false);
   };
 
   const handleModalOpen = () => {
-    handleLoginOpen();
+    setIsLoginClicked(false);
+    setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    return setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   const toggleMobileMenu = () => {
