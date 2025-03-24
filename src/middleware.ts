@@ -14,13 +14,18 @@ export function middleware(request: NextRequest) {
   // Get the token from cookies
   const token = request.cookies.get('token')?.value;
 
+  // If there's a token in the Authorization header, consider the user authenticated
+  // This handles the case where cookie-based auth fails but localStorage auth is working
+  const authHeader = request.headers.get('Authorization');
+  const hasAuthHeader = authHeader && authHeader.startsWith('Bearer ');
+
   // If the user is on a protected path but not authenticated, redirect to login
-  if (isProtectedPath && !token) {
+  if (isProtectedPath && !token && !hasAuthHeader) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
   // If the user is authenticated and trying to access auth paths, redirect to dashboard
-  if (isAuthPath && token) {
+  if (isAuthPath && (token || hasAuthHeader)) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

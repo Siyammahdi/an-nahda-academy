@@ -1,5 +1,8 @@
-import Axios from "./Axios";
+import axios from "axios";
 import { AxiosError } from "axios";
+
+// Use relative path with Next.js proxy
+const API_URL = "/api";
 
 // Types
 export interface LoginCredentials {
@@ -30,6 +33,15 @@ interface ErrorResponse {
   success: boolean;
   message: string;
 }
+
+// Create axios instance with baseURL
+const Axios = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 // Auth API services
 export const AuthAPI = {
@@ -80,6 +92,10 @@ export const AuthAPI = {
       
       return { success: true, message: "Logout successful" };
     } catch (error: unknown) {
+      // Even if the server logout fails, clear local storage
+      localStorage.removeItem("auth-token");
+      localStorage.removeItem("auth-user");
+      
       const axiosError = error as AxiosError<ErrorResponse>;
       throw axiosError.response?.data || { success: false, message: "Logout failed" };
     }

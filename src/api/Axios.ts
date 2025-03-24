@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://an-nahda-backend.vercel.app/api";
+// Use relative path with Next.js proxy
+const API_URL = "/api";
 
 // Create axios instance with baseURL
 const Axios = axios.create({
