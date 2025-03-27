@@ -61,62 +61,62 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Profile</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Profile</h1>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Manage your account settings and personal information
         </p>
       </div>
 
-      <Tabs defaultValue="personal" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
+      <Tabs defaultValue="personal" className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full max-w-md grid-cols-3">
           <TabsTrigger value="personal">Personal Info</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
         
         <TabsContent value="personal">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle>Profile</CardTitle>
-                <CardDescription>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
+            <Card className="md:col-span-1 shadow-sm">
+              <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
+                <CardTitle className="text-base sm:text-lg">Profile</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">
                   Your public profile information
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-col items-center justify-center space-y-4">
-                <Avatar className="h-32 w-32">
+              <CardContent className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 px-3 sm:px-6">
+                <Avatar className="h-24 w-24 sm:h-32 sm:w-32">
                   <AvatarImage 
                     src={`https://avatar.vercel.sh/${user?.email || 'user'}.png`} 
                     alt={user?.name || 'User'} 
                   />
-                  <AvatarFallback className="text-4xl">
+                  <AvatarFallback className="text-2xl sm:text-4xl">
                     {getInitials(user?.name)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-center">
-                  <h3 className="text-lg font-medium">{user?.name}</h3>
-                  <p className="text-sm text-muted-foreground">{user?.email}</p>
-                  <p className="text-sm text-muted-foreground capitalize">
+                  <h3 className="text-base sm:text-lg font-medium">{user?.name}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{user?.email}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground capitalize">
                     Role: {user?.role || "Student"}
                   </p>
                 </div>
                 <Separator />
                 <div className="w-full text-center">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "2023"}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-2">
-              <CardHeader>
+            <Card className="md:col-span-2 shadow-sm">
+              <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
                 <div className="flex justify-between items-center">
                   <div>
-                    <CardTitle>Personal Information</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-base sm:text-lg">Personal Information</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm">
                       Update your personal details
                     </CardDescription>
                   </div>
@@ -124,19 +124,21 @@ const ProfilePage = () => {
                     <Button
                       variant="outline"
                       onClick={() => setIsEditing(true)}
+                      size="sm"
+                      className="h-8 text-xs sm:text-sm"
                     >
                       Edit
                     </Button>
                   )}
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-3 sm:px-6">
                 <form onSubmit={handleSubmit}>
-                  <div className="grid gap-4">
-                    <div className="grid gap-2">
+                  <div className="grid gap-3 sm:gap-4">
+                    <div className="grid gap-1 sm:gap-2">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-muted-foreground" />
-                        <Label htmlFor="name">Full Name</Label>
+                        <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                        <Label htmlFor="name" className="text-xs sm:text-sm">Full Name</Label>
                       </div>
                       
                       {isEditing ? (
@@ -146,16 +148,17 @@ const ProfilePage = () => {
                           value={formData.name}
                           onChange={handleChange}
                           disabled={!isEditing}
+                          className="h-8 sm:h-9 text-xs sm:text-sm"
                         />
                       ) : (
-                        <p className="text-sm font-medium">{formData.name}</p>
+                        <p className="text-xs sm:text-sm font-medium">{formData.name}</p>
                       )}
                     </div>
                     
-                    <div className="grid gap-2">
+                    <div className="grid gap-1 sm:gap-2">
                       <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-muted-foreground" />
-                        <Label htmlFor="email">Email</Label>
+                        <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                        <Label htmlFor="email" className="text-xs sm:text-sm">Email</Label>
                       </div>
                       
                       {isEditing ? (
@@ -166,16 +169,17 @@ const ProfilePage = () => {
                           value={formData.email}
                           onChange={handleChange}
                           disabled={!isEditing}
+                          className="h-8 sm:h-9 text-xs sm:text-sm"
                         />
                       ) : (
-                        <p className="text-sm font-medium">{formData.email}</p>
+                        <p className="text-xs sm:text-sm font-medium">{formData.email}</p>
                       )}
                     </div>
                     
-                    <div className="grid gap-2">
+                    <div className="grid gap-1 sm:gap-2">
                       <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-muted-foreground" />
-                        <Label htmlFor="phone">Phone Number</Label>
+                        <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                        <Label htmlFor="phone" className="text-xs sm:text-sm">Phone Number</Label>
                       </div>
                       
                       {isEditing ? (
@@ -185,16 +189,17 @@ const ProfilePage = () => {
                           value={formData.phone}
                           onChange={handleChange}
                           disabled={!isEditing}
+                          className="h-8 sm:h-9 text-xs sm:text-sm"
                         />
                       ) : (
-                        <p className="text-sm font-medium">{formData.phone}</p>
+                        <p className="text-xs sm:text-sm font-medium">{formData.phone}</p>
                       )}
                     </div>
                     
-                    <div className="grid gap-2">
+                    <div className="grid gap-1 sm:gap-2">
                       <div className="flex items-center gap-2">
-                        <Home className="h-4 w-4 text-muted-foreground" />
-                        <Label htmlFor="address">Address</Label>
+                        <Home className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                        <Label htmlFor="address" className="text-xs sm:text-sm">Address</Label>
                       </div>
                       
                       {isEditing ? (
@@ -204,16 +209,17 @@ const ProfilePage = () => {
                           value={formData.address}
                           onChange={handleChange}
                           disabled={!isEditing}
+                          className="h-8 sm:h-9 text-xs sm:text-sm"
                         />
                       ) : (
-                        <p className="text-sm font-medium">{formData.address}</p>
+                        <p className="text-xs sm:text-sm font-medium">{formData.address}</p>
                       )}
                     </div>
                     
-                    <div className="grid gap-2">
+                    <div className="grid gap-1 sm:gap-2">
                       <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-muted-foreground" />
-                        <Label htmlFor="bio">Bio</Label>
+                        <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
+                        <Label htmlFor="bio" className="text-xs sm:text-sm">Bio</Label>
                       </div>
                       
                       {isEditing ? (
@@ -223,25 +229,34 @@ const ProfilePage = () => {
                           value={formData.bio}
                           onChange={handleChange}
                           disabled={!isEditing}
+                          className="h-8 sm:h-9 text-xs sm:text-sm"
                         />
                       ) : (
-                        <p className="text-sm font-medium">{formData.bio}</p>
+                        <p className="text-xs sm:text-sm font-medium">{formData.bio}</p>
                       )}
                     </div>
+                    
+                    {isEditing && (
+                      <div className="flex justify-end space-x-2 mt-2">
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => setIsEditing(false)}
+                          size="sm"
+                          className="h-8 text-xs sm:text-sm"
+                        >
+                          Cancel
+                        </Button>
+                        <Button 
+                          type="submit"
+                          size="sm"
+                          className="h-8 text-xs sm:text-sm"
+                        >
+                          Save Changes
+                        </Button>
+                      </div>
+                    )}
                   </div>
-
-                  {isEditing && (
-                    <div className="flex justify-end space-x-2 mt-6">
-                      <Button
-                        variant="outline"
-                        type="button"
-                        onClick={() => setIsEditing(false)}
-                      >
-                        Cancel
-                      </Button>
-                      <Button type="submit">Save Changes</Button>
-                    </div>
-                  )}
                 </form>
               </CardContent>
             </Card>
@@ -249,77 +264,100 @@ const ProfilePage = () => {
         </TabsContent>
         
         <TabsContent value="preferences">
-          <Card>
-            <CardHeader>
-              <CardTitle>Preferences</CardTitle>
-              <CardDescription>
-                Customize your learning experience
+          <Card className="shadow-sm">
+            <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
+              <CardTitle className="text-base sm:text-lg">Preferences</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">
+                Manage how your account works
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <h3 className="text-sm font-medium">Notification Settings</h3>
+            <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
+              <div className="grid gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <Card className="shadow-sm">
+                    <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm sm:text-base">Time Zone</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="px-3 sm:px-4 py-2 sm:py-3">
+                      <p className="text-xs sm:text-sm">Current: Asia/Dhaka (GMT+6)</p>
+                    </CardContent>
+                    <CardFooter className="px-3 sm:px-4 py-2 sm:py-3">
+                      <Button variant="outline" size="sm" className="w-full h-8 text-xs sm:text-sm">
+                        Change
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                  
+                  <Card className="shadow-sm">
+                    <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm sm:text-base">Notification Settings</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="px-3 sm:px-4 py-2 sm:py-3">
+                      <p className="text-xs sm:text-sm">Receive: Email, Push, SMS</p>
+                    </CardContent>
+                    <CardFooter className="px-3 sm:px-4 py-2 sm:py-3">
+                      <Button variant="outline" size="sm" className="w-full h-8 text-xs sm:text-sm">
+                        Manage
+                      </Button>
+                    </CardFooter>
+                  </Card>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Manage how you receive notifications and updates from the platform.
-                </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  Configure Notifications
-                </Button>
-              </div>
-              
-              <Separator />
-              
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <h3 className="text-sm font-medium">Calendar Preferences</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Set your preferred time zone and calendar integration options.
-                </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  Calendar Settings
-                </Button>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
         
         <TabsContent value="security">
-          <Card>
-            <CardHeader>
-              <CardTitle>Security</CardTitle>
-              <CardDescription>
-                Manage your account security and password
+          <Card className="shadow-sm">
+            <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
+              <CardTitle className="text-base sm:text-lg">Security</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">
+                Manage your security preferences
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-muted-foreground" />
-                  <h3 className="text-sm font-medium">Password</h3>
+            <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
+              <div className="grid gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <Card className="shadow-sm">
+                    <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm sm:text-base">Password</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="px-3 sm:px-4 py-2 sm:py-3">
+                      <p className="text-xs sm:text-sm">Last changed: 3 months ago</p>
+                    </CardContent>
+                    <CardFooter className="px-3 sm:px-4 py-2 sm:py-3">
+                      <Button variant="outline" size="sm" className="w-full h-8 text-xs sm:text-sm">
+                        Change Password
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                  
+                  <Card className="shadow-sm">
+                    <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm sm:text-base">Two-Factor Authentication</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="px-3 sm:px-4 py-2 sm:py-3">
+                      <p className="text-xs sm:text-sm">Status: Not Enabled</p>
+                    </CardContent>
+                    <CardFooter className="px-3 sm:px-4 py-2 sm:py-3">
+                      <Button variant="outline" size="sm" className="w-full h-8 text-xs sm:text-sm">
+                        Set Up 2FA
+                      </Button>
+                    </CardFooter>
+                  </Card>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Change your password to keep your account secure.
-                </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  Change Password
-                </Button>
-              </div>
-              
-              <Separator />
-              
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Login History</h3>
-                <p className="text-sm text-muted-foreground">
-                  Monitor recent login activity for your account.
-                </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  View Login History
-                </Button>
               </div>
             </CardContent>
           </Card>

@@ -38,58 +38,57 @@ const Dashboard: React.FC<DashboardProps> = ({ children }) => {
 
   return (
     <div className="bg-gray-50 dark:bg-zinc-900 min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div className="flex flex-row items-center gap-5">
+      <div className="mx-auto max-w-7xl px-1 sm:px-3 lg:px-4 py-2 sm:py-4">
+        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-2 sm:p-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
+            <div className="flex flex-row items-center gap-2 sm:gap-4">
               <div>
-                <Avatar className="w-16 h-16">
+                <Avatar className="w-10 h-10 sm:w-12 sm:h-12">
                   <AvatarImage 
                     src={`https://avatar.vercel.sh/${user?.email || 'user'}.png`} 
                     alt={user?.name || 'User'} 
                   />
-                  <AvatarFallback className="text-lg">
+                  <AvatarFallback className="text-sm sm:text-base">
                     {getInitials(user?.name)}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div>
-                <h1 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+                <h1 className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Welcome back,
                 </h1>
-                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h1 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                   {user?.name || 'Loading...'}
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                   {user?.email}
                 </p>
               </div>
             </div>
             
-            <div className="flex flex-row gap-2 items-center">
-              <Link href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm font-medium mr-4">
+            <div className="flex flex-row gap-2 items-center mt-2 md:mt-0 justify-center md:justify-end">
+              <Link href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-xs sm:text-sm font-medium mr-2 sm:mr-3">
                 Home
               </Link>
               <Button 
                 onClick={handleLogout}
                 disabled={isLoading}
-                className="bg-violet-950 text-white hover:bg-violet-900" 
+                className="bg-violet-950 text-white hover:bg-violet-900 text-xs sm:text-sm h-7 sm:h-9 px-2 sm:px-3" 
                 variant="default"
+                size="sm"
               >
-                <IoMdLogOut className="mr-2" /> 
+                <IoMdLogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" /> 
                 {isLoading ? "Logging out..." : "Logout"}
               </Button>
             </div>
           </div>
-          <Separator className="my-4" />
+          <Separator className="my-2 sm:my-3" />
           <div className="flex flex-col md:flex-row">
-            <div className="md:w-64 w-full flex-shrink-0">
+            <div className="md:w-64 w-full flex-shrink-0 mb-2 md:mb-0">
               <Sidebar />
             </div>
-            <div className="flex-grow p-4 md:ml-6 mt-4 md:mt-0">
-              <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-6">
-                {children}
-              </div>
+            <div className="flex-grow md:ml-3 lg:ml-4 mt-2 md:mt-0">
+              {children}
             </div>
           </div>
         </div>

@@ -174,12 +174,12 @@ const SchedulePage = () => {
           <Card>
             <CardHeader className="pb-3">
               <div className="flex justify-between items-center">
-                <CardTitle>Calendar View</CardTitle>
+                <CardTitle>Calendar</CardTitle>
                 <div className="flex items-center space-x-2">
                   <Button variant="outline" size="icon">
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <span className="font-medium">{currentMonth}</span>
+                  <span className="font-medium text-xs md:text-base">{currentMonth}</span>
                   <Button variant="outline" size="icon">
                     <ChevronRight className="h-4 w-4" />
                   </Button>

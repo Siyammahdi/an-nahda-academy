@@ -117,7 +117,7 @@ const Courses: React.FC = () => {
          >
             {list.map((item, index) => (
                <SwiperSlide className="" key={index}>
-                  <div className="relative z-20 md:w-fit space-y-3 rounded-[36px] bg-white p-4 shadow-lg my-10 dark:bg-[#18181B]">
+                  <div className="relative z-20 md:w-fit space-y-3 rounded-3xl md:rounded-[36px] bg-white p-4 shadow-lg my-10 dark:bg-[#18181B]">
                      <div className="relative flex h-48 w-full justify-center lg:h-[260px]">
                         <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
                            <div className="flex items-center">
@@ -139,7 +139,7 @@ const Courses: React.FC = () => {
                            width={400}
                            height={400}
                            alt="course"
-                           className="rounded-3xl bg-black/40 object-cover"
+                           className="rounded-2xl md:rounded-3xl bg-black/40 object-cover"
                            src={item?.img}
                         />
                      </div>

@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -12,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Clock, BookOpen, PlayCircle, User, ShoppingCart, PlusCircle, Heart } from "lucide-react";
+import { Clock, BookOpen, PlayCircle, User, ShoppingCart, Heart } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { useCart, CartItem } from "@/contexts/CartContext";
@@ -207,157 +206,180 @@ const CoursesPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">My Courses</h1>
-        <p className="text-muted-foreground">
-          Manage your learning journey and track your progress
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">My Courses</h1>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Browse and manage your enrolled and available courses
         </p>
       </div>
 
-      <Tabs defaultValue="enrolled" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-6">
+      <Tabs defaultValue="enrolled" className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full max-w-md grid-cols-2">
           <TabsTrigger value="enrolled">Enrolled Courses</TabsTrigger>
           <TabsTrigger value="available">Available Courses</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="enrolled">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {enrolledCourses.map((course) => (
-              <Card key={course.id} className="overflow-hidden">
-                <div className="relative h-48 w-full">
-                  <Image
-                    src={course.image}
-                    alt={course.title}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <CardHeader className="p-4">
-                  <div className="flex flex-col justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg">{course.title}</CardTitle>
-                      
+        <TabsContent value="enrolled" className="space-y-4 sm:space-y-6">
+          {enrolledCourses.length === 0 ? (
+            <Card className="shadow-sm">
+              <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
+                <CardTitle className="text-base sm:text-lg">No Enrolled Courses</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">
+                  You haven&apos;t enrolled in any courses yet
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-3 sm:px-6 py-6 sm:py-8 text-center">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-4">
+                  Browse our available courses and enroll to start learning
+                </p>
+                <Button>Browse Courses</Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4">
+              {enrolledCourses.map((course) => (
+                <Card key={course.id} className="overflow-hidden shadow-sm h-full">
+                  <div className="flex flex-col sm:flex-row">
+                    <div className="w-full sm:w-1/3">
+                      <Image
+                        src={course.image}
+                        alt={course.title}
+                        width={300}
+                        height={200}
+                        className="w-full h-40 sm:h-full object-cover"
+                      />
                     </div>
-                    {/* <Badge variant="outline" className="capitalize">
-                      <span className="text-xs">{course.category}</span>
-                    </Badge> */}
-                    <CardDescription className="flex items-center mt-1">
-                        <User className="h-3 w-3 mr-1" /> <span className="text-xs">{course.instructor}</span>
-                      </CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-2 p-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Progress</span>
-                      <span className="font-medium">{course.progress}%</span>
-                    </div>
-                    <Progress value={course.progress} className="h-2" />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>{course.completedLessons} completed</span>
-                      <span>{course.totalLessons} </span>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Separator />
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <Clock className="h-3 w-3 mr-1" />
-                        <span className="text-xs">{course.lastAccessed}</span>
+                    <div className="flex-1 p-3 sm:p-4 flex flex-col">
+                      <div>
+                        <div className="flex items-start justify-between mb-1 sm:mb-2">
+                          <h3 className="font-semibold text-sm sm:text-base line-clamp-2">{course.title}</h3>
+                          <Badge variant="outline" className="text-[10px] sm:text-xs ml-2 shrink-0">
+                            {course.level}
+                          </Badge>
+                        </div>
+                        <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2">
+                          <span className="font-medium">Instructor:</span> {course.instructor}
+                        </p>
                       </div>
-                      <Badge variant="secondary" className="text-xs">
-                        {course.level}
-                      </Badge>
+                      
+                      {course.progress !== undefined && (
+                        <div className="space-y-2 sm:space-y-3 flex-1">
+                          <div>
+                            <div className="flex justify-between items-center text-[10px] sm:text-xs mb-1">
+                              <span>Progress</span>
+                              <span>{course.progress}%</span>
+                            </div>
+                            <Progress value={course.progress} className="h-1.5 sm:h-2" />
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-2">
+                            {course.completedLessons !== undefined && course.totalLessons && (
+                              <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                                <BookOpen className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                                <span>{course.completedLessons}/{course.totalLessons}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                              <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                              <span>{course.duration}</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="mt-3 pt-2 sm:pt-3 border-t">
+                        <div className="flex flex-wrap gap-2 justify-between items-center">
+                          <Button size="sm" className="h-7 sm:h-8 text-[10px] sm:text-xs px-2 sm:px-3">
+                            <PlayCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                            Continue Learning
+                          </Button>
+                          {course.lastAccessed && (
+                            <div className="text-[10px] sm:text-xs text-muted-foreground">
+                              Last accessed: {course.lastAccessed}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between p-4">
-                  <Button variant="outline" size="sm" className="w-[48%]">
-                    <BookOpen className="h-4 w-4 mr-2" /> Materials
-                  </Button>
-                  <Button size="sm" className="w-[48%]">
-                    <PlayCircle className="h-4 w-4 mr-2" /> Continue
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </TabsContent>
         
-        <TabsContent value="available">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <TabsContent value="available" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
             {availableCourses.map((course) => (
-              <Card key={course.id} className="overflow-hidden">
-                <div className="relative h-48 w-full">
+              <Card key={course.id} className="overflow-hidden shadow-sm flex flex-col h-full">
+                <div className="relative">
                   <Image
                     src={course.image}
                     alt={course.title}
-                    fill
-                    style={{ objectFit: "cover" }}
+                    width={400}
+                    height={225}
+                    className="w-full h-48 object-cover"
                   />
-                  <div className="absolute top-2 right-2 flex gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8 rounded-full bg-background/80 hover:bg-background"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFavorite(course);
-                      }}
-                    >
-                      <Heart 
-                        className={`h-4 w-4 ${checkIsFavorite(course.id) ? 'fill-red-500 text-red-500' : ''}`}
-                      />
-                    </Button>
-                    <Badge className="bg-primary text-primary-foreground">
-                      {typeof course.price === 'number' ? `${course.price} Tk.` : course.price}
-                    </Badge>
-                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute top-2 right-2 h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-background/80 hover:bg-background"
+                    onClick={() => toggleFavorite(course)}
+                  >
+                    <Heart 
+                      className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${checkIsFavorite(course.id) ? 'fill-red-500 text-red-500' : ''}`} 
+                    />
+                  </Button>
                 </div>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg">{course.title}</CardTitle>
-                      <CardDescription className="flex items-center mt-1">
-                        <User className="h-3 w-3 mr-1" /> <span className="text-xs">{course.instructor}</span>
-                      </CardDescription>
-                    </div>
-                    {/* <Badge variant="outline" className="ml-2 capitalize">
-                      <span>{course.category}</span>
-                    </Badge> */}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-                      <span className="text-xs">{course.duration}</span>
-                    </div>
-                    <Badge variant="secondary" className="text-xs">
+                <CardContent className="flex-1 p-3 sm:p-4">
+                  <div className="flex items-start justify-between mb-1 sm:mb-2">
+                    <h3 className="font-semibold text-sm sm:text-base line-clamp-2">{course.title}</h3>
+                    <Badge variant="outline" className="text-[10px] sm:text-xs ml-2 shrink-0">
                       {course.level}
                     </Badge>
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" size="sm" className="w-[48%]">
-                    <BookOpen className="h-4 w-4 mr-2" /> Preview
-                  </Button>
-                  {mounted && checkIsInCart(course.id) ? (
-                    <Button size="sm" className="w-[48%]" variant="secondary" disabled>
-                      <ShoppingCart className="h-4 w-4 mr-2" /> In Cart
-                    </Button>
-                  ) : (
+                  
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+                    <span className="font-medium">Instructor:</span> {course.instructor}
+                  </p>
+                  
+                  <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 mb-2 sm:mb-3">
+                    {course.description}
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-1 sm:gap-2 mb-2 sm:mb-3">
+                    <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                      <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                      <span className="truncate">{course.duration}</span>
+                    </div>
+                    <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                      <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                      <span className="truncate">{course.age}</span>
+                    </div>
+                  </div>
+                  
+                  <Separator className="my-2 sm:my-3" />
+                  
+                  <div className="flex justify-between items-center">
+                    <div className="font-bold text-sm sm:text-base">${typeof course.price === 'number' ? course.price.toFixed(2) : course.price}</div>
                     <Button 
                       size="sm" 
-                      className="w-[48%]" 
+                      className="h-7 sm:h-8 text-[10px] sm:text-xs px-2 sm:px-3"
                       onClick={() => handleAddToCart(course)}
+                      disabled={checkIsInCart(course.id)}
                     >
-                      <PlusCircle className="h-4 w-4 mr-2" /> Add to Cart
+                      {checkIsInCart(course.id) ? (
+                        <span>Added to Cart</span>
+                      ) : (
+                        <>
+                          <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                          Add to Cart
+                        </>
+                      )}
                     </Button>
-                  )}
-                </CardFooter>
+                  </div>
+                </CardContent>
               </Card>
             ))}
           </div>

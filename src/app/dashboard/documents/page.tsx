@@ -348,101 +348,103 @@ const DocumentsPage = () => {
                   </Select>
                 </div>
                 
-                <div className="border-t">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Document</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredDocuments.length === 0 ? (
+                <div className="border-t overflow-hidden">
+                  <div className="overflow-x-auto -mx-1 sm:-mx-0">
+                    <Table>
+                      <TableHeader>
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                            No documents found matching your criteria
-                          </TableCell>
+                          <TableHead className="w-[180px]">Document</TableHead>
+                          <TableHead className="w-[100px]">Type</TableHead>
+                          <TableHead className="w-[120px]">Date</TableHead>
+                          <TableHead className="w-[100px]">Status</TableHead>
+                          <TableHead className="text-right w-[80px]">Actions</TableHead>
                         </TableRow>
-                      ) : (
-                        filteredDocuments.map((doc) => (
-                          <TableRow key={doc.id}>
-                            <TableCell>
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded bg-muted flex items-center justify-center">
-                                  {doc.type === 'certificate' ? (
-                                    <Award className="h-5 w-5 text-primary" />
-                                  ) : doc.type === 'id' ? (
-                                    <FileCheck className="h-5 w-5 text-primary" />
-                                  ) : (
-                                    <FileText className="h-5 w-5 text-primary" />
-                                  )}
-                                </div>
-                                <div>
-                                  <p className="font-medium text-sm">{doc.name}</p>
-                                  <p className="text-xs text-muted-foreground">
-                                    {doc.fileType} • {doc.size}
-                                  </p>
-                                </div>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant="outline" className="capitalize">
-                                {doc.type}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-sm">{doc.uploadDate}</TableCell>
-                            <TableCell>
-                              {doc.status === 'verified' ? (
-                                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                                  <CheckCircle className="h-3.5 w-3.5 mr-1" /> Verified
-                                </Badge>
-                              ) : (
-                                <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-                                  <Clock className="h-3.5 w-3.5 mr-1" /> Pending
-                                </Badge>
-                              )}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">Open menu</span>
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                  <DropdownMenuItem asChild>
-                                    <a className="flex items-center justify-center" href={doc.downloadUrl} download>
-                                      <DownloadCloud className="h-4 w-4 mr-2" /> Download
-                                    </a>
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem>
-                                    <Eye className="h-4 w-4 mr-2" /> View
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem>
-                                    <Printer className="h-4 w-4 mr-2" /> Print
-                                  </DropdownMenuItem>
-                                  {doc.type === 'certificate' && (
-                                    <DropdownMenuItem>
-                                      <Share2 className="h-4 w-4 mr-2" /> Share
-                                    </DropdownMenuItem>
-                                  )}
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="text-destructive">
-                                    <Trash2 className="h-4 w-4 mr-2" /> Delete
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredDocuments.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
+                              No documents found matching your criteria
                             </TableCell>
                           </TableRow>
-                        ))
-                      )}
-                    </TableBody>
-                  </Table>
+                        ) : (
+                          filteredDocuments.map((doc) => (
+                            <TableRow key={doc.id}>
+                              <TableCell>
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded bg-muted flex items-center justify-center shrink-0">
+                                    {doc.type === 'certificate' ? (
+                                      <Award className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                                    ) : doc.type === 'id' ? (
+                                      <FileCheck className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                                    ) : (
+                                      <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="font-medium text-xs sm:text-sm line-clamp-1">{doc.name}</p>
+                                    <p className="text-[10px] sm:text-xs text-muted-foreground">
+                                      {doc.fileType} • <span className="hidden sm:inline">{doc.size}</span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="outline" className="capitalize text-[10px] sm:text-xs">
+                                  {doc.type}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-[10px] sm:text-xs whitespace-nowrap">{doc.uploadDate}</TableCell>
+                              <TableCell>
+                                {doc.status === 'verified' ? (
+                                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-[10px] sm:text-xs">
+                                    <CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Verified
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-[10px] sm:text-xs">
+                                    <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" /> Pending
+                                  </Badge>
+                                )}
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-7 w-7 p-0">
+                                      <MoreHorizontal className="h-3.5 w-3.5" />
+                                      <span className="sr-only">Open menu</span>
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel className="text-xs sm:text-sm">Actions</DropdownMenuLabel>
+                                    <DropdownMenuItem asChild className="text-xs sm:text-sm">
+                                      <a className="flex items-center" href={doc.downloadUrl} download>
+                                        <DownloadCloud className="h-3.5 w-3.5 mr-2" /> Download
+                                      </a>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="text-xs sm:text-sm">
+                                      <Eye className="h-3.5 w-3.5 mr-2" /> View
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="text-xs sm:text-sm">
+                                      <Printer className="h-3.5 w-3.5 mr-2" /> Print
+                                    </DropdownMenuItem>
+                                    {doc.type === 'certificate' && (
+                                      <DropdownMenuItem className="text-xs sm:text-sm">
+                                        <Share2 className="h-3.5 w-3.5 mr-2" /> Share
+                                      </DropdownMenuItem>
+                                    )}
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem className="text-destructive text-xs sm:text-sm">
+                                      <Trash2 className="h-3.5 w-3.5 mr-2" /> Delete
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
               </Tabs>
             </CardContent>

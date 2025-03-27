@@ -257,82 +257,84 @@ const PaymentHistoryPage = () => {
                 </Select>
               </div>
               
-              <div className="rounded-md border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Invoice</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Method</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredPayments.length === 0 ? (
+              <div className="rounded-md border overflow-hidden">
+                <div className="overflow-x-auto -mx-1 sm:-mx-0">
+                  <Table>
+                    <TableHeader>
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                          No transactions found matching your criteria
-                        </TableCell>
+                        <TableHead className="w-[80px]">Invoice</TableHead>
+                        <TableHead className="w-[100px]">Date</TableHead>
+                        <TableHead className="w-[90px]">Amount</TableHead>
+                        <TableHead className="w-[100px]">Status</TableHead>
+                        <TableHead className="w-[120px]">Method</TableHead>
+                        <TableHead className="text-right w-[80px]">Actions</TableHead>
                       </TableRow>
-                    ) : (
-                      filteredPayments.map((payment) => {
-                        const { variant, icon } = getStatusBadge(payment.status);
-                        return (
-                          <TableRow key={payment.id}>
-                            <TableCell className="font-medium">{payment.id}</TableCell>
-                            <TableCell>{payment.date}</TableCell>
-                            <TableCell>${payment.amount.toFixed(2)}</TableCell>
-                            <TableCell>
-                              <Badge variant={variant} className="flex items-center w-fit">
-                                {icon}
-                                <span className="capitalize">{payment.status}</span>
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center">
-                                {payment.method}
-                                {payment.cardLast4 && (
-                                  <span className="text-xs text-muted-foreground ml-1">
-                                    •••• {payment.cardLast4}
-                                  </span>
-                                )}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="sm">
-                                    <span className="sr-only">Open menu</span>
-                                    <ChevronDown className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                  <DropdownMenuItem>
-                                    <FileText className="h-4 w-4 mr-2" /> View Invoice
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem>
-                                    <DownloadCloud className="h-4 w-4 mr-2" /> Download Receipt
-                                  </DropdownMenuItem>
-                                  {payment.status === "pending" && (
-                                    <>
-                                      <DropdownMenuSeparator />
-                                      <DropdownMenuItem>
-                                        <AlertCircle className="h-4 w-4 mr-2" /> Cancel Payment
-                                      </DropdownMenuItem>
-                                    </>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredPayments.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
+                            No transactions found matching your criteria
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        filteredPayments.map((payment) => {
+                          const { variant, icon } = getStatusBadge(payment.status);
+                          return (
+                            <TableRow key={payment.id}>
+                              <TableCell className="font-medium">{payment.id}</TableCell>
+                              <TableCell className="whitespace-nowrap">{payment.date}</TableCell>
+                              <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                              <TableCell>
+                                <Badge variant={variant} className="flex items-center w-fit">
+                                  {icon}
+                                  <span className="capitalize">{payment.status}</span>
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center">
+                                  <span className="whitespace-nowrap">{payment.method}</span>
+                                  {payment.cardLast4 && (
+                                    <span className="text-xs text-muted-foreground ml-1 hidden sm:inline">
+                                      •••• {payment.cardLast4}
+                                    </span>
                                   )}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })
-                    )}
-                  </TableBody>
-                </Table>
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
+                                      <span className="sr-only">Open menu</span>
+                                      <ChevronDown className="h-3.5 w-3.5" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                    <DropdownMenuItem>
+                                      <FileText className="h-3.5 w-3.5 mr-2" /> View Invoice
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                      <DownloadCloud className="h-3.5 w-3.5 mr-2" /> Download Receipt
+                                    </DropdownMenuItem>
+                                    {payment.status === "pending" && (
+                                      <>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                          <AlertCircle className="h-3.5 w-3.5 mr-2" /> Cancel Payment
+                                        </DropdownMenuItem>
+                                      </>
+                                    )}
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </CardContent>
           </Card>

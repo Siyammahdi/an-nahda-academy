@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div>
       <motion.div 
-        className="absolute mt-80 md:mt-32"
+        className="absolute mt-72 md:mt-32"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
