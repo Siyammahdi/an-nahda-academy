@@ -126,6 +126,7 @@ export const Navbar = () => {
       <div className="container flex items-center h-full justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Logo />
+          <span className="leading-5 font-bold text-xl bg-gradient-to-r from-violet-900 to-violet-500 bg-clip-text text-transparent flex flex-col">An-nahda <span className="font-normal text-sm">Academy</span></span>
         </Link>
 
         {/* Desktop Navigation */}

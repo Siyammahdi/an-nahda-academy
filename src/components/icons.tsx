@@ -7,13 +7,25 @@ import Image from "next/image";
 const logoPath = "/logo.png";
 
 export const Logo: React.FC<IconSvgProps> = ({
-  size = 10,
+  size = 20,
   width,
   height,
   ...props
-}) => (
-  <Image src={logoPath} alt="logo" height={80} width={80} />
-);
+}) => {
+  // Ensure we're using number values for width and height
+  const imageWidth = typeof width === 'number' ? width : size;
+  const imageHeight = typeof height === 'number' ? height : size;
+  
+  return (
+    <Image 
+      src={logoPath} 
+      alt="logo" 
+      height={imageHeight} 
+      width={imageWidth} 
+      className={props.className}
+    />
+  );
+};
 
 export const DiscordIcon: React.FC<IconSvgProps> = ({
   size = 24,

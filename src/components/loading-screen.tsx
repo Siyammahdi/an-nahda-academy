@@ -184,203 +184,209 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           }
         `}</style>
         
-        {/* Particles container */}
-        <div 
-          ref={particlesRef} 
-          className="absolute inset-0 overflow-hidden pointer-events-none"
-        />
-        
-        {/* Enhanced 3D Rotating circles with better visibility */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
-            animate={{
-              rotateX: [0, 360],
-              rotateY: [360, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              boxShadow: '0 0 15px rgba(139, 92, 246, 0.2)'
-            }}
-          />
-          <motion.div
-            className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-blue-500/50"
-            animate={{
-              rotateY: [0, 360],
-              rotateX: [360, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)'
-            }}
-          />
-          <motion.div
-            className="absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 border-fuchsia-500/50"
-            animate={{
-              rotateZ: [0, 360],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              boxShadow: '0 0 15px rgba(192, 38, 211, 0.2)'
-            }}
-          />
-        </div>
-        
-        {/* Central logo container with enhanced 3D hover effect */}
-        <motion.div
-          className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-8 perspective-element hover:scale-105 transition-transform"
-          animate={logoControls}
-          initial={{ scale: 0.8, opacity: 0, rotateY: 40 }}
-          whileHover={{ 
-            scale: 1.05,
-            transition: { duration: 0.3 }
-          }}
-          style={{
-            filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
-            animation: 'glow 3s infinite ease-in-out'
-          }}
-        >
-          {/* Logo with shadow and 3D effect - enhanced for better visibility */}
+        {/* This is the main content container - using relative to position children */}
+        <div className="relative flex flex-col items-center justify-center h-full w-full">
+          {/* Particles container */}
           <div 
-            className="logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center bg-white/95"
-            style={{
-              boxShadow: '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
-            }}
-          >
-            {/* Inner pulsing glow - enhanced for better visibility */}
-            <motion.div 
-              className="absolute inset-2 rounded-full blur-md bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30"
+            ref={particlesRef} 
+            className="absolute inset-0 overflow-hidden pointer-events-none"
+          />
+          
+          {/* Enhanced 3D Rotating circles with better visibility */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
               animate={{
-                opacity: [0.5, 0.8, 0.5],
+                rotateX: [0, 360],
+                rotateY: [360, 0],
               }}
               transition={{
-                duration: 3,
+                duration: 20,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "linear"
+              }}
+              style={{
+                boxShadow: '0 0 15px rgba(139, 92, 246, 0.2)'
               }}
             />
-            
-            {/* Logo image */}
-            <div className="relative w-2/3 h-2/3">
-              <Image 
-                src={logoSrc}
-                alt="An-Nahda Academy" 
-                fill 
-                className="object-contain"
-                priority
-              />
-            </div>
-            
-            {/* Enhanced pulsing ring around logo */}
             <motion.div
-              className="absolute -inset-0.5 rounded-full"
-              style={{
-                background: 'linear-gradient(45deg, #7c3aed, #8b5cf6, #4f46e5)',
-                opacity: 0.3
-              }}
+              className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-blue-500/50"
               animate={{
-                opacity: [0.1, 0.3, 0.1]
+                rotateY: [0, 360],
+                rotateX: [360, 0],
               }}
               transition={{
-                duration: 2,
+                duration: 15,
                 repeat: Infinity,
-                repeatType: "loop",
+                ease: "linear"
+              }}
+              style={{
+                boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)'
               }}
             />
-          </div>
-        </motion.div>
-        
-        {/* Loading indicator and progress text - enhanced for better visibility */}
-        <motion.div
-          className="relative w-56 sm:w-64 md:w-72 mb-4 flex flex-col items-center"
-          animate={textControls}
-          initial={{ opacity: 0, y: 20 }}
-        >
-          {/* Progress bar with enhanced gradient effect for better visibility */}
-          <div className="w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm bg-gray-300/70">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
-              initial={{ width: "0%" }}
-              animate={{ width: `${counter}%` }}
-              transition={{ duration: 0.1 }}
+              className="absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 border-fuchsia-500/50"
+              animate={{
+                rotateZ: [0, 360],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear"
+              }}
               style={{
-                boxShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
+                boxShadow: '0 0 15px rgba(192, 38, 211, 0.2)'
               }}
             />
           </div>
           
-          {/* Loading text with enhanced visibility */}
-          <div className="flex w-full justify-between mt-3">
-            <div className="relative overflow-hidden">
-              <motion.span 
-                className="text-xs sm:text-sm font-medium text-violet-800"
-                animate={{
-                  opacity: [0.7, 1, 0.7]
+          {/* Central content area with logo and text - positioned in the center of the screen */}
+          <div className="z-10 flex flex-col items-center justify-center">
+            {/* Central logo container with enhanced 3D hover effect - now perfectly centered within circles */}
+            <motion.div
+              className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-8 perspective-element hover:scale-105 transition-transform"
+              animate={logoControls}
+              initial={{ scale: 0.8, opacity: 0, rotateY: 40 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+              style={{
+                filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
+                animation: 'glow 3s infinite ease-in-out'
+              }}
+            >
+              {/* Logo with shadow and 3D effect - enhanced for better visibility */}
+              <div 
+                className="logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center bg-white/95"
+                style={{
+                  boxShadow: '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
                 }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity
+              >
+                {/* Inner pulsing glow - enhanced for better visibility */}
+                <motion.div 
+                  className="absolute inset-2 rounded-full blur-md bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30"
+                  animate={{
+                    opacity: [0.5, 0.8, 0.5],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                {/* Logo image */}
+                <div className="relative w-2/3 h-2/3">
+                  <Image 
+                    src={logoSrc}
+                    alt="An-Nahda Academy" 
+                    fill 
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                
+                {/* Enhanced pulsing ring around logo */}
+                <motion.div
+                  className="absolute -inset-0.5 rounded-full"
+                  style={{
+                    background: 'linear-gradient(45deg, #7c3aed, #8b5cf6, #4f46e5)',
+                    opacity: 0.3
+                  }}
+                  animate={{
+                    opacity: [0.1, 0.3, 0.1]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                  }}
+                />
+              </div>
+            </motion.div>
+            
+            {/* Brand tagline with enhanced visibility - now appears before progress bar */}
+            <motion.div
+              className="text-center backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ 
+                opacity: [0, 1],
+                y: [10, 0]
+              }}
+              transition={{ 
+                duration: 0.6,
+                delay: 0.8
+              }}
+              style={{
+                boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'
+              }}
+            >
+              <span 
+                className="font-medium text-sm sm:text-base text-violet-950"
+              >
+                An-Nahda Academy
+              </span>
+              <span 
+                className="block mt-1 text-xs text-gray-700 opacity-90"
+              >
+                Empowering minds through Islamic education
+              </span>
+            </motion.div>
+          </div>
+          
+          {/* Loading indicator and progress text - now at the bottom */}
+          <motion.div
+            className="absolute bottom-10 w-56 sm:w-64 md:w-72 flex flex-col items-center"
+            animate={textControls}
+            initial={{ opacity: 0, y: 20 }}
+          >
+            {/* Progress bar with enhanced gradient effect for better visibility */}
+            <div className="w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm bg-gray-300/70">
+              <motion.div
+                className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: `${counter}%` }}
+                transition={{ duration: 0.1 }}
+                style={{
+                  boxShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
                 }}
+              />
+            </div>
+            
+            {/* Loading text with enhanced visibility */}
+            <div className="flex w-full justify-between mt-3">
+              <div className="relative overflow-hidden">
+                <motion.span 
+                  className="text-xs sm:text-sm font-medium text-violet-800"
+                  animate={{
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity
+                  }}
+                  style={{
+                    textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
+                  }}
+                >
+                  {counter < 30 ? "Loading assets..." : 
+                   counter < 70 ? "Initializing content..." : 
+                   counter < 90 ? "Almost ready..." : 
+                   "Launching..."}
+                </motion.span>
+              </div>
+              <span 
+                className="text-xs sm:text-sm font-semibold text-violet-800"
                 style={{
                   textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
                 }}
               >
-                {counter < 30 ? "Loading assets..." : 
-                 counter < 70 ? "Initializing content..." : 
-                 counter < 90 ? "Almost ready..." : 
-                 "Launching..."}
-              </motion.span>
+                {counter}%
+              </span>
             </div>
-            <span 
-              className="text-xs sm:text-sm font-semibold text-violet-800"
-              style={{
-                textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
-              }}
-            >
-              {counter}%
-            </span>
-          </div>
-        </motion.div>
-        
-        {/* Brand tagline with enhanced visibility */}
-        <motion.div
-          className="text-center backdrop-blur-sm mt-6 max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ 
-            opacity: [0, 1],
-            y: [10, 0]
-          }}
-          transition={{ 
-            duration: 0.6,
-            delay: 0.8
-          }}
-          style={{
-            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'
-          }}
-        >
-          <span 
-            className="font-medium text-sm sm:text-base text-violet-950"
-          >
-            An-Nahda Academy
-          </span>
-          <span 
-            className="block mt-1 text-xs text-gray-700 opacity-90"
-          >
-            Empowering minds through Islamic education
-          </span>
-        </motion.div>
+          </motion.div>
+        </div>
       </motion.div>
     </AnimatePresence>
   );
