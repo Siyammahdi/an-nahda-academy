@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 interface LoadingScreenProps {
   finishLoading: () => void;
@@ -12,13 +11,12 @@ interface LoadingScreenProps {
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
   const [counter, setCounter] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const { resolvedTheme } = useTheme();
   const particlesRef = useRef<HTMLDivElement>(null);
   const logoControls = useAnimationControls();
   const textControls = useAnimationControls();
 
-  // Use the appropriate logo based on theme with a fallback
-  const logoSrc = resolvedTheme === 'dark' ? "/logoLight.svg" : "/logoDark.svg";
+  // Use a fixed logo path
+  const logoSrc = "/logoDark.svg";
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -113,21 +111,17 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
       const delay = Math.random() * 5;
       const opacity = Math.random() * 0.5 + 0.3; // Increased minimum opacity for better visibility
       
-      // Apply styles with better visibility in light mode
-      particle.className = resolvedTheme === 'dark' 
-        ? 'absolute rounded-full bg-white/25' 
-        : 'absolute rounded-full';
+      // Apply styles with better visibility using colorful particles
+      particle.className = 'absolute rounded-full';
       
-      // Use different colors for light mode particles
-      if (resolvedTheme !== 'dark') {
-        const colors = [
-          'bg-violet-500/30', 
-          'bg-fuchsia-500/30', 
-          'bg-indigo-500/30', 
-          'bg-blue-500/30'
-        ];
-        particle.classList.add(colors[Math.floor(Math.random() * colors.length)]);
-      }
+      // Use different colors for particles
+      const colors = [
+        'bg-violet-500/30', 
+        'bg-fuchsia-500/30', 
+        'bg-indigo-500/30', 
+        'bg-blue-500/30'
+      ];
+      particle.classList.add(colors[Math.floor(Math.random() * colors.length)]);
       
       Object.assign(particle.style, {
         width: `${size}px`,
@@ -136,27 +130,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         top: `${posY}%`,
         opacity: opacity.toString(),
         animation: `floatingParticle ${duration}s infinite alternate ease-in-out ${delay}s`,
-        boxShadow: resolvedTheme === 'dark' ? 'none' : '0 0 4px rgba(139, 92, 246, 0.3)'
+        boxShadow: '0 0 4px rgba(139, 92, 246, 0.3)'
       });
       
       particlesContainer.appendChild(particle);
     }
-  }, [isMobile, resolvedTheme]);
-
-  // Determine the background gradient based on theme
-  const getBackgroundStyle = () => {
-    if (resolvedTheme === 'dark') {
-      return {
-        backgroundImage: 'radial-gradient(circle at center, rgba(93, 63, 211, 0.2) 0%, rgba(15, 23, 42, 1) 70%)'
-      };
-    } else {
-      // Enhanced light mode gradient for better visibility
-      return {
-        backgroundImage: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(255, 255, 255, 1) 70%)',
-        boxShadow: 'inset 0 0 100px rgba(139, 92, 246, 0.1)'
-      };
-    }
-  };
+  }, [isMobile]);
 
   return (
     <AnimatePresence>
@@ -164,7 +143,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         className="fixed inset-0 flex items-center justify-center flex-col z-50 perspective-1000"
         style={{ 
           perspective: '1000px',
-          ...getBackgroundStyle()
+          backgroundImage: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(255, 255, 255, 1) 70%)',
+          boxShadow: 'inset 0 0 100px rgba(139, 92, 246, 0.1)'
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -213,11 +193,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         {/* Enhanced 3D Rotating circles with better visibility */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
-            className={`w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 ${
-              resolvedTheme === 'dark' 
-                ? 'border-violet-700/30' 
-                : 'border-violet-500/50'
-            }`}
+            className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
             animate={{
               rotateX: [0, 360],
               rotateY: [360, 0],
@@ -228,17 +204,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               ease: "linear"
             }}
             style={{
-              boxShadow: resolvedTheme === 'dark' 
-                ? '0 0 15px rgba(109, 40, 217, 0.1)' 
-                : '0 0 15px rgba(139, 92, 246, 0.2)'
+              boxShadow: '0 0 15px rgba(139, 92, 246, 0.2)'
             }}
           />
           <motion.div
-            className={`absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 ${
-              resolvedTheme === 'dark'
-                ? 'border-blue-700/30' 
-                : 'border-blue-500/50'
-            }`}
+            className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-blue-500/50"
             animate={{
               rotateY: [0, 360],
               rotateX: [360, 0],
@@ -249,17 +219,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               ease: "linear"
             }}
             style={{
-              boxShadow: resolvedTheme === 'dark' 
-                ? '0 0 15px rgba(37, 99, 235, 0.1)' 
-                : '0 0 15px rgba(59, 130, 246, 0.2)'
+              boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)'
             }}
           />
           <motion.div
-            className={`absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 ${
-              resolvedTheme === 'dark'
-                ? 'border-fuchsia-700/30' 
-                : 'border-fuchsia-500/50'
-            }`}
+            className="absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 border-fuchsia-500/50"
             animate={{
               rotateZ: [0, 360],
             }}
@@ -269,9 +233,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               ease: "linear"
             }}
             style={{
-              boxShadow: resolvedTheme === 'dark' 
-                ? '0 0 15px rgba(162, 28, 175, 0.1)' 
-                : '0 0 15px rgba(192, 38, 211, 0.2)'
+              boxShadow: '0 0 15px rgba(192, 38, 211, 0.2)'
             }}
           />
         </div>
@@ -286,32 +248,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
             transition: { duration: 0.3 }
           }}
           style={{
-            filter: resolvedTheme === 'dark' 
-              ? 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.3))' 
-              : 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
+            filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
             animation: 'glow 3s infinite ease-in-out'
           }}
         >
           {/* Logo with shadow and 3D effect - enhanced for better visibility */}
           <div 
-            className={`logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center ${
-              resolvedTheme === 'dark'
-                ? 'bg-slate-900/90' 
-                : 'bg-white/95'
-            }`}
+            className="logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center bg-white/95"
             style={{
-              boxShadow: resolvedTheme === 'dark'
-                ? '0 0 30px rgba(139, 92, 246, 0.3), inset 0 0 15px rgba(139, 92, 246, 0.2)' 
-                : '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
+              boxShadow: '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
             }}
           >
             {/* Inner pulsing glow - enhanced for better visibility */}
             <motion.div 
-              className={`absolute inset-2 rounded-full blur-md ${
-                resolvedTheme === 'dark'
-                  ? 'bg-gradient-to-tr from-violet-600/30 to-fuchsia-600/40' 
-                  : 'bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30'
-              }`}
+              className="absolute inset-2 rounded-full blur-md bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30"
               animate={{
                 opacity: [0.5, 0.8, 0.5],
               }}
@@ -333,21 +283,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               />
             </div>
             
-            {/* Enhanced pulsing ring around logo with better visibility in light mode */}
+            {/* Enhanced pulsing ring around logo */}
             <motion.div
               className="absolute -inset-0.5 rounded-full"
               style={{
-                background: `linear-gradient(45deg, ${
-                  resolvedTheme === 'dark' 
-                    ? '#7c3aed, #8b5cf6, #4f46e5' 
-                    : '#7c3aed, #8b5cf6, #4f46e5'
-                })`,
-                opacity: resolvedTheme === 'dark' ? 0.2 : 0.3
+                background: 'linear-gradient(45deg, #7c3aed, #8b5cf6, #4f46e5)',
+                opacity: 0.3
               }}
               animate={{
-                opacity: resolvedTheme === 'dark' 
-                  ? [0, 0.2, 0] 
-                  : [0.1, 0.3, 0.1]
+                opacity: [0.1, 0.3, 0.1]
               }}
               transition={{
                 duration: 2,
@@ -365,20 +309,14 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           initial={{ opacity: 0, y: 20 }}
         >
           {/* Progress bar with enhanced gradient effect for better visibility */}
-          <div className={`w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm ${
-            resolvedTheme === 'dark'
-              ? 'bg-gray-700/30' 
-              : 'bg-gray-300/70'
-          }`}>
+          <div className="w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm bg-gray-300/70">
             <motion.div
               className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
               initial={{ width: "0%" }}
               animate={{ width: `${counter}%` }}
               transition={{ duration: 0.1 }}
               style={{
-                boxShadow: resolvedTheme === 'dark'
-                  ? '0 0 10px rgba(139, 92, 246, 0.7), 0 0 20px rgba(139, 92, 246, 0.5)' 
-                  : '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
+                boxShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
               }}
             />
           </div>
@@ -387,11 +325,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           <div className="flex w-full justify-between mt-3">
             <div className="relative overflow-hidden">
               <motion.span 
-                className={`text-xs sm:text-sm font-medium ${
-                  resolvedTheme === 'dark'
-                    ? 'text-violet-300' 
-                    : 'text-violet-800'
-                }`}
+                className="text-xs sm:text-sm font-medium text-violet-800"
                 animate={{
                   opacity: [0.7, 1, 0.7]
                 }}
@@ -400,9 +334,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
                   repeat: Infinity
                 }}
                 style={{
-                  textShadow: resolvedTheme === 'dark'
-                    ? '0 0 4px rgba(139, 92, 246, 0.3)' 
-                    : '0 0 2px rgba(139, 92, 246, 0.1)'
+                  textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
                 }}
               >
                 {counter < 30 ? "Loading assets..." : 
@@ -412,15 +344,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               </motion.span>
             </div>
             <span 
-              className={`text-xs sm:text-sm font-semibold ${
-                resolvedTheme === 'dark'
-                  ? 'text-violet-300' 
-                  : 'text-violet-800'
-              }`}
+              className="text-xs sm:text-sm font-semibold text-violet-800"
               style={{
-                textShadow: resolvedTheme === 'dark'
-                  ? '0 0 4px rgba(139, 92, 246, 0.3)' 
-                  : '0 0 2px rgba(139, 92, 246, 0.1)'
+                textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
               }}
             >
               {counter}%
@@ -430,11 +356,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         
         {/* Brand tagline with enhanced visibility */}
         <motion.div
-          className={`text-center mt-6 bg-white/10 backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl ${
-            resolvedTheme === 'dark'
-              ? 'bg-slate-800/30' 
-              : 'bg-violet-50/70'
-          }`}
+          className="text-center backdrop-blur-sm mt-6 max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10"
           initial={{ opacity: 0, y: 10 }}
           animate={{ 
             opacity: [0, 1],
@@ -445,26 +367,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
             delay: 0.8
           }}
           style={{
-            boxShadow: resolvedTheme === 'dark'
-              ? '0 4px 12px rgba(0, 0, 0, 0.1)' 
-              : '0 4px 12px rgba(139, 92, 246, 0.1)'
+            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'
           }}
         >
           <span 
-            className={`font-medium text-sm sm:text-base ${
-              resolvedTheme === 'dark'
-                ? 'text-white' 
-                : 'text-violet-950'
-            }`}
+            className="font-medium text-sm sm:text-base text-violet-950"
           >
             An-Nahda Academy
           </span>
           <span 
-            className={`block mt-1 text-xs ${
-              resolvedTheme === 'dark'
-                ? 'text-gray-300 opacity-90' 
-                : 'text-gray-700 opacity-90'
-            }`}
+            className="block mt-1 text-xs text-gray-700 opacity-90"
           >
             Empowering minds through Islamic education
           </span>
