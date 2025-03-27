@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
@@ -13,7 +13,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
   const [counter, setCounter] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const { resolvedTheme } = useTheme();
-  
+  const particlesRef = useRef<HTMLDivElement>(null);
+  const logoControls = useAnimationControls();
+  const textControls = useAnimationControls();
+
   // Use the appropriate logo based on theme with a fallback
   const logoSrc = resolvedTheme === 'dark' ? "/logoLight.svg" : "/logoDark.svg";
 
@@ -30,263 +33,442 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
     }
   }, []);
 
+  // Setup the animation sequence
   useEffect(() => {
-    const timer = setTimeout(() => {
-      finishLoading();
-    }, 2500); // Slightly longer loading time for a better experience
+    const animateElements = async () => {
+      // Initial logo animation
+      await logoControls.start({
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        rotateY: [40, 0],
+        transition: {
+          duration: 0.8,
+          ease: [0.22, 1, 0.36, 1], // Custom cubic bezier for modern feel
+        }
+      });
 
-    return () => clearTimeout(timer);
+      // Text reveal after logo
+      await textControls.start({
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.5,
+          ease: "easeOut"
+        }
+      });
+    };
+
+    animateElements();
+  }, [logoControls, textControls]);
+
+  // Increment counter and trigger finish loading
+  useEffect(() => {
+    // More natural easing for counter
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 3);
+    
+    let startTime: number | null = null;
+    const duration = 3000; // 3 seconds total loading time
+    
+    // Use requestAnimationFrame for smoother animation
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutQuart(progress);
+      
+      setCounter(Math.floor(easedProgress * 100));
+      
+      if (progress < 1) {
+        requestId = requestAnimationFrame(animate);
+      } else {
+        // Finish the loading sequence
+        setTimeout(() => {
+          finishLoading();
+        }, 200);
+      }
+    };
+    
+    let requestId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestId);
   }, [finishLoading]);
 
+  // Generate floating particles
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCounter((prevCounter) => {
-        if (prevCounter < 100) {
-          return prevCounter + 1;
-        }
-        clearInterval(interval);
-        return 100;
+    if (!particlesRef.current) return;
+    
+    const particlesContainer = particlesRef.current;
+    const particleCount = isMobile ? 15 : 30;
+    
+    // Clear any existing particles
+    particlesContainer.innerHTML = '';
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      
+      // Randomize particle properties
+      const size = Math.random() * 6 + 2;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const duration = Math.random() * 20 + 10;
+      const delay = Math.random() * 5;
+      const opacity = Math.random() * 0.5 + 0.3; // Increased minimum opacity for better visibility
+      
+      // Apply styles with better visibility in light mode
+      particle.className = resolvedTheme === 'dark' 
+        ? 'absolute rounded-full bg-white/25' 
+        : 'absolute rounded-full';
+      
+      // Use different colors for light mode particles
+      if (resolvedTheme !== 'dark') {
+        const colors = [
+          'bg-violet-500/30', 
+          'bg-fuchsia-500/30', 
+          'bg-indigo-500/30', 
+          'bg-blue-500/30'
+        ];
+        particle.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+      }
+      
+      Object.assign(particle.style, {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${posX}%`,
+        top: `${posY}%`,
+        opacity: opacity.toString(),
+        animation: `floatingParticle ${duration}s infinite alternate ease-in-out ${delay}s`,
+        boxShadow: resolvedTheme === 'dark' ? 'none' : '0 0 4px rgba(139, 92, 246, 0.3)'
       });
-    }, 24); // Slightly slower progress to match the longer loading time
+      
+      particlesContainer.appendChild(particle);
+    }
+  }, [isMobile, resolvedTheme]);
 
-    return () => clearInterval(interval);
-  }, []);
+  // Determine the background gradient based on theme
+  const getBackgroundStyle = () => {
+    if (resolvedTheme === 'dark') {
+      return {
+        backgroundImage: 'radial-gradient(circle at center, rgba(93, 63, 211, 0.2) 0%, rgba(15, 23, 42, 1) 70%)'
+      };
+    } else {
+      // Enhanced light mode gradient for better visibility
+      return {
+        backgroundImage: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(255, 255, 255, 1) 70%)',
+        boxShadow: 'inset 0 0 100px rgba(139, 92, 246, 0.1)'
+      };
+    }
+  };
 
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 flex items-center justify-center flex-col z-50 bg-white dark:bg-gradient-to-tr dark:from-sky-950 dark:via-indigo-950 dark:to-purple-950"
+        className="fixed inset-0 flex items-center justify-center flex-col z-50 perspective-1000"
+        style={{ 
+          perspective: '1000px',
+          ...getBackgroundStyle()
+        }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.6 }}
       >
-        {/* Animated background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div 
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-transparent via-purple-100/5 to-transparent dark:from-transparent dark:via-purple-500/5 dark:to-transparent"
+        {/* Add keyframes for particle animation */}
+        <style jsx global>{`
+          @keyframes floatingParticle {
+            0% {
+              transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+              transform: translateY(-20px) translateX(10px) rotate(10deg);
+            }
+          }
+          
+          @keyframes pulse {
+            0% {
+              box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+            }
+            70% {
+              box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+            }
+            100% {
+              box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+          }
+          
+          @keyframes glow {
+            0%, 100% {
+              filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5));
+            }
+            50% {
+              filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.8));
+            }
+          }
+        `}</style>
+        
+        {/* Particles container */}
+        <div 
+          ref={particlesRef} 
+          className="absolute inset-0 overflow-hidden pointer-events-none"
+        />
+        
+        {/* Enhanced 3D Rotating circles with better visibility */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.div
+            className={`w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 ${
+              resolvedTheme === 'dark' 
+                ? 'border-violet-700/30' 
+                : 'border-violet-500/50'
+            }`}
             animate={{
-              backgroundPosition: ['0% 0%', '100% 100%'],
+              rotateX: [0, 360],
+              rotateY: [360, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              boxShadow: resolvedTheme === 'dark' 
+                ? '0 0 15px rgba(109, 40, 217, 0.1)' 
+                : '0 0 15px rgba(139, 92, 246, 0.2)'
+            }}
+          />
+          <motion.div
+            className={`absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 ${
+              resolvedTheme === 'dark'
+                ? 'border-blue-700/30' 
+                : 'border-blue-500/50'
+            }`}
+            animate={{
+              rotateY: [0, 360],
+              rotateX: [360, 0],
             }}
             transition={{
               duration: 15,
               repeat: Infinity,
-              repeatType: "reverse"
+              ease: "linear"
             }}
             style={{
-              backgroundSize: '200% 200%'
+              boxShadow: resolvedTheme === 'dark' 
+                ? '0 0 15px rgba(37, 99, 235, 0.1)' 
+                : '0 0 15px rgba(59, 130, 246, 0.2)'
+            }}
+          />
+          <motion.div
+            className={`absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 ${
+              resolvedTheme === 'dark'
+                ? 'border-fuchsia-700/30' 
+                : 'border-fuchsia-500/50'
+            }`}
+            animate={{
+              rotateZ: [0, 360],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              boxShadow: resolvedTheme === 'dark' 
+                ? '0 0 15px rgba(162, 28, 175, 0.1)' 
+                : '0 0 15px rgba(192, 38, 211, 0.2)'
             }}
           />
         </div>
         
-        {/* Background animation elements */}
-        <motion.div 
-          className="absolute top-20 right-20 w-72 h-72 rounded-full bg-purple-300 dark:bg-purple-900 opacity-10 blur-3xl hidden md:block"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            x: [0, 20, 0],
-            y: [0, -20, 0]
-          }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-blue-300 dark:bg-blue-900 opacity-10 blur-3xl hidden md:block"
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: [0, -30, 0],
-            y: [0, 30, 0]
-          }}
-          transition={{ 
-            duration: 10, 
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-        
-        {/* Mobile background elements - smaller and better positioned for small screens */}
-        <motion.div 
-          className="absolute top-10 right-10 w-40 h-40 rounded-full bg-purple-300 dark:bg-purple-900 opacity-10 blur-3xl md:hidden"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            x: [0, 10, 0],
-            y: [0, -10, 0]
-          }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-blue-300 dark:bg-blue-900 opacity-10 blur-3xl md:hidden"
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: [0, -15, 0],
-            y: [0, 15, 0]
-          }}
-          transition={{ 
-            duration: 10, 
-            repeat: Infinity,
-            repeatType: "reverse" 
-          }}
-        />
-
-        {/* Logo container with animation */}
+        {/* Central logo container with enhanced 3D hover effect */}
         <motion.div
-          className="relative w-40 h-40 md:w-48 md:h-48 mb-6 md:mb-8"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-8 perspective-element hover:scale-105 transition-transform"
+          animate={logoControls}
+          initial={{ scale: 0.8, opacity: 0, rotateY: 40 }}
+          whileHover={{ 
+            scale: 1.05,
+            transition: { duration: 0.3 }
+          }}
+          style={{
+            filter: resolvedTheme === 'dark' 
+              ? 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.3))' 
+              : 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
+            animation: 'glow 3s infinite ease-in-out'
+          }}
         >
-          {/* Logo animation */}
-          <motion.div
-            animate={{
-              scale: [1, 1.05, 1],
-              rotate: [0, 2, -2, 0],
+          {/* Logo with shadow and 3D effect - enhanced for better visibility */}
+          <div 
+            className={`logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center ${
+              resolvedTheme === 'dark'
+                ? 'bg-slate-900/90' 
+                : 'bg-white/95'
+            }`}
+            style={{
+              boxShadow: resolvedTheme === 'dark'
+                ? '0 0 30px rgba(139, 92, 246, 0.3), inset 0 0 15px rgba(139, 92, 246, 0.2)' 
+                : '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
             }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              repeatType: "loop",
-            }}
-            className="w-full h-full relative"
           >
-            <Image 
-              src={logoSrc}
-              alt="An-Nahda Academy" 
-              fill 
-              className="object-contain"
-              priority
+            {/* Inner pulsing glow - enhanced for better visibility */}
+            <motion.div 
+              className={`absolute inset-2 rounded-full blur-md ${
+                resolvedTheme === 'dark'
+                  ? 'bg-gradient-to-tr from-violet-600/30 to-fuchsia-600/40' 
+                  : 'bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30'
+              }`}
+              animate={{
+                opacity: [0.5, 0.8, 0.5],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
             />
-          </motion.div>
-          
-          {/* Pulsing ring around logo */}
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-violet-400 dark:border-violet-600"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.7, 0, 0.7],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-            }}
-          />
+            
+            {/* Logo image */}
+            <div className="relative w-2/3 h-2/3">
+              <Image 
+                src={logoSrc}
+                alt="An-Nahda Academy" 
+                fill 
+                className="object-contain"
+                priority
+              />
+            </div>
+            
+            {/* Enhanced pulsing ring around logo with better visibility in light mode */}
+            <motion.div
+              className="absolute -inset-0.5 rounded-full"
+              style={{
+                background: `linear-gradient(45deg, ${
+                  resolvedTheme === 'dark' 
+                    ? '#7c3aed, #8b5cf6, #4f46e5' 
+                    : '#7c3aed, #8b5cf6, #4f46e5'
+                })`,
+                opacity: resolvedTheme === 'dark' ? 0.2 : 0.3
+              }}
+              animate={{
+                opacity: resolvedTheme === 'dark' 
+                  ? [0, 0.2, 0] 
+                  : [0.1, 0.3, 0.1]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            />
+          </div>
         </motion.div>
         
-        {/* Loading progress bar */}
+        {/* Loading indicator and progress text - enhanced for better visibility */}
         <motion.div
-          className="w-48 md:w-64 mb-4"
+          className="relative w-56 sm:w-64 md:w-72 mb-4 flex flex-col items-center"
+          animate={textControls}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
         >
-          <div className="h-2 md:h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          {/* Progress bar with enhanced gradient effect for better visibility */}
+          <div className={`w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm ${
+            resolvedTheme === 'dark'
+              ? 'bg-gray-700/30' 
+              : 'bg-gray-300/70'
+          }`}>
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600"
+              className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
               initial={{ width: "0%" }}
               animate={{ width: `${counter}%` }}
               transition={{ duration: 0.1 }}
+              style={{
+                boxShadow: resolvedTheme === 'dark'
+                  ? '0 0 10px rgba(139, 92, 246, 0.7), 0 0 20px rgba(139, 92, 246, 0.5)' 
+                  : '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
+              }}
             />
           </div>
-          <div className="flex justify-between mt-1">
-            <span className="text-xs text-gray-500 dark:text-gray-400">Loading...</span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">{counter}%</span>
-          </div>
-        </motion.div>
-
-        {/* Text animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="relative"
-        >
-          <motion.p 
-            className="text-blue-950 dark:text-white text-center font-medium text-base md:text-lg"
-            animate={{ 
-              y: [0, -5, 0],
-              scale: [1, 1.02, 1] 
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-            }}
-          >
-            Loading your learning journey...
-          </motion.p>
           
-          {/* Small decorative element */}
-          <motion.div
-            className="absolute -top-12 -right-16 opacity-75 hidden md:block"
-            animate={{
-              rotate: [0, 360],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          >
-            <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"></div>
-          </motion.div>
-          
-          {/* Smaller decorative element for mobile */}
-          <motion.div
-            className="absolute -top-8 -right-8 opacity-75 md:hidden"
-            animate={{
-              rotate: [0, 360],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          >
-            <div className="h-4 w-4 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"></div>
-          </motion.div>
-        </motion.div>
-
-        {/* Floating particles - generate fewer particles on mobile */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(isMobile ? 10 : 20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className={`absolute rounded-full ${
-                i % 3 === 0 
-                  ? "bg-blue-400 dark:bg-blue-600" 
-                  : i % 3 === 1
-                  ? "bg-purple-400 dark:bg-purple-600"
-                  : "bg-pink-400 dark:bg-pink-600"
+          {/* Loading text with enhanced visibility */}
+          <div className="flex w-full justify-between mt-3">
+            <div className="relative overflow-hidden">
+              <motion.span 
+                className={`text-xs sm:text-sm font-medium ${
+                  resolvedTheme === 'dark'
+                    ? 'text-violet-300' 
+                    : 'text-violet-800'
+                }`}
+                animate={{
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity
+                }}
+                style={{
+                  textShadow: resolvedTheme === 'dark'
+                    ? '0 0 4px rgba(139, 92, 246, 0.3)' 
+                    : '0 0 2px rgba(139, 92, 246, 0.1)'
+                }}
+              >
+                {counter < 30 ? "Loading assets..." : 
+                 counter < 70 ? "Initializing content..." : 
+                 counter < 90 ? "Almost ready..." : 
+                 "Launching..."}
+              </motion.span>
+            </div>
+            <span 
+              className={`text-xs sm:text-sm font-semibold ${
+                resolvedTheme === 'dark'
+                  ? 'text-violet-300' 
+                  : 'text-violet-800'
               }`}
               style={{
-                width: Math.random() * (isMobile ? 6 : 10) + 4,
-                height: Math.random() * (isMobile ? 6 : 10) + 4,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                opacity: Math.random() * 0.5 + 0.2,
+                textShadow: resolvedTheme === 'dark'
+                  ? '0 0 4px rgba(139, 92, 246, 0.3)' 
+                  : '0 0 2px rgba(139, 92, 246, 0.1)'
               }}
-              animate={{
-                y: [0, -Math.random() * (isMobile ? 50 : 100) - 50],
-                x: [0, (Math.random() - 0.5) * (isMobile ? 30 : 50)],
-                opacity: [Math.random() * 0.5 + 0.2, 0],
-              }}
-              transition={{
-                duration: Math.random() * 2 + 2,
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "easeInOut",
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
+            >
+              {counter}%
+            </span>
+          </div>
+        </motion.div>
+        
+        {/* Brand tagline with enhanced visibility */}
+        <motion.div
+          className={`text-center mt-6 bg-white/10 backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl ${
+            resolvedTheme === 'dark'
+              ? 'bg-slate-800/30' 
+              : 'bg-violet-50/70'
+          }`}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ 
+            opacity: [0, 1],
+            y: [10, 0]
+          }}
+          transition={{ 
+            duration: 0.6,
+            delay: 0.8
+          }}
+          style={{
+            boxShadow: resolvedTheme === 'dark'
+              ? '0 4px 12px rgba(0, 0, 0, 0.1)' 
+              : '0 4px 12px rgba(139, 92, 246, 0.1)'
+          }}
+        >
+          <span 
+            className={`font-medium text-sm sm:text-base ${
+              resolvedTheme === 'dark'
+                ? 'text-white' 
+                : 'text-violet-950'
+            }`}
+          >
+            An-Nahda Academy
+          </span>
+          <span 
+            className={`block mt-1 text-xs ${
+              resolvedTheme === 'dark'
+                ? 'text-gray-300 opacity-90' 
+                : 'text-gray-700 opacity-90'
+            }`}
+          >
+            Empowering minds through Islamic education
+          </span>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );

@@ -2,10 +2,9 @@ import * as React from "react";
 
 import { IconSvgProps } from "@/types";
 import Image from "next/image";
-import { ASSETS } from "@/lib/assets";
 
 // Define path to logo
-const logoPath = "/logoDark.svg";
+const logoPath = "/logo.png";
 
 export const Logo: React.FC<IconSvgProps> = ({
   size = 10,
@@ -13,7 +12,7 @@ export const Logo: React.FC<IconSvgProps> = ({
   height,
   ...props
 }) => (
-  <Image src={ASSETS.logos.dark} alt="logo" height={80} width={80} />
+  <Image src={logoPath} alt="logo" height={80} width={80} />
 );
 
 export const DiscordIcon: React.FC<IconSvgProps> = ({
