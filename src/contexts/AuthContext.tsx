@@ -106,10 +106,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(data.user);
       setIsAuthenticated(true);
       
-      // Redirect to dashboard only if on login/register pages
-      const path = window.location.pathname;
-      if (path === '/login' || path === '/registration') {
-        router.push("/dashboard");
+      // Check for returnUrl in sessionStorage
+      const returnUrl = sessionStorage.getItem("returnUrl");
+      
+      if (returnUrl) {
+        // Clear the returnUrl
+        sessionStorage.removeItem("returnUrl");
+        // Redirect to the saved URL
+        router.push(returnUrl);
+      } else {
+        // Default redirect to dashboard only if on login/register pages
+        const path = window.location.pathname;
+        if (path === '/login' || path === '/registration') {
+          router.push("/dashboard");
+        }
       }
     } catch (error: Error | unknown) {
       const errorMessage = error instanceof Error ? error.message : "Login failed";
@@ -130,10 +140,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(data.user);
       setIsAuthenticated(true);
       
-      // Redirect to dashboard only if on login/register pages
-      const path = window.location.pathname;
-      if (path === '/login' || path === '/registration') {
-        router.push("/dashboard");
+      // Check for returnUrl in sessionStorage
+      const returnUrl = sessionStorage.getItem("returnUrl");
+      
+      if (returnUrl) {
+        // Clear the returnUrl
+        sessionStorage.removeItem("returnUrl");
+        // Redirect to the saved URL
+        router.push(returnUrl);
+      } else {
+        // Default redirect to dashboard only if on login/register pages
+        const path = window.location.pathname;
+        if (path === '/login' || path === '/registration') {
+          router.push("/dashboard");
+        }
       }
     } catch (error: Error | unknown) {
       const errorMessage = error instanceof Error ? error.message : "Registration failed";

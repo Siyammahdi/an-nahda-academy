@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -40,6 +40,19 @@ interface LoginModalProps {
 export default function LoginModal({ isOpen, onClose, handleModalOpen }: LoginModalProps) {
   const [showPassword, setShowPassword] = useState(false)
   const { login, isLoading } = useAuth()
+  const [redirectMessage, setRedirectMessage] = useState<string | null>(null)
+
+  // Check for returnUrl when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const returnUrl = sessionStorage.getItem("returnUrl");
+      if (returnUrl && returnUrl.includes('checkout')) {
+        setRedirectMessage("You'll be redirected to checkout after login");
+      } else {
+        setRedirectMessage(null);
+      }
+    }
+  }, [isOpen]);
 
   const {
     register,
@@ -95,6 +108,11 @@ export default function LoginModal({ isOpen, onClose, handleModalOpen }: LoginMo
           <DialogTitle className="text-2xl text-center font-bold">Sign In</DialogTitle>
           <DialogDescription className="text-center">
             Enter your credentials to access your account
+            {redirectMessage && (
+              <div className="mt-2 text-sm font-medium text-purple-600 bg-purple-50 dark:bg-purple-950/30 p-2 rounded-md">
+                {redirectMessage}
+              </div>
+            )}
           </DialogDescription>
         </DialogHeader>
         
@@ -117,13 +135,12 @@ export default function LoginModal({ isOpen, onClose, handleModalOpen }: LoginMo
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <button
-                type="button"
+              <p
                 onClick={() => {}} // Will add forgot password functionality
-                className="text-xs text-purple-600 hover:text-purple-700"
+                className="text-xs text-purple-600 hover:text-purple-700 cursor-pointer"
               >
                 Forgot password?
-              </button>
+              </p>
             </div>
             
             <div className="relative">

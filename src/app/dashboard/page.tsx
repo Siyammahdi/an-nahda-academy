@@ -35,7 +35,7 @@ const recentAnnouncements = [
 ];
 
 const Dashboard = () => {
-  return (
+   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
@@ -254,8 +254,8 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+      </div>
+   );
 };
 
 export default Dashboard;

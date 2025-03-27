@@ -4,24 +4,64 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { GrFavorite } from "react-icons/gr";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { Logo } from "@/components/icons";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import RegistrationModal from "../registrationModal";
 import LoginModal from "../loginModal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navbar = () => {
   const { isAuthenticated, user } = useAuth();
+  const { getCartCount } = useCart();
+  const { getFavoritesCount } = useFavorites();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginClicked, setIsLoginClicked] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted to true after first render to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Check for showLogin parameter in URL and open login modal
+  useEffect(() => {
+    if (mounted) {
+      try {
+        const url = new URL(window.location.href);
+        const showLogin = url.searchParams.get('showLogin');
+        
+        if (showLogin === 'true') {
+          // Remove the showLogin parameter without page reload
+          url.searchParams.delete('showLogin');
+          window.history.replaceState({}, '', url.toString());
+          
+          // Small delay to ensure UI is ready
+          setTimeout(() => {
+            setIsLoginClicked(true);
+          }, 100);
+        }
+      } catch (error) {
+        console.error('Error parsing URL:', error);
+      }
+    }
+  }, [mounted]);
 
   const handleLoginOpen = () => {
     setIsModalOpen(false);
@@ -39,10 +79,6 @@ export const Navbar = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   // Get user initials for avatar
@@ -70,6 +106,17 @@ export const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Get cart count safely - only show cart badge on client-side
+  const cartCount = mounted ? getCartCount() : 0;
+  const showCartBadge = mounted && cartCount > 0;
+
+  // Get favorites count safely - only show favorites badge on client-side
+  const favoritesCount = mounted ? getFavoritesCount() : 0;
+  const showFavoritesBadge = mounted && favoritesCount > 0;
+
+  // Favorites route based on authentication status
+  const favoritesRoute = isAuthenticated ? "/dashboard/favorites" : "/favorites";
 
   return (
     <header className={cn(
@@ -117,13 +164,22 @@ export const Navbar = () => {
         </nav>
 
         <div className="hidden sm:flex items-center gap-4">
-          <Link href="/" className="text-foreground">
+          <Link href={isAuthenticated ? "/dashboard/cart" : "/cart"} className="text-violet-600 relative">
             <FaCartShopping size={20} />
+            {showCartBadge && (
+              <Badge variant="destructive" className="absolute -top-2 -right-3 h-5 w-5 flex items-center justify-center p-0 text-[10px]">
+                {cartCount}
+              </Badge>
+            )}
           </Link>
-          <Link href="/favourites" className="text-foreground">
+          <Link href={favoritesRoute} className="text-violet-600 relative">
             <GrFavorite size={20} />
+            {showFavoritesBadge && (
+              <Badge variant="secondary" className="absolute -top-2 -right-3 h-5 w-5 flex items-center justify-center p-0 text-[10px]">
+                {favoritesCount}
+              </Badge>
+            )}
           </Link>
-          <ThemeSwitch />
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
               <Button asChild className="rounded-full bg-primary">
@@ -148,8 +204,24 @@ export const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button and Icons */}
         <div className="flex lg:hidden items-center gap-2">
+          <Link href={isAuthenticated ? "/dashboard/cart" : "/cart"} className="text-foreground relative mr-1">
+            <FaCartShopping size={18} />
+            {showCartBadge && (
+              <Badge variant="destructive" className="absolute -top-2 -right-3 h-4 w-4 flex items-center justify-center p-0 text-[10px]">
+                {cartCount}
+              </Badge>
+            )}
+          </Link>
+          <Link href={favoritesRoute} className="text-foreground relative mr-1">
+            <GrFavorite size={18} />
+            {showFavoritesBadge && (
+              <Badge variant="secondary" className="absolute -top-2 -right-3 h-4 w-4 flex items-center justify-center p-0 text-[10px]">
+                {favoritesCount}
+              </Badge>
+            )}
+          </Link>
           {isAuthenticated && (
             <Link href="/dashboard/profile">
               <div className="relative">
@@ -161,80 +233,69 @@ export const Navbar = () => {
               </div>
             </Link>
           )}
-          <ThemeSwitch />
-          <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          
+          {/* Mobile Menu Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[220px] lg:hidden mt-2">
+              <DropdownMenuLabel>Menu</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {siteConfig.navItems.map((item) => (
+                item.label === "Login" ? (
+                  isAuthenticated ? (
+                    <DropdownMenuItem key={`${item.href}-dashboard`} asChild>
+                      <Link 
+                        href="/dashboard" 
+                        className="cursor-pointer w-full"
+                      >
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem key={item.href} onClick={handleLoginOpen} className="cursor-pointer">
+                      {item.label}
+                    </DropdownMenuItem>
+                  )
+                ) : (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link 
+                      href={item.href} 
+                      className="cursor-pointer w-full"
+                    >
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                )
+              ))}
+              
+              <DropdownMenuSeparator />
+              
+              {isAuthenticated ? (
+                <DropdownMenuItem asChild>
+                  <Link 
+                    href="/dashboard" 
+                    className="cursor-pointer w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem 
+                  onClick={handleLoginOpen} 
+                  className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
+                >
+                  Login
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-24 bg-background z-50 p-6 overflow-auto">
-          <div className="flex flex-col space-y-4">
-            <h2 className="text-xl font-semibold">Menu</h2>
-            <nav>
-              <ul className="flex flex-col space-y-3">
-                {siteConfig.navItems.map((item) => (
-                  <li key={item.href}>
-                    {item.label === "Login" ? (
-                      isAuthenticated ? (
-                        <Link 
-                          href="/dashboard" 
-                          className="block py-2 text-lg"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Dashboard
-                        </Link>
-                      ) : (
-                        <Link 
-                          href={item.href} 
-                          className="block py-2 text-lg"
-                          onClick={() => {
-                            handleLoginOpen();
-                            setMobileMenuOpen(false);
-                          }}
-                        >
-                          {item.label}
-                        </Link>
-                      )
-                    ) : (
-                      <Link 
-                        href={item.href} 
-                        className="block py-2 text-lg"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            {isAuthenticated ? (
-              <Button 
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                }} 
-                className="mt-4 rounded-full bg-primary"
-                asChild
-              >
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-            ) : (
-              <Button 
-                onClick={() => {
-                  handleLoginOpen();
-                  setMobileMenuOpen(false);
-                }} 
-                className="mt-4 rounded-full bg-primary"
-              >
-                Login
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
 
       {isModalOpen && <RegistrationModal isOpen={isModalOpen} onClose={handleModalClose} handleLoginOpen={handleLoginOpen} />}
       {isLoginClicked && <LoginModal isOpen={isLoginClicked} onClose={handleLoginClose} handleModalOpen={handleModalOpen} />}

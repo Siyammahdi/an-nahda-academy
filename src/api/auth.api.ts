@@ -34,14 +34,35 @@ interface ErrorResponse {
   message: string;
 }
 
-// Create axios instance with baseURL
+// Create axios instance with baseURL 
+// (but don't set headers here as they'll be set on each request)
 const Axios = axios.create({
   baseURL: API_URL,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
+
+// Add a request interceptor to always check for token
+Axios.interceptors.request.use(
+  (config) => {
+    // For browser environments only
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem("auth-token");
+      
+      if (token) {
+        // Add the token to the Authorization header
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+    }
+    
+    // Always add Content-Type header
+    config.headers['Content-Type'] = 'application/json';
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Auth API services
 export const AuthAPI = {

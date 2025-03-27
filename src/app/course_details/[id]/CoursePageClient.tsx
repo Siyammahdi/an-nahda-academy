@@ -69,7 +69,11 @@ const CoursePageClient = () => {
     return <p className='h-screen text-3xl'>Loading...</p>;
   }
 
-  console.log(data);
+  // Find the course duration from the schedule data
+  const findCourseDuration = () => {
+    const durationItem = data.courseDetails.schedule.find(item => Object.keys(item)[0] === "courseDuration");
+    return durationItem ? Object.values(durationItem)[0] : "Flexible Schedule";
+  };
 
   return (
     <div className="space-y-6">
@@ -77,9 +81,12 @@ const CoursePageClient = () => {
         courseName={data.courseName}
         courseFee={data.courseDetails.fees.courseFee}
         imagePath={data.imagePath}
+        courseId={data.id}
+        courseDescription={data.description}
+        courseDuration={findCourseDuration()}
       />
       <div className='w-full flex md:flex-row flex-col gap-20 items-center'>
-        <div className='w-4/5 '>
+        <div className='md:w-4/5 w-full'>
           <h1 className="font-bold">{data.title}</h1>
           <p className='my-4 text-justify'>{data.description}</p>
           <div className="space-y-4">
@@ -89,7 +96,12 @@ const CoursePageClient = () => {
           </div>
         </div>
         <div className='md:w-2/5 w-full'>
-          <CourseCard data={data.courseDetails} />
+          <CourseCard 
+            data={data.courseDetails} 
+            courseId={data.id}
+            courseName={data.courseName}
+            imagePath={data.imagePath}
+          />
         </div>
       </div>
 

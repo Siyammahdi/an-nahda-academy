@@ -3,7 +3,10 @@
 import * as React from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { CartProvider } from "@/contexts/CartContext";
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
 import { Toaster } from "sonner";
+import LoadingProvider from "@/components/loading-provider";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -17,10 +20,16 @@ export function Providers({ children }: ProvidersProps) {
       enableSystem
       disableTransitionOnChange
     >
-      <AuthProvider>
-        <Toaster position="top-right" richColors />
-        {children}
-      </AuthProvider>
+      <LoadingProvider>
+        <AuthProvider>
+          <CartProvider>
+            <FavoritesProvider>
+              <Toaster position="top-right" richColors />
+              {children}
+            </FavoritesProvider>
+          </CartProvider>
+        </AuthProvider>
+      </LoadingProvider>
     </ThemeProvider>
   );
 }

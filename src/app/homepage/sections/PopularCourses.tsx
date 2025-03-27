@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { TbTimeDuration10, TbWorld } from 'react-icons/tb';
 import { SlCalender } from 'react-icons/sl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type ReusableButtonProps = {
    labelTop?: string;
@@ -22,6 +22,16 @@ type ReusableButtonProps = {
    onClick?: () => void;
 };
 
+// Array of month names for displaying
+const monthNames = [
+   "January", "February", "March", "April", "May", "June",
+   "July", "August", "September", "October", "November", "December"
+];
+
+// Array of day names
+const dayNames = [
+   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+];
 
 const staticSvg = `url("data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
    `<svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,12 +76,10 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
       >
          {labelTop && <span className="text-xs md:text-sm font-medium text-stone-500/70 group-hover:text-white">{labelTop}</span>}
          <span className="md:text-3xl text-xl mb-2 text-violet-950 font-bold group-hover:text-white">{labelMiddle}</span>
-         {labelBottom && <span className="text-xs md:text-sm font-medium text-stone-500/70 group-hover:text-white">{labelBottom}</span>}
+         {labelBottom && <span className="text-xs md:text-sm font-medium text-purple-700/70 group-hover:text-white">{labelBottom}</span>}
       </Button>
-
    );
 };
-
 
 const list = [
    {
@@ -132,6 +140,24 @@ const list = [
 ];
 
 const PopularCourses: React.FC = () => {
+   // Add state for current date
+   const [currentDate, setCurrentDate] = useState(new Date());
+   
+   // Update the date every minute
+   useEffect(() => {
+      const interval = setInterval(() => {
+         setCurrentDate(new Date());
+      }, 60000); // Update every minute
+      
+      return () => clearInterval(interval);
+   }, []);
+   
+   // Extract date components
+   const year = currentDate.getFullYear();
+   const month = currentDate.getMonth(); // 0-11
+   const day = currentDate.getDate(); // 1-31
+   const dayOfWeek = currentDate.getDay(); // 0-6
+   
    return (
       <div className='lg:mx-0'>
          <div className='max-w-7xl mx-auto'>
@@ -143,17 +169,29 @@ const PopularCourses: React.FC = () => {
                   </Button>
                </Link>
             </div>
-            {/* Date and Course Type Buttons */}
+            {/* Dynamic Date Calendar */}
             <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:items-end lg:justify-between mb-10">
                <div className="grid grid-cols-3 gap-2">
-                  <ReusableButton labelTop="Year" labelMiddle={2024} labelBottom="A.F" />
-                  <ReusableButton labelTop="Month" labelMiddle={12} labelBottom="December" />
-                  <ReusableButton labelTop="Day" labelMiddle={4} labelBottom="Wednesday" />
+                  <ReusableButton 
+                     labelTop="Year" 
+                     labelMiddle={year} 
+                     labelBottom="A.D" 
+                  />
+                  <ReusableButton 
+                     labelTop="Month" 
+                     labelMiddle={monthNames[month]} 
+                     labelBottom={String(month + 1)} 
+                  />
+                  <ReusableButton 
+                     labelTop="Day" 
+                     labelMiddle={day} 
+                     labelBottom={dayNames[dayOfWeek]} 
+                  />
                </div>
                <div className="grid grid-cols-3 gap-2">
-                  <ReusableButton labelMiddle="Free" labelBottom="Courses" />
-                  <ReusableButton labelMiddle="Paid" labelBottom="Courses" />
-                  <ReusableButton labelMiddle="All" labelBottom="Courses" />
+                  <Link href="/courses"><ReusableButton labelMiddle="Free" labelBottom="Courses" /></Link>
+                  <Link href="/courses"><ReusableButton labelMiddle="Paid" labelBottom="Courses" /></Link>
+                  <Link href="/courses"><ReusableButton labelMiddle="All" labelBottom="Courses" /></Link>
                </div>
             </div>
          </div>
@@ -173,14 +211,12 @@ const PopularCourses: React.FC = () => {
                <SwiperSlide key={item.id}>
                   <Card className=" bg-opacity-40 backdrop-blur-md rounded-3xl mx-auto w-4/5 overflow-hidden">
                      <Image
-
                         width={500}
                         height={500}
                         alt={item.title}
                         className="object-cover"
                         src={item.img}
                      />
-
 
                      <CardFooter className="p-3 flex flex-col items-start gap-4">
                         <div className="w-full flex flex-row justify-between">

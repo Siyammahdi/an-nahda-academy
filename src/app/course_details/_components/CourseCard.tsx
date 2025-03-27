@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { FaRegClock, FaRegHeart } from "react-icons/fa6";
+import { FaRegClock, FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { TbTimeDuration10, TbWorld } from "react-icons/tb";
+import { toast } from "sonner";
 import PaymentDetailsModal from "./PaymentDetailsModal";
+import { useCart, CartItem } from "@/contexts/CartContext";
 
 interface Schedule {
   startingTime?: string;
@@ -25,9 +27,18 @@ interface CourseData {
 
 interface CourseCardProps {
   data: CourseData;
+  courseId: number;
+  courseName: string;
+  imagePath: string;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ data }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ 
+  data, 
+  courseId,
+  courseName,
+  imagePath
+}) => {
+  const { addToCart, isInCart } = useCart();
   const [isEnrolButtonClicked, setIsEnrolButtonClicked] = useState(false);
 
   const handleEnrolButtonOpen = () => setIsEnrolButtonClicked(true);
@@ -39,15 +50,32 @@ const CourseCard: React.FC<CourseCardProps> = ({ data }) => {
   const courseLanguage = data.schedule?.[3]?.courseLanguage || "Not specified";
   const courseFee = data.fees?.courseFee || "Course Fee Not Specified";
 
+  const handleAddToCart = () => {
+    // Create cart item
+    const cartItem: CartItem = {
+      id: courseId,
+      type: "course",
+      title: courseName,
+      description: `${courseName} - ${courseLanguage} course`,
+      instructor: "An-Nahda Academy",
+      price: parseFloat(courseFee.replace(/[^\d.]/g, '')),
+      discountedPrice: null,
+      image: imagePath,
+      duration: courseDuration,
+    };
+    
+    // Add to cart
+    addToCart(cartItem);
+    toast.success(`${courseName} added to cart!`);
+  };
+
   return (
     <div>
       <div className="p-5 rounded-[48px] border border-zinc-100 shadow-lg">
         <div className="flex flex-col items-start gap-4">
           <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
-              <Button size="sm" className="rounded-full bg-purple-200 text-purple-600 text-xs">
-                About Course
-              </Button>
+
               <Button size="sm" className="rounded-full bg-green-200 text-green-600 text-xs">
                 Message Us
               </Button>
@@ -77,20 +105,23 @@ const CourseCard: React.FC<CourseCardProps> = ({ data }) => {
             </div>
           </div>
           <span className="text-purple-600">+20 Classes</span>
-          <div className="w-full">
+          <div className="w-full space-y-2">
             <Button
               onClick={handleEnrolButtonOpen}
               className="w-full rounded-full bg-purple-600 text-white"
             >
               {courseFee}
             </Button>
+            
+            <Button
+              onClick={handleAddToCart}
+              className="w-full rounded-full bg-blue-600 text-white flex items-center justify-center gap-2"
+              disabled={isInCart(courseId)}
+            >
+              <FaShoppingCart className="h-4 w-4" />
+              {isInCart(courseId) ? 'In Cart' : 'Add to Cart'}
+            </Button>
           </div>
-        </div>
-      </div>
-      <div className="my-10 bg-white rounded-full flex justify-between items-center p-5 border border-zinc-100 shadow-lg">
-        <div>Free 1st class</div>
-        <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center border">
-          <FaRegHeart className="text-red-500" />
         </div>
       </div>
       {isEnrolButtonClicked && (

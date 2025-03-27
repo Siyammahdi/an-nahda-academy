@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ASSETS } from "@/lib/assets";
 
@@ -32,16 +34,62 @@ import { ASSETS } from "@/lib/assets";
 //   whiteIcon9: "/icon-white/Icon-09.svg",
 // };
 
+// Define button data with course IDs - adding courseId for available courses
 const buttonData = [
-  { label: "আরবি ভাষা শিক্ষা", icon: ASSETS.icons.icon1, hoverIcon: ASSETS.whiteIcons.icon1 },
-  { label: "চরিত্র গঠনমূলক শিক্ষা", icon: ASSETS.icons.icon2, hoverIcon: ASSETS.whiteIcons.icon2 },
-  { label: "টাইম ম্যানেজমেন্ট", icon: ASSETS.icons.icon3, hoverIcon: ASSETS.whiteIcons.icon3 },
-  { label: "ভিডিও জীবনোন্নয়নমূলক", icon: ASSETS.icons.icon4, hoverIcon: ASSETS.whiteIcons.icon4 },
-  { label: "অবশ্য শিক্ষনীয় দ্বীনি জ্ঞান", icon: ASSETS.icons.icon5, hoverIcon: ASSETS.whiteIcons.icon5 },
-  { label: "কুরআন শিক্ষা", icon: ASSETS.icons.icon6, hoverIcon: ASSETS.whiteIcons.icon6 },
-  { label: "আলিম কোর্স", icon: ASSETS.icons.icon7, hoverIcon: ASSETS.whiteIcons.icon7 },
-  { label: "সীরাত থেকে শিক্ষা", icon: ASSETS.icons.icon8, hoverIcon: ASSETS.whiteIcons.icon8 },
-  { label: "প্যারেন্টিং কোর্স", icon: ASSETS.icons.icon9, hoverIcon: ASSETS.whiteIcons.icon9 },
+  { 
+    label: "আরবি ভাষা শিক্ষা", 
+    icon: ASSETS.icons.icon1, 
+    hoverIcon: ASSETS.whiteIcons.icon1,
+    courseId: 1 // Arabic language course is available
+  },
+  { 
+    label: "চরিত্র গঠনমূলক শিক্ষা", 
+    icon: ASSETS.icons.icon2, 
+    hoverIcon: ASSETS.whiteIcons.icon2,
+    courseId: 2 // Character building course (Hasanul Khuluk)
+  },
+  { 
+    label: "টাইম ম্যানেজমেন্ট", 
+    icon: ASSETS.icons.icon3, 
+    hoverIcon: ASSETS.whiteIcons.icon3 
+    // No courseId means coming soon
+  },
+  { 
+    label: "ভিডিও জীবনোন্নয়নমূলক", 
+    icon: ASSETS.icons.icon4, 
+    hoverIcon: ASSETS.whiteIcons.icon4 
+    // No courseId means coming soon
+  },
+  { 
+    label: "অবশ্য শিক্ষনীয় দ্বীনি জ্ঞান", 
+    icon: ASSETS.icons.icon5, 
+    hoverIcon: ASSETS.whiteIcons.icon5,
+    // No courseId means coming soon 
+  },
+  { 
+    label: "কুরআন শিক্ষা", 
+    icon: ASSETS.icons.icon6, 
+    hoverIcon: ASSETS.whiteIcons.icon6 
+    // No courseId means coming soon
+  },
+  { 
+    label: "আলিম কোর্স", 
+    icon: ASSETS.icons.icon7, 
+    hoverIcon: ASSETS.whiteIcons.icon7,
+    courseId: 4 // Alima course is available
+  },
+  { 
+    label: "সীরাত থেকে শিক্ষা", 
+    icon: ASSETS.icons.icon8, 
+    hoverIcon: ASSETS.whiteIcons.icon8 
+    // No courseId means coming soon
+  },
+  { 
+    label: "প্যারেন্টিং কোর্স", 
+    icon: ASSETS.icons.icon9, 
+    hoverIcon: ASSETS.whiteIcons.icon9,
+    courseId: 5 // Parenting course is available
+  },
 ];
 
 const staticSvg = `url("data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
@@ -59,49 +107,194 @@ const hoverSvg = `url("data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
 )}")`;
 
 const Arrengements = () => {
+  const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Function to handle button click
+  const handleButtonClick = (button: typeof buttonData[0]) => {
+    if (button.courseId) {
+      // If course exists, navigate to course details
+      router.push(`/course_details/${button.courseId}`);
+    } else {
+      // If course is coming soon, navigate to coming soon page without hash
+      router.push('/coming-soon');
+    }
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.8, y: 20 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }
+    },
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.2
+      }
+    },
+    tap: {
+      scale: 0.95
+    }
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const backgroundVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
     <div className="relative">
       <div className="absolute select-none top-[70%] left-[10%] transform -translate-x-1/2 -translate-y-1/2">
         <Image src={ASSETS.elements.sideWave} alt="wave" height={1200} width={1200} />
       </div>
-      <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-blue-950 dark:text-white">
+      
+      <motion.h2 
+        className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-blue-950 dark:text-white relative z-10"
+        variants={textVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         আমাদের আয়োজনগুলো
-      </h2>
-      <div className="flex justify-center items-center my-20">
-        <div className="grid grid-cols-3 gap-2 md:gap-4 lg:gap-8 p-5 lg:p-10 bg-black/5 backdrop-blur-md dark:bg-white/5 rounded-[38px] lg:rounded-[46.80px]">
+      </motion.h2>
+      
+      <motion.div 
+        className="flex justify-center items-center my-20 relative z-10"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
+        <motion.div 
+          className="grid grid-cols-3 gap-2 md:gap-4 lg:gap-8 p-5 lg:p-10 bg-black/5 backdrop-blur-md dark:bg-white/5 rounded-[38px] lg:rounded-[66.80px] relative overflow-hidden"
+          variants={backgroundVariants}
+        >
+          {/* Background animation elements */}
+          {mounted && (
+            <>
+              <motion.div 
+                className="absolute top-0 right-0 w-40 h-40 rounded-full bg-purple-300 dark:bg-purple-800 opacity-10 blur-3xl"
+                animate={{ 
+                  x: [0, 30, 0],
+                  y: [0, -20, 0],
+                }}
+                transition={{ 
+                  duration: 8, 
+                  repeat: Infinity,
+                  repeatType: "reverse" 
+                }}
+              />
+              <motion.div 
+                className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-blue-300 dark:bg-blue-800 opacity-10 blur-3xl"
+                animate={{ 
+                  x: [0, -30, 0],
+                  y: [0, 30, 0],
+                }}
+                transition={{ 
+                  duration: 10, 
+                  repeat: Infinity,
+                  repeatType: "reverse" 
+                }}
+              />
+            </>
+          )}
+          
           {buttonData.map((button, index) => (
-            <Button
+            <motion.div
               key={index}
-              variant="ghost"
-              className={cn(
-                "flex flex-col items-start p-2 lg:p-4 justify-evenly rounded-[20px] md:rounded-[30px] hover:text-white lg:rounded-[40px] text-violet-950 dark:text-violet-400 border-none h-20 w-20 md:h-28 md:w-28 lg:h-36 lg:w-36 hover:scale-105 transition-transform text-center",
-                "hover:bg-transparent"
-              )}
-              style={{
-                backgroundImage: hoveredIndex === index ? hoverSvg : staticSvg,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              variants={itemVariants}
+              whileHover="hover"
+              whileTap="tap"
+              onClick={() => handleButtonClick(button)}
+              className="cursor-pointer relative"
             >
-              <span className="text-xl w-1/3 md:w-full md:text-2xl lg:text-3xl mb-2">
-                <Image
-                  src={hoveredIndex === index ? button.hoverIcon : button.icon}
-                  alt={button.label}
-                  height={36}
-                  width={36}
-                />
-              </span>
-              <p className="text-[8px] md:text-[10px] lg:text-xs text-start ml-1 md:ml-0 font-medium text-wrap leading-tight md:leading-loose">
-                {button.label}
-              </p>
-            </Button>
+
+              <Button
+                variant="ghost"
+                className={cn(
+                  "flex flex-col items-start p-2 lg:p-4 justify-evenly rounded-[20px] md:rounded-[30px] hover:text-white lg:rounded-[40px] text-violet-950 dark:text-violet-400 border-none h-20 w-20 md:h-28 md:w-28 lg:h-36 lg:w-36 hover:scale-105 transition-transform text-center",
+                  "hover:bg-transparent"
+                )}
+                style={{
+                  backgroundImage: hoveredIndex === index ? hoverSvg : staticSvg,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent double-click issues
+                  handleButtonClick(button);
+                }}
+              >
+                <motion.span 
+                  className="text-xl w-1/3 md:w-full md:text-2xl lg:text-3xl mb-2"
+                  animate={hoveredIndex === index ? { rotate: [0, 10, 0, -10, 0], scale: 1.1 } : {}}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Image
+                    src={hoveredIndex === index ? button.hoverIcon : button.icon}
+                    alt={button.label}
+                    height={36}
+                    width={36}
+                  />
+                </motion.span>
+                <motion.p 
+                  className="text-[8px] md:text-[10px] lg:text-xs text-start ml-1 md:ml-0 font-medium text-wrap leading-tight md:leading-loose"
+                  animate={hoveredIndex === index ? { y: [0, -3, 0] } : {}}
+                  transition={{ duration: 0.5 }}
+                >
+                  {button.label}
+                </motion.p>
+              </Button>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -52,6 +52,19 @@ export default function RegistrationModal({ isOpen, onClose, handleLoginOpen }: 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { register: registerUser, isLoading } = useAuth()
+  const [redirectMessage, setRedirectMessage] = useState<string | null>(null)
+
+  // Check for returnUrl when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const returnUrl = sessionStorage.getItem("returnUrl");
+      if (returnUrl && returnUrl.includes('checkout')) {
+        setRedirectMessage("You'll be redirected to checkout after registration");
+      } else {
+        setRedirectMessage(null);
+      }
+    }
+  }, [isOpen]);
 
   const {
     register,
@@ -114,6 +127,11 @@ export default function RegistrationModal({ isOpen, onClose, handleLoginOpen }: 
           <DialogTitle className="text-2xl text-center font-bold">Create an Account</DialogTitle>
           <DialogDescription className="text-center">
             Enter your information to create your account
+            {redirectMessage && (
+              <div className="mt-2 text-sm font-medium text-purple-600 bg-purple-50 dark:bg-purple-950/30 p-2 rounded-md">
+                {redirectMessage}
+              </div>
+            )}
           </DialogDescription>
         </DialogHeader>
         

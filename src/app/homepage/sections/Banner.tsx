@@ -12,7 +12,7 @@ const bookPath = "/elements/book.png";
 
 const Banner = () => {
     return (
-        <div className=' relative h-[70vh] w-fit'>
+        <div className=' relative h-[70vh] w-fit mx-5'>
 
             <div className=''>
                 <div

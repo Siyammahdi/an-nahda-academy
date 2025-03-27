@@ -2,24 +2,55 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState } from "react";
-import { FaRegHeart } from "react-icons/fa6";
+import { FaRegHeart, FaShoppingCart } from "react-icons/fa";
+import { toast } from "sonner";
 import PaymentDetailsModal from "./PaymentDetailsModal";
+import { useCart, CartItem } from "@/contexts/CartContext";
 
 
 interface BannerPartProps {
    courseName: string;
    courseFee: string;
    imagePath: string;
+   courseId: number;
+   courseDescription?: string;
+   courseDuration?: string;
 }
 
 
 
-const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePath }) => {
-
+const BannerPart: React.FC<BannerPartProps> = ({ 
+   courseName, 
+   courseFee, 
+   imagePath,
+   courseId,
+   courseDescription = "Comprehensive online course",
+   courseDuration = "Flexible Schedule"
+}) => {
+   const { addToCart, isInCart } = useCart();
    const [isEnrolButtonClicked, setIsEnrolButtonClicked] = useState(false);
 
    const handleEnrolButtonOpen = () => setIsEnrolButtonClicked(true);
    const handleEnrolButtonClose = () => setIsEnrolButtonClicked(false);
+
+   const handleAddToCart = () => {
+      // Create cart item
+      const cartItem: CartItem = {
+         id: courseId,
+         type: "course",
+         title: courseName,
+         description: courseDescription,
+         instructor: "An-Nahda Academy",
+         price: parseFloat(courseFee.replace(/[^\d.]/g, '')),
+         discountedPrice: null,
+         image: imagePath,
+         duration: courseDuration,
+      };
+      
+      // Add to cart
+      addToCart(cartItem);
+      toast.success(`${courseName} added to cart!`);
+   };
 
    return (
       <div className=" bg-blue-100/40 backdrop-blur-md dark:bg-white/5 lg:h-[440px] rounded-2xl lg:rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
@@ -37,10 +68,18 @@ const BannerPart: React.FC<BannerPartProps> = ({ courseName, courseFee, imagePat
 
             <div className="flex gap-4">
                <div className=''>
-                  <Button onClick={handleEnrolButtonOpen} className="w-fit bg-purple-600 px-10 text-white rounded-full">
-                     Course Fee {courseFee}.
+                  <Button onClick={handleEnrolButtonOpen} className="w-fit bg-purple-600 px-5 md:px-10 text-white rounded-full">
+                     Course Fee {courseFee}
                   </Button>
                </div>
+               <Button 
+                  onClick={handleAddToCart}
+                  className="w-fit bg-blue-600 px-5 md:px-6 text-white rounded-full flex items-center gap-2"
+                  disabled={isInCart(courseId)}
+               >
+                  <FaShoppingCart className="mr-1" />
+                  {isInCart(courseId) ? 'In Cart' : 'Add to Cart'}
+               </Button>
                <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border'>
                   <FaRegHeart className='text-red-500' />
                </div>
