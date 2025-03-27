@@ -186,14 +186,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         
         {/* This is the main content container - using relative to position children */}
         <div className="relative flex flex-col items-center justify-center h-full w-full">
-          {/* Particles container */}
           <div 
             ref={particlesRef} 
-            className="absolute inset-0 overflow-hidden pointer-events-none"
+            className="absolute inset-0 overflow-hidden pointer-events-none z-0"
           />
           
-          {/* Enhanced 3D Rotating circles with better visibility */}
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center z-0">
             <motion.div
               className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
               animate={{
@@ -240,9 +238,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
             />
           </div>
           
-          {/* Central content area with logo and text - positioned in the center of the screen */}
-          <div className="z-10 flex flex-col items-center justify-center">
-            {/* Central logo container with enhanced 3D hover effect - now perfectly centered within circles */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <motion.div
               className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-8 perspective-element hover:scale-105 transition-transform"
               animate={logoControls}
@@ -256,14 +252,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
                 animation: 'glow 3s infinite ease-in-out'
               }}
             >
-              {/* Logo with shadow and 3D effect - enhanced for better visibility */}
               <div 
                 className="logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center bg-white/95"
                 style={{
                   boxShadow: '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
                 }}
               >
-                {/* Inner pulsing glow - enhanced for better visibility */}
                 <motion.div 
                   className="absolute inset-2 rounded-full blur-md bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30"
                   animate={{
@@ -276,7 +270,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
                   }}
                 />
                 
-                {/* Logo image */}
                 <div className="relative w-2/3 h-2/3">
                   <Image 
                     src={logoSrc}
@@ -287,7 +280,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
                   />
                 </div>
                 
-                {/* Enhanced pulsing ring around logo */}
                 <motion.div
                   className="absolute -inset-0.5 rounded-full"
                   style={{
@@ -306,7 +298,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               </div>
             </motion.div>
             
-            {/* Brand tagline with enhanced visibility - now appears before progress bar */}
             <motion.div
               className="text-center backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10"
               initial={{ opacity: 0, y: 10 }}
@@ -335,9 +326,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
             </motion.div>
           </div>
           
-          {/* Loading indicator and progress text - now at the bottom */}
           <motion.div
-            className="absolute bottom-10 w-56 sm:w-64 md:w-72 flex flex-col items-center"
+            className="absolute bottom-10 w-56 sm:w-64 md:w-72 flex flex-col items-center z-10"
             animate={textControls}
             initial={{ opacity: 0, y: 20 }}
           >
