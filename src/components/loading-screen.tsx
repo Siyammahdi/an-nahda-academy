@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
-import Image from "next/image";
 
 interface LoadingScreenProps {
   finishLoading: () => void;
@@ -14,9 +13,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
   const particlesRef = useRef<HTMLDivElement>(null);
   const logoControls = useAnimationControls();
   const textControls = useAnimationControls();
-
-  // Use a fixed logo path
-  const logoSrc = "/logoDark.svg";
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -189,7 +185,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           {/* Particles container */}
           <div 
             ref={particlesRef} 
-            className="absolute inset-0 overflow-hidden pointer-events-none z-0"
+            className="absolute inset-0 overflow-hidden pointer-events-none"
           />
           
           {/* Enhanced 3D Rotating circles with better visibility */}
@@ -243,70 +239,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           {/* Central content area with logo and text - positioned in the center of the screen */}
           <div className="absolute inset-0 z-10 flex items-center justify-center">
             <div className="flex flex-col items-center">
-              {/* Central logo container with enhanced 3D hover effect - now perfectly centered within circles */}
-              <motion.div
-                className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 perspective-element hover:scale-105 transition-transform"
-                animate={logoControls}
-                initial={{ scale: 0.8, opacity: 0, rotateY: 40 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.3 }
-                }}
-                style={{
-                  filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.2))',
-                  animation: 'glow 3s infinite ease-in-out'
-                }}
-              >
-                {/* Logo with shadow and 3D effect - enhanced for better visibility */}
-                <div 
-                  className="logo-container relative w-full h-full rounded-full shadow-xl transform-gpu flex items-center justify-center bg-white/95"
-                  style={{
-                    boxShadow: '0 0 30px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.1)'
-                  }}
-                >
-                  {/* Inner pulsing glow - enhanced for better visibility */}
-                  <motion.div 
-                    className="absolute inset-2 rounded-full blur-md bg-gradient-to-tr from-violet-500/20 to-fuchsia-500/30"
-                    animate={{
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  
-                  {/* Logo image */}
-                  <div className="relative w-2/3 h-2/3">
-                    <Image 
-                      src={logoSrc}
-                      alt="An-Nahda Academy" 
-                      fill 
-                      className="object-contain"
-                      priority
-                    />
-                  </div>
-                  
-                  {/* Enhanced pulsing ring around logo */}
-                  <motion.div
-                    className="absolute -inset-0.5 rounded-full"
-                    style={{
-                      background: 'linear-gradient(45deg, #7c3aed, #8b5cf6, #4f46e5)',
-                      opacity: 0.3
-                    }}
-                    animate={{
-                      opacity: [0.1, 0.3, 0.1]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatType: "loop",
-                    }}
-                  />
-                </div>
-              </motion.div>
-              
+           
               {/* Brand tagline with enhanced visibility - now appears before progress bar */}
               <motion.div
                 className="text-center backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10 mt-4"
