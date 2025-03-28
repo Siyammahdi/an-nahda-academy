@@ -15,7 +15,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
   const logoControls = useAnimationControls();
   const textControls = useAnimationControls();
 
-  // Use a fixed logo path
   const logoSrc = "/logoDark.svg";
 
   useEffect(() => {
@@ -31,21 +30,18 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
     }
   }, []);
 
-  // Setup the animation sequence
   useEffect(() => {
     const animateElements = async () => {
-      // Initial logo animation
       await logoControls.start({
         scale: [0.8, 1],
         opacity: [0, 1],
         rotateY: [40, 0],
         transition: {
           duration: 0.8,
-          ease: [0.22, 1, 0.36, 1], // Custom cubic bezier for modern feel
+          ease: [0.22, 1, 0.36, 1],
         }
       });
 
-      // Text reveal after logo
       await textControls.start({
         opacity: 1,
         y: 0,
@@ -59,15 +55,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
     animateElements();
   }, [logoControls, textControls]);
 
-  // Increment counter and trigger finish loading
   useEffect(() => {
-    // More natural easing for counter
     const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 3);
     
     let startTime: number | null = null;
-    const duration = 3000; // 3 seconds total loading time
+    const duration = 3000;
     
-    // Use requestAnimationFrame for smoother animation
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
@@ -79,7 +72,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
       if (progress < 1) {
         requestId = requestAnimationFrame(animate);
       } else {
-        // Finish the loading sequence
         setTimeout(() => {
           finishLoading();
         }, 200);
@@ -90,31 +82,26 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
     return () => cancelAnimationFrame(requestId);
   }, [finishLoading]);
 
-  // Generate floating particles
   useEffect(() => {
     if (!particlesRef.current) return;
     
     const particlesContainer = particlesRef.current;
     const particleCount = isMobile ? 15 : 30;
     
-    // Clear any existing particles
     particlesContainer.innerHTML = '';
     
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
       
-      // Randomize particle properties
       const size = Math.random() * 6 + 2;
       const posX = Math.random() * 100;
       const posY = Math.random() * 100;
       const duration = Math.random() * 20 + 10;
       const delay = Math.random() * 5;
-      const opacity = Math.random() * 0.5 + 0.3; // Increased minimum opacity for better visibility
+      const opacity = Math.random() * 0.5 + 0.3;
       
-      // Apply styles with better visibility using colorful particles
       particle.className = 'absolute rounded-full';
       
-      // Use different colors for particles
       const colors = [
         'bg-violet-500/30', 
         'bg-fuchsia-500/30', 
@@ -140,7 +127,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 flex items-center justify-center flex-col z-50 perspective-1000"
+        className="fixed inset-0 z-50"
         style={{ 
           perspective: '1000px',
           backgroundImage: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(255, 255, 255, 1) 70%)',
@@ -151,7 +138,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Add keyframes for particle animation */}
         <style jsx global>{`
           @keyframes floatingParticle {
             0% {
@@ -184,63 +170,59 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
           }
         `}</style>
         
-        {/* This is the main content container - using relative to position children */}
-        <div className="relative flex flex-col items-center justify-center h-full w-full">
-          <div 
-            ref={particlesRef} 
-            className="absolute inset-0 overflow-hidden pointer-events-none z-0"
+        <div ref={particlesRef} className="absolute inset-0 overflow-hidden pointer-events-none z-0" />
+        
+        <div className="absolute inset-0 flex items-center justify-center z-0">
+          <motion.div
+            className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
+            animate={{
+              rotateX: [0, 360],
+              rotateY: [360, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              boxShadow: '0 0 15px rgba(139, 92, 246, 0.2)'
+            }}
           />
-          
-          <div className="absolute inset-0 flex items-center justify-center z-0">
+          <motion.div
+            className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-blue-500/50"
+            animate={{
+              rotateY: [0, 360],
+              rotateX: [360, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)'
+            }}
+          />
+          <motion.div
+            className="absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 border-fuchsia-500/50"
+            animate={{
+              rotateZ: [0, 360],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{
+              boxShadow: '0 0 15px rgba(192, 38, 211, 0.2)'
+            }}
+          />
+        </div>
+        
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="flex flex-col items-center">
             <motion.div
-              className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border-2 border-violet-500/50"
-              animate={{
-                rotateX: [0, 360],
-                rotateY: [360, 0],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                boxShadow: '0 0 15px rgba(139, 92, 246, 0.2)'
-              }}
-            />
-            <motion.div
-              className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-blue-500/50"
-              animate={{
-                rotateY: [0, 360],
-                rotateX: [360, 0],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)'
-              }}
-            />
-            <motion.div
-              className="absolute w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-full border-2 border-fuchsia-500/50"
-              animate={{
-                rotateZ: [0, 360],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                boxShadow: '0 0 15px rgba(192, 38, 211, 0.2)'
-              }}
-            />
-          </div>
-          
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-            <motion.div
-              className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 mb-8 perspective-element hover:scale-105 transition-transform"
+              className="relative w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 perspective-element hover:scale-105 transition-transform"
               animate={logoControls}
               initial={{ scale: 0.8, opacity: 0, rotateY: 40 }}
               whileHover={{ 
@@ -299,7 +281,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
             </motion.div>
             
             <motion.div
-              className="text-center backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10"
+              className="text-center backdrop-blur-sm max-w-xs sm:max-w-sm px-4 py-3 rounded-xl bg-violet-50/10 mt-4"
               initial={{ opacity: 0, y: 10 }}
               animate={{ 
                 opacity: [0, 1],
@@ -325,58 +307,56 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
               </span>
             </motion.div>
           </div>
+        </div>
+        
+        <motion.div
+          className="absolute bottom-10 w-56 sm:w-64 md:w-72 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-10"
+          animate={textControls}
+          initial={{ opacity: 0, y: 20 }}
+        >
+          <div className="w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm bg-gray-300/70">
+            <motion.div
+              className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
+              initial={{ width: "0%" }}
+              animate={{ width: `${counter}%` }}
+              transition={{ duration: 0.1 }}
+              style={{
+                boxShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
+              }}
+            />
+          </div>
           
-          <motion.div
-            className="absolute bottom-10 w-56 sm:w-64 md:w-72 flex flex-col items-center z-10"
-            animate={textControls}
-            initial={{ opacity: 0, y: 20 }}
-          >
-            {/* Progress bar with enhanced gradient effect for better visibility */}
-            <div className="w-full h-1.5 sm:h-2 rounded-full overflow-hidden backdrop-blur-sm bg-gray-300/70">
-              <motion.div
-                className="h-full bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 rounded-full"
-                initial={{ width: "0%" }}
-                animate={{ width: `${counter}%` }}
-                transition={{ duration: 0.1 }}
-                style={{
-                  boxShadow: '0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3)'
+          <div className="flex w-full justify-between mt-3">
+            <div className="relative overflow-hidden">
+              <motion.span 
+                className="text-xs sm:text-sm font-medium text-violet-800"
+                animate={{
+                  opacity: [0.7, 1, 0.7]
                 }}
-              />
-            </div>
-            
-            {/* Loading text with enhanced visibility */}
-            <div className="flex w-full justify-between mt-3">
-              <div className="relative overflow-hidden">
-                <motion.span 
-                  className="text-xs sm:text-sm font-medium text-violet-800"
-                  animate={{
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity
-                  }}
-                  style={{
-                    textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
-                  }}
-                >
-                  {counter < 30 ? "Loading assets..." : 
-                   counter < 70 ? "Initializing content..." : 
-                   counter < 90 ? "Almost ready..." : 
-                   "Launching..."}
-                </motion.span>
-              </div>
-              <span 
-                className="text-xs sm:text-sm font-semibold text-violet-800"
+                transition={{
+                  duration: 2,
+                  repeat: Infinity
+                }}
                 style={{
                   textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
                 }}
               >
-                {counter}%
-              </span>
+                {counter < 30 ? "Loading assets..." : 
+                 counter < 70 ? "Initializing content..." : 
+                 counter < 90 ? "Almost ready..." : 
+                 "Launching..."}
+              </motion.span>
             </div>
-          </motion.div>
-        </div>
+            <span 
+              className="text-xs sm:text-sm font-semibold text-violet-800"
+              style={{
+                textShadow: '0 0 2px rgba(139, 92, 246, 0.1)'
+              }}
+            >
+              {counter}%
+            </span>
+          </div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
