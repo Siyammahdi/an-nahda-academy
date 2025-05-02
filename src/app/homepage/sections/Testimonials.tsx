@@ -118,7 +118,7 @@ export const Testimonials: React.FC = () => {
                 />
             </div> */}
          <motion.h2 
-            className="lg:text-5xl text-3xl text-blue-950 dark:text-white font-semibold mb-10 relative z-10"
+            className="lg:text-5xl text-3xl font-semibold text-gradient mb-10 relative z-10"
             variants={titleVariants}
          >
             শিক্ষার্থীদের মন্তব্য

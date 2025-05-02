@@ -244,5 +244,5 @@ const list = [
       startingTime: "Next batch starts on April 1st, 2025",
    },
 ];
-
 export default Courses;
+

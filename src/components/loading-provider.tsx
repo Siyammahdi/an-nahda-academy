@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import LoadingScreen from "./loading-screen";
-import { useTheme } from "next-themes";
 
 // Create a context for the loading state
 interface LoadingContextValue {
@@ -28,7 +27,6 @@ interface LoadingProviderProps {
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
-  const { resolvedTheme } = useTheme();
 
   // This useEffect will run on the client side
   useEffect(() => {

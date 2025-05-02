@@ -16,8 +16,8 @@ const config: Config = {
     'swiper-button-prev',
     'swiper-button-next',
     'swiper-scrollbar',
+    'text-gradient',
   ],
-  darkMode: ["class", "class"],
   theme: {
   	container: {
   		center: true,

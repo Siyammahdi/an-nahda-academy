@@ -31,7 +31,7 @@ const Discussions: React.FC = () => {
                className="absolute inset-x-0 justify-center w-32 ml-auto rounded-full rotate-45 opacity-20 bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 h-42 right-[0px] top-64 lg:w-[400px] lg:h-[300px] blur-3xl">
             </div>
          </div>
-         <h2 className="lg:text-5xl  text-3xl text-blue-950 dark:text-white font-semibold ">জীবনমূখী ভিডিওসমূহ</h2>
+         <h2 className="lg:text-5xl text-3xl font-semibold text-gradient">জীবনমূখী ভিডিওসমূহ</h2>
          <div className="max-w-6xl mx-auto h-[540px] md:h-[670px] flex flex-col xl:flex-row items-center overflow-hidden gap-5 lg:gap-10 relative">
             <div className="absolute w-full h-full flex items-center justify-between z-50 px-5">
                {/* arrow left */}

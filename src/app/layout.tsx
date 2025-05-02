@@ -5,7 +5,6 @@ import { Hind_Siliguri } from "next/font/google";
 import { Metadata } from "next";
 import { ClientNavigation } from "@/components/client-navigation";
 import { ClientFooter } from "@/components/client-footer";
-import { ThemeScript } from "./theme-script";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ['latin', 'bengali'],
@@ -29,10 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={hindSiliguri.variable} suppressHydrationWarning>
-      <head>
-        <ThemeScript />
-      </head>
+    <html lang="en" className={hindSiliguri.variable}>
+      <head />
       <body
         className={clsx(
           "min-h-screen bg-background antialiased font-sans overflow-x-hidden",
@@ -41,7 +38,7 @@ export default function RootLayout({
       >
         <Providers>
           <div className="relative flex flex-col min-h-screen">
-            <div className="relative flex flex-col bg-white dark:bg-gradient-dark">
+            <div className="relative flex flex-col bg-white">
               <ClientNavigation />
               <main className="flex-grow">
                 {children}
@@ -57,7 +54,5 @@ export default function RootLayout({
   );
 }
 
-//light:bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500
-//dark:bg-gradient-to-tr from-sky-950 via-indigo-950 to-purple-950
-
-//bg-gradient-light dark:bg-gradient-dark
+// Light mode gradient only
+//bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500

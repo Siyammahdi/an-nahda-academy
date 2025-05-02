@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
@@ -14,22 +13,15 @@ export interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <LoadingProvider>
-        <AuthProvider>
-          <CartProvider>
-            <FavoritesProvider>
-              <Toaster position="top-right" richColors />
-              {children}
-            </FavoritesProvider>
-          </CartProvider>
-        </AuthProvider>
-      </LoadingProvider>
-    </ThemeProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <Toaster position="top-right" richColors />
+            {children}
+          </FavoritesProvider>
+        </CartProvider>
+      </AuthProvider>
+    </LoadingProvider>
   );
 }

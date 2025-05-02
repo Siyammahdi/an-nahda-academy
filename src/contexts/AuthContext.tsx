@@ -3,7 +3,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { AuthAPI, LoginCredentials, RegisterCredentials } from "@/api/auth.api";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 // User type
 interface User {
@@ -90,7 +89,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (isAuthenticated && !isLoading) {
       // Check if user is on a public page that should redirect to dashboard (login or register)
       const path = window.location.pathname;
-      if (path === '/login' || path === '/registration') {
+      
+      // Don't redirect if the path starts with /admin
+      if ((path === '/login' || path === '/registration') && !path.startsWith('/admin')) {
         router.push('/dashboard');
       }
     }
@@ -117,7 +118,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       } else {
         // Default redirect to dashboard only if on login/register pages
         const path = window.location.pathname;
-        if (path === '/login' || path === '/registration') {
+        if ((path === '/login' || path === '/registration') && !path.startsWith('/admin')) {
           router.push("/dashboard");
         }
       }
@@ -151,7 +152,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       } else {
         // Default redirect to dashboard only if on login/register pages
         const path = window.location.pathname;
-        if (path === '/login' || path === '/registration') {
+        if ((path === '/login' || path === '/registration') && !path.startsWith('/admin')) {
           router.push("/dashboard");
         }
       }

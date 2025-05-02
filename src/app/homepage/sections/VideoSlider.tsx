@@ -93,7 +93,7 @@ export default function VideoSlider() {
 
             {/* Section heading */}
             <div className="container mx-auto mb-10">
-                <h2 className="lg:text-5xl text-3xl text-blue-950 dark:text-white font-semibold">জীবনমূখী ভিডিওসমূহ</h2>
+                <h2 className="lg:text-5xl text-3xl font-semibold text-gradient">জীবনমূখী ভিডিওসমূহ</h2>
                 <p className="text-gray-600 dark:text-gray-300 mt-3 max-w-3xl">
                     শিক্ষা, তারবিয়া, ও জীবনযাপনের বিভিন্ন বিষয়ে আমাদের বিশেষ ভিডিও সংগ্রহ দেখুন
                 </p>

@@ -57,9 +57,9 @@ const Banner = () => {
 
 
             <div className="absolute w-[300px] lg:w-[600px] top-16 md:top-60 text-left">
-                <div className='text-blue-950 dark:text-white'>
+                <div className=''>
                     <h3 className='mb-4 text-violet-400 text-sm md:text-base text-medium select-none'>শুরু হোক জ্ঞানযাত্রা এখন থেকেই</h3>
-                    <h1 className='text-3xl md:text-4xl lg:text-5xl font-semibold select-none leading-relaxed bg-gradient-to-r from-violet-900 to-violet-500 bg-clip-text text-transparent' ><span>ইলমের আলোয় জাগরূক</span> <span className='select-none'>জীবনের প্রত্যয়...</span></h1>
+                    <h1 className='text-3xl md:text-4xl lg:text-5xl font-semibold select-none leading-relaxed text-gradient' ><span>ইলমের আলোয় জাগরূক</span> <span className='select-none'>জীবনের প্রত্যয়...</span></h1>
                 </div>
                 <div className='space-y-4 mt-5'>
                     <Link href="/courses">

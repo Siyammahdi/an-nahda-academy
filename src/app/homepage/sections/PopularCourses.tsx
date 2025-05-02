@@ -162,7 +162,7 @@ const PopularCourses: React.FC = () => {
       <div className='lg:mx-0'>
          <div className='max-w-7xl mx-auto'>
             <div className="flex justify-between mx-5 lg:mx-0 gap-4 items-center mb-20">
-               <h1 className='lg:text-5xl text-3xl text-blue-950 dark:text-white font-semibold'>কোর্স সমূহ</h1>
+               <h1 className='lg:text-5xl text-3xl font-semibold text-gradient'>কোর্স সমূহ</h1>
                <Link href="/courses">
                   <Button className="bg-primary text-white rounded-full">
                      See All... <FaArrowRight className="ml-2" />

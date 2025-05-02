@@ -192,7 +192,7 @@ const Arrengements = () => {
       </div>
       
       <motion.h2 
-        className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-blue-950 dark:text-white relative z-10"
+        className="text-2xl md:text-4xl lg:text-5xl font-semibold text-center text-gradient relative z-10"
         variants={textVariants}
         initial="hidden"
         whileInView="visible"

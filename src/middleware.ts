@@ -8,6 +8,9 @@ export function middleware(request: NextRequest) {
   // Define which paths are protected (require authentication)
   const isProtectedPath = path.startsWith('/dashboard');
   
+  // Define which paths are admin paths (require admin role) - commented out as not used now
+  // const isAdminPath = path.startsWith('/admin');
+  
   // Define which paths are auth paths (login/register)
   const isAuthPath = path === '/login' || path === '/registration';
 
@@ -19,13 +22,41 @@ export function middleware(request: NextRequest) {
   const authHeader = request.headers.get('Authorization');
   const hasAuthHeader = authHeader && authHeader.startsWith('Bearer ');
 
+  // Check if user is authenticated
+  const isAuthenticated = !!token || !!hasAuthHeader;
+
+  // Extract user role from cookies if available - commented out as not used now
+  // const userCookie = request.cookies.get('auth-user')?.value;
+  // const isAdmin = userCookie ? JSON.parse(userCookie)?.role === 'admin' : false;
+
   // If the user is on a protected path but not authenticated, redirect to login
-  if (isProtectedPath && !token && !hasAuthHeader) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  if (isProtectedPath && !isAuthenticated) {
+    // Store the current path for redirecting after login
+    const url = new URL('/login', request.url);
+    url.searchParams.set('returnUrl', path);
+    return NextResponse.redirect(url);
   }
 
+  // Remove admin path checks to allow direct access
+  // Comment out or remove this block to allow free access to admin paths
+  /*
+  if (isAdminPath) {
+    if (!isAuthenticated) {
+      // Store the current path for redirecting after login
+      const url = new URL('/login', request.url);
+      url.searchParams.set('returnUrl', path);
+      return NextResponse.redirect(url);
+    }
+
+    if (!isAdmin) {
+      // Redirect to dashboard if authenticated but not admin
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+  }
+  */
+
   // If the user is authenticated and trying to access auth paths, redirect to dashboard
-  if (isAuthPath && (token || hasAuthHeader)) {
+  if (isAuthPath && isAuthenticated) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

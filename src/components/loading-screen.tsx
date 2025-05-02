@@ -57,13 +57,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ finishLoading }) => {
 
   // Increment counter and trigger finish loading
   useEffect(() => {
-    // More natural easing for counter
     const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 3);
     
     let startTime: number | null = null;
     const duration = 3000; // 3 seconds total loading time
     
-    // Use requestAnimationFrame for smoother animation
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
