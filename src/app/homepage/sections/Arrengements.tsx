@@ -255,7 +255,7 @@ const Arrengements = () => {
               <Button
                 variant="ghost"
                 className={cn(
-                  "flex flex-col items-start p-2 lg:p-4 justify-evenly rounded-[20px] md:rounded-[30px] hover:text-white lg:rounded-[40px] text-violet-950 dark:text-violet-400 border-none h-20 w-20 md:h-28 md:w-28 lg:h-36 lg:w-36 hover:scale-105 transition-transform text-center",
+                  "flex flex-col items-start p-2 lg:p-4 justify-evenly rounded-[20px] md:rounded-[30px] hover:text-white lg:rounded-[40px] text-violet-950 border-none h-20 w-20 md:h-28 md:w-28 lg:h-36 lg:w-36 hover:scale-105 transition-transform text-center",
                   "hover:bg-transparent"
                 )}
                 style={{

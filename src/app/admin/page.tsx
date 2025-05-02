@@ -105,7 +105,7 @@ export default function AdminDashboard() {
 
   if (error) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg" role="alert">
+      <div className="bg-red-50 border-red-200 text-red-700  px-4 py-3 rounded-lg" role="alert">
         <div className="flex items-center">
           <Activity className="h-5 w-5 mr-2 text-red-500" />
         <p><strong>Error:</strong> {error}</p>

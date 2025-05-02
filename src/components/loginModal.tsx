@@ -67,6 +67,17 @@ export default function LoginModal({ isOpen, onClose, handleModalOpen }: LoginMo
     },
   })
 
+  const adminCredentials = { email: "admin@example.com", password: "Admin123" };
+  const userCredentials = { email: "user@example.com", password: "User123" };
+
+  // Autofill handlers
+  const autofillAdmin = () => {
+    reset(adminCredentials);
+  };
+  const autofillUser = () => {
+    reset(userCredentials);
+  };
+
   const onSubmit = async (data: LoginFormValues) => {
     try {
       // Use the login function from AuthContext
@@ -164,6 +175,16 @@ export default function LoginModal({ isOpen, onClose, handleModalOpen }: LoginMo
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
             )}
+          </div>
+          
+          {/* Autofill buttons for testing credentials */}
+          <div className="flex gap-2 mb-2">
+            <Button type="button" variant="outline" className="w-1/2" onClick={autofillAdmin}>
+              Admin Credentials
+            </Button>
+            <Button type="button" variant="outline" className="w-1/2" onClick={autofillUser}>
+              User Credentials
+            </Button>
           </div>
           
           <Button 

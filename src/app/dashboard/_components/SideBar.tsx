@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
 					variant="ghost"
 					size="sm"
 					onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-					className="flex items-center text-gray-600 dark:text-gray-300 h-9 px-2.5"
+					className="flex items-center text-gray-600  h-9 px-2.5"
 				>
 					{isMobileMenuOpen ? (
 						<>
@@ -53,8 +53,8 @@ const Sidebar: React.FC = () => {
 								className={cn(
 									"flex items-center px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium rounded-md transition-colors",
 									isActive
-										? "bg-violet-100 text-violet-950 dark:bg-violet-950/20 dark:text-violet-200"
-										: "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700"
+										? "bg-violet-100 text-violet-950 "
+										: "text-gray-600 hover:bg-gray-100 "
 								)}
 								onClick={() => setIsMobileMenuOpen(false)} // Close menu when a link is clicked on mobile
 							>

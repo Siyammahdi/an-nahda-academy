@@ -7,7 +7,7 @@ import Image from "next/image";
 const logoPath = "/logo.png";
 
 export const Logo: React.FC<IconSvgProps> = ({
-  size = 20,
+  size = 18,
   width,
   height,
   ...props

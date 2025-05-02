@@ -6,7 +6,7 @@ interface CourseDetailsLayoutProps {
 
 const CourseDetailsLayout: React.FC<CourseDetailsLayoutProps> = ({ children }) => {
   return (
-    <div className="alignCenter h-fit mb-5">
+    <div className="h-fit mb-5">
       {children}
     </div>
   );

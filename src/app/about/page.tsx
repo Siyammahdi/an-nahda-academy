@@ -31,7 +31,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="mx-auto py-12 max-w-7xl">
       {/* Hero Section */}
       <div className="relative mb-24">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-12">
@@ -74,25 +74,6 @@ export default function AboutPage() {
                   className="object-contain"
                   priority
                 />
-                <motion.div
-                  animate={{
-                    y: [0, 20, 0],
-                    x: [0, -10, 10, 0],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    repeatType: "loop",
-                  }}
-                  className="absolute z-10 w-40 h-40 left-0 bottom-0"
-                >
-                  <Image 
-                    src="/elements/working-text.svg" 
-                    alt="Decorative element" 
-                    width={160}
-                    height={160}
-                  />
-                </motion.div>
               </div>
             )}
           </motion.div>
@@ -160,7 +141,7 @@ export default function AboutPage() {
 
       {/* Core Values Section */}
       <motion.section 
-        className="mb-24 py-16 px-8 rounded-2xl bg-gradient-to-r from-muted/70 to-muted/30"
+        className="mb-24 py-16  md:px-8 rounded-2xl md:bg-gradient-to-r from-muted/70 to-muted/30"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -186,7 +167,7 @@ export default function AboutPage() {
             { icon: GraduationCap, title: "Growth", description: "Fostering personal and academic development for all students" }
           ].map((value, index) => (
             <motion.div key={index} variants={fadeInUpVariants}>
-              <Card className="h-full border-none bg-background/70 backdrop-blur-sm">
+              <Card className="h-full border-none bg-gray-100 md:bg-background/70 backdrop-blur-sm">
                 <CardHeader className="text-center">
                   <div className="mx-auto bg-primary/10 p-3 rounded-full mb-3">
                     <value.icon className="h-6 w-6 text-primary" />
@@ -274,7 +255,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-8">
           {[
             {
               name: "Dr. Ahmed Rahman",
@@ -297,7 +278,7 @@ export default function AboutPage() {
           ].map((member, index) => (
             <motion.div key={index} variants={fadeInUpVariants}>
               <Card className="h-full overflow-hidden border-none shadow-md">
-                <div className="aspect-square relative">
+                <div className="md:w-2/3 mx-auto aspect-square relative">
                   {mounted && (
                     <Image
                       src={member.image}
@@ -307,18 +288,18 @@ export default function AboutPage() {
                     />
                   )}
                 </div>
-                <CardHeader>
+                <CardHeader className="p-2 md:p-8">
                   <CardTitle>{member.name}</CardTitle>
                   <CardDescription className="text-primary font-medium">
                     {member.role}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
+                <CardContent className="p-2 md:p-8">
+                  <p className="text-xs md:text-base text-muted-foreground">
                     {member.bio}
                   </p>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="p-2 md:p-8">
                   <div className="flex gap-2">
                     <Button variant="ghost" size="icon" className="rounded-full">
                       <Mail className="h-4 w-4" />

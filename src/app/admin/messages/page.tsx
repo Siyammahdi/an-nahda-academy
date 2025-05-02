@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SearchIcon, MessageSquare, Send, Filter, User, Phone, Mail, Plus, MoreHorizontal } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SearchIcon, MessageSquare, Send, User, Phone, Mail, Plus, MoreHorizontal } from 'lucide-react';
 import { format } from 'date-fns';
 
 // Mock conversations data
@@ -185,11 +184,11 @@ export default function MessagesPage() {
         </Button>
       </div>
       
-      <div className="flex-1 overflow-hidden flex flex-col md:flex-row gap-4 bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="flex-1 overflow-hidden flex flex-col md:flex-row gap-4 bg-white rounded-lg shadow-sm border border-gray-200 ">
         {/* Conversations List */}
-        <div className="md:w-80 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden">
+        <div className="md:w-80 border-r border-gray-200  flex flex-col overflow-hidden">
           {/* Search and Filter */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-b border-gray-200">
             <div className="relative mb-3">
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
               <Input
@@ -213,15 +212,15 @@ export default function MessagesPage() {
             {filteredConversations.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full p-4 text-center">
                 <MessageSquare className="h-12 w-12 text-gray-400 mb-2" />
-                <h3 className="font-medium text-gray-900 dark:text-gray-100">No messages found</h3>
+                <h3 className="font-medium text-gray-900 ">No messages found</h3>
                 <p className="text-sm text-gray-500">Try adjusting your search or filters</p>
               </div>
             ) : (
               filteredConversations.map((conversation) => (
                 <button
                   key={conversation.id}
-                  className={`w-full flex items-start p-4 gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-left border-b border-gray-200 dark:border-gray-700 ${
-                    selectedConversation === conversation.id ? 'bg-purple-50 dark:bg-purple-900/20' : ''
+                  className={`w-full flex items-start p-4 gap-3 hover:bg-gray-50  text-left border-b border-gray-200  ${
+                    selectedConversation === conversation.id ? 'bg-purple-50' : ''
                   }`}
                   onClick={() => setSelectedConversation(conversation.id)}
                 >
@@ -240,7 +239,7 @@ export default function MessagesPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                      <h4 className="font-medium text-gray-900 truncate">
                         {conversation.user.name}
                       </h4>
                       <span className="text-xs text-gray-500">
@@ -269,7 +268,7 @@ export default function MessagesPage() {
           {/* Conversation Header */}
           {selectedConversationDetails ? (
             <>
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 ">
                 <div className="flex items-center gap-3">
                   <Avatar>
                     <AvatarImage src={selectedConversationDetails.user.avatar} alt={selectedConversationDetails.user.name} />
@@ -278,7 +277,7 @@ export default function MessagesPage() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3 className="font-medium text-gray-900 dark:text-gray-100">{selectedConversationDetails.user.name}</h3>
+                    <h3 className="font-medium text-gray-900 ">{selectedConversationDetails.user.name}</h3>
                     <p className="text-sm text-gray-500">{selectedConversationDetails.user.email}</p>
                   </div>
                 </div>
@@ -318,7 +317,7 @@ export default function MessagesPage() {
                         <div className={`p-3 rounded-lg ${
                           message.sender === 'admin' 
                             ? 'bg-purple-500 text-white' 
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                            : 'bg-gray-100  text-gray-900 '
                         }`}>
                           <p className="text-sm">{message.text}</p>
                         </div>
@@ -332,7 +331,7 @@ export default function MessagesPage() {
               </div>
               
               {/* Message Input */}
-              <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+              <div className="border-t border-gray-200  p-4">
                 <form onSubmit={handleSendMessage} className="flex gap-2">
                   <Input
                     placeholder="Type your message..."
@@ -350,7 +349,7 @@ export default function MessagesPage() {
           ) : (
             <div className="flex flex-col items-center justify-center h-full p-4 text-center">
               <MessageSquare className="h-16 w-16 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No conversation selected</h3>
+              <h3 className="text-lg font-medium text-gray-900  mb-2">No conversation selected</h3>
               <p className="text-sm text-gray-500">Select a conversation to view messages</p>
             </div>
           )}
@@ -358,12 +357,12 @@ export default function MessagesPage() {
       </div>
       
       {/* Coming Soon Notice */}
-      <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg mt-6">
-        <h3 className="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">
+      <div className="text-center p-6 bg-blue-50  rounded-lg mt-6">
+        <h3 className="text-lg font-medium text-blue-800  mb-2">
           Enhanced Messaging Features Coming Soon
         </h3>
-        <p className="text-sm text-blue-600 dark:text-blue-300 max-w-md mx-auto">
-          We're working on adding features like file attachments, message templates, and bulk messaging capabilities.
+        <p className="text-sm text-blue-600  max-w-md mx-auto">
+          We&apos;re working on adding features like file attachments, message templates, and bulk messaging capabilities.
         </p>
       </div>
     </div>

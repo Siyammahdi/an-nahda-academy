@@ -84,7 +84,7 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
 const list = [
    {
       id: 1,
-      title: "Learning Arabic Course",
+      title: "Learning Arabic",
       language: "Bangla,Arabic",
       age: "10+",
       time: "9+ months (Live Class)",
@@ -99,7 +99,7 @@ const list = [
       language: "Bangla, Arabic",
       age: "12+",
       time: "2 months",
-      start: "Next batch starts on March 1st, 2025",
+      start: "Next batch (March 1st, 2025)",
       img: "/poster_square/husnul_khuluk.png",
       price: "1000 Tk.",
       classes: "Online, combining engaging pre-recorded videos, live discussions, and assignments.",
@@ -171,7 +171,7 @@ const PopularCourses: React.FC = () => {
             </div>
             {/* Dynamic Date Calendar */}
             <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:items-end lg:justify-between mb-10">
-               <div className="grid grid-cols-3 gap-2">
+               <div className="hidden md:grid grid-cols-3 gap-2">
                   <ReusableButton 
                      labelTop="Year" 
                      labelMiddle={year} 
@@ -205,11 +205,11 @@ const PopularCourses: React.FC = () => {
                768: { slidesPerView: 2 },
                1024: { slidesPerView: 5 },
             }}
-            className="w-full"
+            className="w-full "
          >
             {list.map((item) => (
                <SwiperSlide key={item.id}>
-                  <Card className=" bg-opacity-40 backdrop-blur-md rounded-3xl mx-auto w-4/5 overflow-hidden">
+                  <Card className="h-full bg-opacity-40 backdrop-blur-md rounded-3xl mx-auto w-4/5 overflow-hidden">
                      <Image
                         width={500}
                         height={500}
@@ -222,12 +222,12 @@ const PopularCourses: React.FC = () => {
                         <div className="w-full flex flex-row justify-between">
                            <div className="flex flex-row items-center gap-2">
                               <Link href={`course_details/${item?.id}`}>
-                                 <Button size="sm" className="bg-purple-200 text-purple-600 text-[10px] h-6">
+                                 <Button size="sm" className="bg-purple-200 text-purple-600 hover:text-white text-[10px] h-6">
                                     About Course
                                  </Button>
                               </Link>
                               <Link href="https://www.facebook.com/messages/t/103915368128673">
-                                 <Button size="sm" className="bg-green-200 text-green-600 text-[10px] h-6">
+                                 <Button size="sm" className="bg-green-200 text-green-600 hover:text-white text-[10px] h-6">
                                     Message Us
                                  </Button>
                               </Link>
@@ -266,6 +266,7 @@ const PopularCourses: React.FC = () => {
                         </div>
                      </CardFooter>
                   </Card>
+                  
                </SwiperSlide>
             ))}
          </Swiper>

@@ -50,7 +50,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     try {
       await logout();
       toast.success('Logged out successfully');
-      router.push('/login');
     } catch (error) {
       console.error('Logout error:', error);
       toast.error('Failed to logout');
@@ -118,7 +117,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Mobile menu overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-opacity-50 z-40 lg:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}

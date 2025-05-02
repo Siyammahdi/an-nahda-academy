@@ -118,14 +118,17 @@ export const Navbar = () => {
   // Favorites route based on authentication status
   const favoritesRoute = isAuthenticated ? "/dashboard/favorites" : "/favorites";
 
+  // Check if user is admin
+  const isAdmin = isAuthenticated && user?.role?.toLowerCase() === "admin";
+
   return (
     <header className={cn(
       "sticky top-0 z-40 w-full transition-colors duration-300 h-24",
       isScrolled ? "bg-background/50 backdrop-blur-md" : "bg-transparent"
     )}>
-      <div className="container flex items-center h-full justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Logo />
+      <div className="px-5 md:px-10 lg:px-0 max-w-7xl mx-auto flex items-center h-full justify-between">
+        <Link href="/" className="flex items-center gap-3">
+          <Logo className="mb-1" />
           <span className="leading-5 font-bold text-xl bg-gradient-to-r from-violet-900 to-violet-500 bg-clip-text text-transparent flex flex-col">An-nahda <span className="font-normal text-sm">Academy</span></span>
         </Link>
 
@@ -183,24 +186,38 @@ export const Navbar = () => {
           </Link>
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
-              <Button asChild className="rounded-full bg-primary">
-                <Link href="/dashboard">
-                  Dashboard
+              {/* Admin Panel Button for Admins (Desktop) */}
+              {isAdmin && (
+                <Button asChild className="rounded-full bg-violet-700 hover:bg-violet-800 text-white">
+                  <Link href="/admin">
+                    Admin Dashboard
+                  </Link>
+                </Button>
+              )}
+              {/* Dashboard button only for non-admins */}
+              {!isAdmin && (
+                <Button asChild className="rounded-full bg-primary">
+                  <Link href="/dashboard">
+                    Dashboard
+                  </Link>
+                </Button>
+              )}
+              {/* Profile button only for non-admins */}
+              {!isAdmin && (
+                <Link href="/dashboard/profile">
+                  <div className="relative">
+                    <Avatar className="h-9 w-9 border-2 border-primary cursor-pointer hover:opacity-80 transition-opacity">
+                      <AvatarFallback className="text-sm font-bold bg-primary text-primary-foreground">
+                        {getInitials(user?.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 </Link>
-              </Button>
-              <Link href="/dashboard/profile">
-                <div className="relative">
-                  <Avatar className="h-9 w-9 border-2 border-primary cursor-pointer hover:opacity-80 transition-opacity">
-                    <AvatarFallback className="text-sm font-bold bg-primary text-primary-foreground">
-                      {getInitials(user?.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              </Link>
+              )}
             </div>
           ) : (
             <Button onClick={handleLoginOpen} className="rounded-full bg-primary">
-              Login
+              Sign in
             </Button>
           )}
         </div>
@@ -223,7 +240,8 @@ export const Navbar = () => {
               </Badge>
             )}
           </Link>
-          {isAuthenticated && (
+          {/* Profile button only for non-admins (Mobile) */}
+          {isAuthenticated && !isAdmin && (
             <Link href="/dashboard/profile">
               <div className="relative">
                 <Avatar className="h-8 w-8 border-2 border-primary cursor-pointer">
@@ -234,7 +252,6 @@ export const Navbar = () => {
               </div>
             </Link>
           )}
-          
           {/* Mobile Menu Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -273,9 +290,29 @@ export const Navbar = () => {
                   </DropdownMenuItem>
                 )
               ))}
-              
+              {/* Admin Panel Button for Admins (Mobile) */}
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link 
+                    href="/admin" 
+                    className="cursor-pointer w-full bg-orange-600 text-white hover:bg-orange-700 rounded-md px-3 py-2 text-sm font-medium"
+                  >
+                    Admin Panel
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              {/* Dashboard button only for non-admins (Mobile) */}
+              {!isAdmin && isAuthenticated && (
+                <DropdownMenuItem asChild>
+                  <Link 
+                    href="/dashboard" 
+                    className="cursor-pointer w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
-              
               {isAuthenticated ? (
                 <DropdownMenuItem asChild>
                   <Link 
@@ -290,7 +327,7 @@ export const Navbar = () => {
                   onClick={handleLoginOpen} 
                   className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
                 >
-                  Login
+                  Sign in
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

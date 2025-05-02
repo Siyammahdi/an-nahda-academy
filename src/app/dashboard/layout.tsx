@@ -37,9 +37,9 @@ const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-zinc-900 min-h-screen">
-      <div className="mx-auto max-w-7xl px-1 sm:px-3 lg:px-4 py-2 sm:py-4">
-        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-2 sm:p-4">
+    <div className="bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto py-5">
+        <div className="bg-white rounded-lg shadow p-2 sm:p-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
             <div className="flex flex-row items-center gap-2 sm:gap-4">
               <div>
@@ -54,20 +54,20 @@ const Dashboard: React.FC<DashboardProps> = ({ children }) => {
                 </Avatar>
               </div>
               <div>
-                <h1 className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400">
+                <h1 className="text-xs sm:text-sm font-semibold text-gray-500 ">
                   Welcome back,
                 </h1>
-                <h1 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+                <h1 className="text-base sm:text-lg font-semibold text-gray-900 ">
                   {user?.name || 'Loading...'}
                 </h1>
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-500 ">
                   {user?.email}
                 </p>
               </div>
             </div>
             
             <div className="flex flex-row gap-2 items-center mt-2 md:mt-0 justify-center md:justify-end">
-              <Link href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-xs sm:text-sm font-medium mr-2 sm:mr-3">
+              <Link href="/" className="text-blue-600 hover:text-blue-800  text-xs sm:text-sm font-medium mr-2 sm:mr-3">
                 Home
               </Link>
               <Button 

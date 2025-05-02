@@ -3,14 +3,13 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { 
   Bell,
   Plus,
   Search,
-  Filter,
   MoreVertical,
   Edit,
   Trash,
@@ -344,7 +343,7 @@ export default function AnnouncementsPage() {
           Enhanced Announcement Features Coming Soon
         </h3>
         <p className="text-sm text-blue-600 dark:text-blue-300 max-w-md mx-auto">
-          We're working on adding rich text formatting, image attachments, email notifications, and targeted audience selection for more effective communication.
+          We&apos;re working on adding rich text formatting, image attachments, email notifications, and targeted audience selection for more effective communication.
         </p>
       </div>
     </div>

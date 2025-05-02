@@ -6,7 +6,6 @@ import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight, FaQuoteLeft } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 export const Testimonials: React.FC = () => {
    const [currentIndex, setCurrentIndex] = useState(0);
    const [mounted, setMounted] = useState(false);

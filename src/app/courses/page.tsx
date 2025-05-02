@@ -117,7 +117,7 @@ const Courses: React.FC = () => {
          >
             {list.map((item, index) => (
                <SwiperSlide className="" key={index}>
-                  <div className="relative z-20 md:w-fit space-y-3 rounded-3xl md:rounded-[36px] bg-white p-4 shadow-lg my-10 dark:bg-[#18181B]">
+                  <div className="relative z-20 md:w-fit space-y-3 rounded-3xl md:rounded-[36px] bg-white p-4 shadow-lg my-10">
                      <div className="relative flex h-48 w-full justify-center lg:h-[260px]">
                         <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
                            <div className="flex items-center">
@@ -153,7 +153,7 @@ const Courses: React.FC = () => {
                      <div className="flex flex-row items-center justify-between gap-6 text-sm md:text-base">
                         <button
                            onClick={() => router.push(`/course_details/${item.id}`)} // Navigate to dynamic route
-                           className="rounded-full text-xs md:text-sm bg-violet-500 px-4 py-2 font-semibold text-white duration-300 hover:scale-105 hover:bg-sky-600"
+                           className="rounded-full text-xs md:text-sm bg-violet-500 px-4 py-2 font-semibold text-white duration-300 hover:scale-105 hover:bg-[#0095FF]/90"
                         >
                            View Details
                         </button>
@@ -166,7 +166,7 @@ const Courses: React.FC = () => {
                            </button>
                         ) : (
                            <button 
-                              className="rounded-full text-xs md:text-sm bg-gray-400 px-4 py-2 font-semibold text-white duration-300 hover:scale-95 hover:bg-gray-600"
+                              className="rounded-full text-xs md:text-sm bg-gray-400 px-4 py-2 font-semibold text-white duration-300 hover:scale-105 hover:bg-[#0095FF]/90"
                               onClick={() => handleAddToCart(item)}
                            >
                               Add to Cart

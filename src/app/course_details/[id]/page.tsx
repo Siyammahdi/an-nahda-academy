@@ -14,7 +14,7 @@
   
   const CoursePage = () => {
     return (
-      <div className="p-5 space-y-6 max-w-7xl mx-auto">
+      <div className="p-5 lg:px-0 space-y-6 max-w-7xl mx-auto">
         <CoursePageClient />
       </div>
     );

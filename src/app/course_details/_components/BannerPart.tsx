@@ -53,7 +53,7 @@ const BannerPart: React.FC<BannerPartProps> = ({
    };
 
    return (
-      <div className=" bg-blue-100/40 backdrop-blur-md dark:bg-white/5 lg:h-[440px] rounded-2xl lg:rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
+      <div className=" bg-purple-100/40 backdrop-blur-md lg:h-[440px] rounded-2xl lg:rounded-[100px] flex md:flex-row flex-col-reverse items-center lg:justify-between justify-center">
          <div className=" md:px-20 md:py-0 py-10 flex-1 ">
 
             <div className='flex flex-row items-center gap-2 mx-2'>
@@ -66,21 +66,23 @@ const BannerPart: React.FC<BannerPartProps> = ({
             </div>
             <h1 className=" md:text-4xl text-3xl text-blue-950 font-extrabold my-5 mx-2">{courseName}</h1>
 
-            <div className="flex gap-4">
-               <div className=''>
-                  <Button onClick={handleEnrolButtonOpen} className="w-fit bg-purple-600 px-5 md:px-10 text-white rounded-full">
+            <div className="flex flex-wrap gap-2 md:gap-4 min-w-0 w-full">
+               <div className='w-full md:w-fit'>
+                  <Button onClick={handleEnrolButtonOpen} className="w-full md:w-fit bg-purple-600 px-5 md:px-10 text-white rounded-full">
                      Course Fee {courseFee}
                   </Button>
                </div>
-               <Button 
-                  onClick={handleAddToCart}
-                  className="w-fit bg-blue-600 px-5 md:px-6 text-white rounded-full flex items-center gap-2"
-                  disabled={isInCart(courseId)}
-               >
-                  <FaShoppingCart className="mr-1" />
-                  {isInCart(courseId) ? 'In Cart' : 'Add to Cart'}
-               </Button>
-               <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border'>
+               <div className='w-full md:w-fit'>
+                  <Button 
+                     onClick={handleAddToCart}
+                     className="w-full md:w-fit bg-blue-600 px-5 md:px-6 text-white rounded-full flex items-center gap-2"
+                     disabled={isInCart(courseId)}
+                  >
+                     <FaShoppingCart className="mr-1" />
+                     {isInCart(courseId) ? 'In Cart' : 'Add to Cart'}
+                  </Button>
+               </div>
+               <div className='w-[40px] h-[40px] rounded-full bg-white flex flex-col items-center justify-center border mt-2 md:mt-0'>
                   <FaRegHeart className='text-red-500' />
                </div>
             </div>
