@@ -23,14 +23,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://an-nahda-backend.vercel.app/api/:path*',
-      },
-    ];
-  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

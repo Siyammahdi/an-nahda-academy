@@ -221,7 +221,7 @@ export const AdminAPI = {
   // Manual payment validation
   validatePayment: async (tranId: string) => {
     try {
-      const response = await Axios.post<{ success: boolean; data: PaymentDto }>('/payment/validate', { tranId });
+      const response = await Axios.post<{ success: boolean; data: PaymentDto }>('/payment-validation', { tranId });
       return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;

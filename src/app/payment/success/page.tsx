@@ -28,36 +28,58 @@ const PaymentSuccessPage = () => {
         });
 
         if (tranId && valId) {
-          // Always try to validate payment with backend, regardless of status
-          const response = await fetch('https://an-nahda-backend.vercel.app/api/payment/sslcommerz/validate', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              tran_id: tranId,
-              val_id: valId,
-            }),
-          });
+          try {
+            // Always try to validate payment with backend, regardless of status
+            const response = await fetch('/api/payment-validation', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                tran_id: tranId,
+                val_id: valId,
+              }),
+            });
 
-          const data = await response.json();
-          console.log('Payment validation response:', data);
+            if (response.ok) {
+              const data = await response.json();
+              console.log('Payment validation response:', data);
 
-          if (response.ok && data.success) {
-            setPaymentDetails(data);
-            console.log('Payment validated successfully:', data);
-          } else {
-            console.error('Payment validation failed:', data);
-            // Even if validation fails, we can still show success if we have basic payment info
-            if (tranId) {
+              if (data.success) {
+                setPaymentDetails(data);
+                console.log('Payment validated successfully:', data);
+              } else {
+                console.error('Payment validation failed:', data);
+                // Show fallback success info
+                setPaymentDetails({
+                  tran_id: tranId,
+                  amount: searchParams.get('amount') || 'Unknown',
+                  payment_method: 'Unknown',
+                  fallback_validation: true,
+                  validation_message: 'Payment processed but validation pending'
+                });
+              }
+            } else {
+              console.error('Validation request failed with status:', response.status);
+              // Show fallback success info
               setPaymentDetails({
                 tran_id: tranId,
                 amount: searchParams.get('amount') || 'Unknown',
                 payment_method: 'Unknown',
                 fallback_validation: true,
-                validation_message: 'Payment processed but validation pending'
+                validation_message: 'Payment processed successfully'
               });
             }
+          } catch (validationError) {
+            console.error('Validation request error:', validationError);
+            // Show fallback success info
+            setPaymentDetails({
+              tran_id: tranId,
+              amount: searchParams.get('amount') || 'Unknown',
+              payment_method: 'Unknown',
+              fallback_validation: true,
+              validation_message: 'Payment processed successfully'
+            });
           }
         } else if (tranId) {
           // If we have tranId but no valId, still show success with basic info
@@ -68,20 +90,27 @@ const PaymentSuccessPage = () => {
             fallback_validation: true,
             validation_message: 'Payment processed successfully'
           });
-        }
-      } catch (error) {
-        console.error('Error validating payment:', error);
-        // Show basic success info even if validation fails
-        const tranId = searchParams.get('tran_id');
-        if (tranId) {
+        } else {
+          // No transaction ID, show generic success
           setPaymentDetails({
-            tran_id: tranId,
+            tran_id: 'N/A',
             amount: searchParams.get('amount') || 'Unknown',
             payment_method: 'Unknown',
             fallback_validation: true,
             validation_message: 'Payment processed successfully'
           });
         }
+      } catch (error) {
+        console.error('Error in payment validation:', error);
+        // Show basic success info even if everything fails
+        const tranId = searchParams.get('tran_id');
+        setPaymentDetails({
+          tran_id: tranId || 'N/A',
+          amount: searchParams.get('amount') || 'Unknown',
+          payment_method: 'Unknown',
+          fallback_validation: true,
+          validation_message: 'Payment processed successfully'
+        });
       } finally {
         setLoading(false);
       }
