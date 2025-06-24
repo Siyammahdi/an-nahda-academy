@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Backend API URL
-const BACKEND_URL = process.env.BACKEND_URL || 'https://an-nahda-backend.vercel.app';
+// Use a dedicated payment backend URL
+const BACKEND_PAYMENT_URL = process.env.BACKEND_PAYMENT_URL || 'https://an-nahda-backend.vercel.app';
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const data = Object.fromEntries(formData.entries());
     
     // Forward the request to the backend
-    const response = await fetch(`${BACKEND_URL}/api/payment/sslcommerz/ipn`, {
+    const response = await fetch(`${BACKEND_PAYMENT_URL}/api/payment/sslcommerz/ipn`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

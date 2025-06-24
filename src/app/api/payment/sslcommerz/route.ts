@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Backend API URL - Updated to use the working backend
-const BACKEND_URL = process.env.BACKEND_URL || 'https://an-nahda-backend.vercel.app';
+// Use a dedicated payment backend URL
+const BACKEND_PAYMENT_URL = process.env.BACKEND_PAYMENT_URL || 'https://an-nahda-backend.vercel.app';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,11 +12,11 @@ export async function POST(request: NextRequest) {
       amount: body.amount,
       customerName: body.customerName,
       customerEmail: body.customerEmail,
-      backendUrl: BACKEND_URL
+      backendUrl: BACKEND_PAYMENT_URL
     });
     
     // Forward the request to the backend
-    const response = await fetch(`${BACKEND_URL}/api/payment/sslcommerz/init`, {
+    const response = await fetch(`${BACKEND_PAYMENT_URL}/api/payment/sslcommerz/init`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         { 
           error: 'Backend service unavailable',
           details: `Backend returned ${response.status} with content-type: ${contentType}`,
-          backendUrl: BACKEND_URL
+          backendUrl: BACKEND_PAYMENT_URL
         },
         { status: 503 }
       );

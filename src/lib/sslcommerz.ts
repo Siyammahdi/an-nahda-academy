@@ -152,5 +152,5 @@ export const SSLCOMMERZ_INFO = {
   sandbox_url: 'https://sandbox.sslcommerz.com',
   merchant_panel: 'https://sandbox.sslcommerz.com/manage/',
   store_name: 'testnahdaykuq',
-  registered_url: 'https://nahdalife.vercel.app/'
+  registered_url: 'https://an-nahda-academy.vercel.app/'
 }; 
