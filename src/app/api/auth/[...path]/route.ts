@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000/api/auth';
+// Use Vercel backend as default if env not set
+const BACKEND_URL = process.env.BACKEND_URL || 'https://an-nahda-backend.vercel.app/api/auth';
 
 export async function POST(req: NextRequest, context: { params: { path: string[] } }) {
   const { params } = context;
