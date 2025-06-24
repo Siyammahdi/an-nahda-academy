@@ -11,6 +11,53 @@ export interface UserDto {
   updatedAt: string;
 }
 
+export interface PaymentDto {
+  _id: string;
+  orderId: string;
+  userId: string;
+  tranId: string;
+  amount: number;
+  currency: string;
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  paymentMethod: string;
+  paymentDate: string | null;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  items: Array<{
+    name: string;
+    price: number;
+    quantity: number;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaymentStatsDto {
+  total: number;
+  completed: number;
+  pending: number;
+  failed: number;
+  cancelled: number;
+  totalAmount: number;
+  averageAmount: number;
+}
+
+export interface PaymentPaginationDto {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+export interface PaymentResponseDto {
+  payments: PaymentDto[];
+  pagination: PaymentPaginationDto;
+  stats: PaymentStatsDto;
+}
+
 export interface AdminActivityDto {
   _id: string;
   userId: {
@@ -116,6 +163,80 @@ export const AdminAPI = {
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;
       throw axiosError.response?.data || { success: false, message: 'Failed to delete user' };
+    }
+  },
+  
+  // =========== Payments ===========
+  
+  // Get all payments with filtering and pagination
+  getAllPayments: async (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    paymentMethod?: string;
+    search?: string;
+    startDate?: string;
+    endDate?: string;
+  }) => {
+    try {
+      const queryParams = new URLSearchParams();
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== '') {
+            queryParams.append(key, value.toString());
+          }
+        });
+      }
+      
+      const response = await Axios.get<{ success: boolean; data: PaymentResponseDto }>(`/admin/payments?${queryParams}`);
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: 'Failed to get payments' };
+    }
+  },
+  
+  // Get a payment by id
+  getPayment: async (paymentId: string) => {
+    try {
+      const response = await Axios.get<{ success: boolean; data: PaymentDto }>(`/admin/payments/${paymentId}`);
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: 'Failed to get payment' };
+    }
+  },
+  
+  // Update payment status
+  updatePaymentStatus: async (paymentId: string, status: string) => {
+    try {
+      const response = await Axios.patch<{ success: boolean; data: PaymentDto }>(`/admin/payments/${paymentId}`, { status });
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: 'Failed to update payment status' };
+    }
+  },
+  
+  // Manual payment validation
+  validatePayment: async (tranId: string) => {
+    try {
+      const response = await Axios.post<{ success: boolean; data: PaymentDto }>('/payment/validate', { tranId });
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: 'Failed to validate payment' };
+    }
+  },
+  
+  // Manual payment status update via payment API
+  updatePaymentStatusViaPaymentAPI: async (tranId: string, status: string) => {
+    try {
+      const response = await Axios.patch<{ success: boolean; data: PaymentDto }>('/payment/status', { tranId, status });
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data || { success: false, message: 'Failed to update payment status' };
     }
   },
   

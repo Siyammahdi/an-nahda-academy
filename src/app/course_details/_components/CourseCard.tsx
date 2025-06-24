@@ -8,6 +8,7 @@ import { TbTimeDuration10, TbWorld } from "react-icons/tb";
 import { toast } from "sonner";
 import PaymentDetailsModal from "./PaymentDetailsModal";
 import { useCart, CartItem } from "@/contexts/CartContext";
+import { parsePrice } from "@/lib/utils";
 
 interface Schedule {
   startingTime?: string;
@@ -26,8 +27,13 @@ interface CourseData {
 }
 
 interface CourseCardProps {
-  data: CourseData;
-  courseId: number;
+  data: {
+    schedule?: { [key: string]: string }[];
+    fees?: {
+      courseFee?: string;
+    };
+  };
+  courseId: string;
   courseName: string;
   imagePath: string;
 }
@@ -51,14 +57,14 @@ const CourseCard: React.FC<CourseCardProps> = ({
   const courseFee = data.fees?.courseFee || "Course Fee Not Specified";
 
   const handleAddToCart = () => {
-    // Create cart item
+    // Create cart item with standardized price parsing
     const cartItem: CartItem = {
       id: courseId,
       type: "course",
       title: courseName,
       description: `${courseName} - ${courseLanguage} course`,
       instructor: "An-Nahda Academy",
-      price: parseFloat(courseFee.replace(/[^\d.]/g, '')),
+      price: parsePrice(courseFee),
       discountedPrice: null,
       image: imagePath,
       duration: courseDuration,

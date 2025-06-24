@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 // Define cart item types
 export interface CartItem {
-  id: number;
+  id: string;
   type: 'course' | 'resource';
   title: string;
   description: string;
@@ -20,9 +20,9 @@ export interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
-  isInCart: (id: number) => boolean;
+  isInCart: (id: string) => boolean;
   getCartCount: () => number;
   calculateSubtotal: () => number;
   calculateTotal: () => number;
@@ -92,7 +92,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Remove item from cart
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCartItems(cartItems.filter(item => item.id !== id));
   };
 
@@ -104,7 +104,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Check if item is in cart
-  const isInCart = (id: number) => {
+  const isInCart = (id: string) => {
     return cartItems.some(item => item.id === id);
   };
 
@@ -134,11 +134,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
-  // Calculate total with tax and discount
+  // Calculate total with discount (no tax)
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
-    const taxes = (subtotal - discount) * 0.05; // 5% tax
-    return subtotal - discount + taxes;
+    return subtotal - discount;
   };
 
   const value = {

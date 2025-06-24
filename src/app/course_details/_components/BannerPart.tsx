@@ -6,13 +6,14 @@ import { FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "sonner";
 import PaymentDetailsModal from "./PaymentDetailsModal";
 import { useCart, CartItem } from "@/contexts/CartContext";
+import { parsePrice } from "@/lib/utils";
 
 
 interface BannerPartProps {
    courseName: string;
    courseFee: string;
    imagePath: string;
-   courseId: number;
+   courseId: string;
    courseDescription?: string;
    courseDuration?: string;
 }
@@ -34,14 +35,14 @@ const BannerPart: React.FC<BannerPartProps> = ({
    const handleEnrolButtonClose = () => setIsEnrolButtonClicked(false);
 
    const handleAddToCart = () => {
-      // Create cart item
+      // Create cart item with standardized price parsing
       const cartItem: CartItem = {
          id: courseId,
          type: "course",
          title: courseName,
          description: courseDescription,
          instructor: "An-Nahda Academy",
-         price: parseFloat(courseFee.replace(/[^\d.]/g, '')),
+         price: parsePrice(courseFee),
          discountedPrice: null,
          image: imagePath,
          duration: courseDuration,

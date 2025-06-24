@@ -27,43 +27,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
 import { useFavorites } from "@/contexts/FavoritesContext";
-
-// Mock data for recommended items
-const recommendedItems = [
-  {
-    id: 101,
-    title: "Seerah: Life of Prophet Muhammad",
-    price: 99.99,
-    badge: "Bestseller",
-    image: "/poster_square/aleema.png",
-    type: "course",
-    description: "Learn about the life of Prophet Muhammad (PBUH) in this comprehensive course",
-    instructor: "Dr. Yasir Qadhi",
-    duration: "40 hours"
-  },
-  {
-    id: 102,
-    title: "Islamic Calligraphy Workshop",
-    price: 149.99,
-    badge: "Bestseller",
-    image: "/poster_square/husnul_khuluk.png",
-    type: "course",
-    description: "Master the beautiful art of Islamic calligraphy from expert practitioners",
-    instructor: "Ustadh Ali Khan",
-    duration: "24 hours"
-  },
-  {
-    id: 103,
-    title: "Understanding Hadith Sciences",
-    price: 199.99,
-    badge: "Bestseller",
-    image: "/poster_square/fiqhun_nisa.png", 
-    type: "course",
-    description: "Deep dive into the science of Hadith and its principles of authentication",
-    instructor: "Shaykh Muhammad Salah",
-    duration: "36 hours"
-  },
-];
+import { formatPrice, parsePrice } from "@/lib/utils";
+import { getCourses, Course } from "@/lib/api";
 
 const CartPage = () => {
   const router = useRouter();
@@ -82,20 +47,65 @@ const CartPage = () => {
   
   const [promoCode, setPromoCode] = useState("Nahda10");
   const [hasMounted, setHasMounted] = useState(false);
+  const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]);
+  const [loadingRecommended, setLoadingRecommended] = useState(true);
 
   // Set hasMounted to true after component mounts
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
+  // Fetch recommended courses from backend
+  useEffect(() => {
+    const fetchRecommendedCourses = async () => {
+      try {
+        setLoadingRecommended(true);
+        const courses = await getCourses();
+        // Show courses that are not in cart as recommendations
+        const cartItemIds = cartItems.map(item => item.id);
+        const availableCourses = courses.filter(course => !cartItemIds.includes(course._id));
+        // Take first 3 courses as recommendations
+        setRecommendedCourses(availableCourses.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching recommended courses:', error);
+      } finally {
+        setLoadingRecommended(false);
+      }
+    };
+
+    if (hasMounted) {
+      fetchRecommendedCourses();
+    }
+  }, [hasMounted, cartItems]);
+
+  // Transform course for display
+  const transformCourseForDisplay = (course: Course) => {
+    // Find course duration from schedule
+    const durationItem = course.courseDetails.schedule.find(item => 
+      Object.keys(item)[0] === "courseDuration"
+    );
+    const duration = durationItem ? Object.values(durationItem)[0] : "Flexible Schedule";
+
+    return {
+      id: course._id,
+      title: course.courseName,
+      price: parsePrice(course.courseDetails.fees.courseFee),
+      badge: "Popular",
+      image: course.imagePath,
+      type: "course",
+      description: course.description,
+      instructor: "An-Nahda Academy",
+      duration: duration,
+    };
+  };
+
   // Calculate totals
   const subtotal = calculateSubtotal();
-  const taxes = (subtotal - discount) * 0.05; // 5% tax
   const total = calculateTotal();
 
   // Toggle an item as favorite
   const toggleFavorite = (item: CartItem) => {
-    const isFavorite = checkIsFavorite(item.id);
+    const isFavorite = checkIsFavorite(item.id.toString());
     if (isFavorite) {
       removeFromFavorites(item.id);
       toast.success(`${item.title} removed from favorites!`);
@@ -116,7 +126,7 @@ const CartPage = () => {
   };
 
   // Check if item is in favorites
-  const checkIsFavorite = (id: number) => {
+  const checkIsFavorite = (id: string) => {
     if (!hasMounted) return false;
     return isFavorite(id);
   };
@@ -223,14 +233,14 @@ const CartPage = () => {
                               <h3 className="font-medium mb-1 text-center sm:text-left text-sm sm:text-base">{item.title}</h3>
                               <p className="text-xs text-muted-foreground line-clamp-2 text-center sm:text-left">{item.description}</p>
                             </div>
-                            <div className="text-center sm:text-right mt-2 sm:mt-0">
+                            <div className="flex flex-col items-end">
                               {item.discountedPrice ? (
-                                <div>
-                                  <p className="text-xs sm:text-sm line-through text-muted-foreground">${item.price.toFixed(2)}</p>
-                                  <p className="font-bold text-primary text-sm sm:text-base">${item.discountedPrice.toFixed(2)}</p>
-                                </div>
+                                <>
+                                  <p className="text-xs sm:text-sm line-through text-muted-foreground">{formatPrice(item.price, '৳')}</p>
+                                  <p className="font-bold text-primary text-sm sm:text-base">{formatPrice(item.discountedPrice, '৳')}</p>
+                                </>
                               ) : (
-                                <p className="font-bold text-sm sm:text-base">${item.price.toFixed(2)}</p>
+                                <p className="font-bold text-sm sm:text-base">{formatPrice(item.price, '৳')}</p>
                               )}
                             </div>
                           </div>
@@ -255,8 +265,8 @@ const CartPage = () => {
                                 onClick={() => toggleFavorite(item)}
                                 className="h-8 px-2 text-xs"
                               >
-                                <Heart className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 ${checkIsFavorite(item.id) ? "fill-red-500 text-red-500" : ""}`} /> 
-                                {checkIsFavorite(item.id) ? "Saved" : "Save"}
+                                <Heart className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 ${checkIsFavorite(item.id.toString()) ? "fill-red-500 text-red-500" : ""}`} /> 
+                                {checkIsFavorite(item.id.toString()) ? "Saved" : "Save"}
                               </Button>
                               <Button 
                                 size="sm" 
@@ -295,52 +305,66 @@ const CartPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                  {recommendedItems.map((item) => (
-                    <Card key={item.id} className="overflow-hidden shadow-sm h-full">
-                      <div className="relative">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          width={300}
-                          height={150}
-                          className="w-full h-32 object-cover"
-                        />
-                        {item.badge && (
-                          <Badge className="absolute top-2 right-2 bg-amber-500 text-white hover:bg-amber-600 text-[10px] sm:text-xs">
-                            {item.badge}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="p-3">
-                        <h3 className="font-medium text-xs sm:text-sm line-clamp-2 min-h-[2.5rem]">{item.title}</h3>
-                        <div className="flex justify-between items-center mt-2">
-                          <span className="font-bold text-xs sm:text-sm">${item.price.toFixed(2)}</span>
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              addToCart({
-                                id: item.id,
-                                type: "course",
-                                title: item.title,
-                                description: item.description,
-                                instructor: item.instructor || "Instructor",
-                                price: item.price,
-                                discountedPrice: null,
-                                image: item.image,
-                                duration: item.duration || "N/A",
-                              } as CartItem);
-                              toast.success(`${item.title} added to cart!`);
-                            }}
-                            className="h-7 px-2 text-[10px] sm:text-xs"
-                          >
-                            <PlusCircle className="h-3 w-3 mr-1" /> Add
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+                {loadingRecommended ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
+                    <p className="text-sm text-gray-600">Loading recommendations...</p>
+                  </div>
+                ) : recommendedCourses.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-600">No additional courses available at the moment.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    {recommendedCourses.map((course) => {
+                      const displayCourse = transformCourseForDisplay(course);
+                      return (
+                        <Card key={displayCourse.id} className="overflow-hidden shadow-sm h-full">
+                          <div className="relative">
+                            <Image
+                              src={displayCourse.image}
+                              alt={displayCourse.title}
+                              width={300}
+                              height={150}
+                              className="w-full h-32 object-cover"
+                            />
+                            {displayCourse.badge && (
+                              <Badge className="absolute top-2 right-2 bg-amber-500 text-white hover:bg-amber-600 text-[10px] sm:text-xs">
+                                {displayCourse.badge}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="p-3">
+                            <h3 className="font-medium text-xs sm:text-sm line-clamp-2 min-h-[2.5rem]">{displayCourse.title}</h3>
+                            <div className="flex justify-between items-center mt-2">
+                              <span className="font-bold text-xs sm:text-sm">{formatPrice(displayCourse.price, '৳')}</span>
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  addToCart({
+                                    id: displayCourse.id,
+                                    type: "course",
+                                    title: displayCourse.title,
+                                    description: displayCourse.description,
+                                    instructor: displayCourse.instructor,
+                                    price: displayCourse.price,
+                                    discountedPrice: null,
+                                    image: displayCourse.image,
+                                    duration: displayCourse.duration,
+                                  } as CartItem);
+                                  toast.success(`${displayCourse.title} added to cart!`);
+                                }}
+                                className="h-7 px-2 text-[10px] sm:text-xs"
+                              >
+                                <PlusCircle className="h-3 w-3 mr-1" /> Add
+                              </Button>
+                            </div>
+                          </div>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
@@ -357,7 +381,7 @@ const CartPage = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs sm:text-sm">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatPrice(subtotal, '৳')}</span>
                   </div>
                   
                   {promoApplied && (
@@ -365,20 +389,15 @@ const CartPage = () => {
                       <span className="flex items-center">
                         <BadgePercent className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> Promo Code
                       </span>
-                      <span>-${discount.toFixed(2)}</span>
+                      <span>-{formatPrice(discount, '৳')}</span>
                     </div>
                   )}
-                  
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span>Taxes</span>
-                    <span>${taxes.toFixed(2)}</span>
-                  </div>
                   
                   <Separator className="my-2" />
                   
                   <div className="flex justify-between font-bold text-sm sm:text-base">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>{formatPrice(total, '৳')}</span>
                   </div>
                 </div>
 

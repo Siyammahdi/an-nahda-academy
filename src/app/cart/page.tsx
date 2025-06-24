@@ -17,6 +17,7 @@ import {
   Trash2, 
   ShoppingCart,
   Bookmark,
+  PlusCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
@@ -25,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 const CartPage = () => {
   const router = useRouter();
@@ -48,7 +50,7 @@ const CartPage = () => {
   const subtotal = calculateSubtotal();
 
   // Move item to saved for later (just removes it for now)
-  const saveForLater = (id: number) => {
+  const saveForLater = (id: string) => {
     removeFromCart(id);
   };
   
@@ -166,14 +168,14 @@ const CartPage = () => {
                               <h3 className="font-medium mb-1 text-center sm:text-left">{item.title}</h3>
                               <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 text-center sm:text-left">{item.description}</p>
                             </div>
-                            <div className="text-center sm:text-right mt-2 sm:mt-0">
+                            <div className="flex flex-col items-end">
                               {item.discountedPrice ? (
-                                <div>
-                                  <p className="text-sm line-through text-muted-foreground">${item.price.toFixed(2)}</p>
-                                  <p className="font-bold text-primary">${item.discountedPrice.toFixed(2)}</p>
-                                </div>
+                                <>
+                                  <p className="text-sm line-through text-muted-foreground">{formatPrice(item.price, '৳')}</p>
+                                  <p className="font-bold text-primary">{formatPrice(item.discountedPrice, '৳')}</p>
+                                </>
                               ) : (
-                                <p className="font-bold">${item.price.toFixed(2)}</p>
+                                <p className="font-bold">{formatPrice(item.price, '৳')}</p>
                               )}
                             </div>
                           </div>

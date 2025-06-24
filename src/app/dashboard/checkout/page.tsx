@@ -33,7 +33,6 @@ const CheckoutPage = () => {
   // Calculate totals
   const subtotal = calculateSubtotal();
   const total = calculateTotal();
-  const taxes = (subtotal - discount) * 0.05; // 5% tax
 
   // Return to cart
   const returnToCart = () => {
@@ -162,7 +161,6 @@ const CheckoutPage = () => {
             cartItems={cartItems}
             subtotal={subtotal}
             discount={discount}
-            taxes={taxes}
             total={total}
             note="After completing your payment, please enter the transaction ID to verify your payment. Your enrollment will be processed within 24 hours after verification."
           />

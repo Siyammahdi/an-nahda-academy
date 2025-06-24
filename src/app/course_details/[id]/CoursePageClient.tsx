@@ -5,68 +5,69 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import BannerPart from '../_components/BannerPart';
 import CourseCard from '../_components/CourseCard';
-
-interface Feature {
-  [key: string]: string;
-}
-
-interface CourseData {
-  id: number;
-  courseName: string;
-  title: string;
-  description: string;
-  introduction: string[];
-  courseHighlights: {
-    title: string;
-    description: string;
-    features: Feature[];
-  };
-  courseDetails: {
-    title: string;
-    schedule: { [key: string]: string }[];
-    platform: string;
-    fees: {
-      courseFee: string;
-      scholarships: string;
-    };
-    language: string;
-    ageRequirement: string;
-    duration: string;
-    startingTime: string;
-  };
-  callToAction: {
-    title: string;
-    description: string;
-    encouragement: string;
-  };
-  imagePath: string;
-}
+import { getCourseById, Course } from '@/lib/api';
 
 const CoursePageClient = () => {
   const { id } = useParams() as { id: string };
-  const [data, setCourse] = useState<CourseData | null>(null);
+  const [data, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const res = await fetch('/courseData.json');
-        const allData: CourseData[] = await res.json();
-        const foundCourse = allData.find((course) => course.id === Number(id));
-        if (foundCourse) {
-          setCourse(foundCourse);
-        } else {
-          console.error('Course not found');
-        }
+        setLoading(true);
+        setError(null);
+        const courseData = await getCourseById(id);
+        setCourse(courseData);
       } catch (error) {
         console.error('Error fetching course data:', error);
+        setError('Failed to load course data. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchCourseData();
+    if (id) {
+      fetchCourseData();
+    }
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Loading course...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <p className="text-lg text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!data) {
-    return <p className='h-screen text-3xl'>Loading...</p>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <p className="text-lg text-gray-600">Course not found</p>
+        </div>
+      </div>
+    );
   }
 
   // Find the course duration from the schedule data
@@ -81,7 +82,7 @@ const CoursePageClient = () => {
         courseName={data.courseName}
         courseFee={data.courseDetails.fees.courseFee}
         imagePath={data.imagePath}
-        courseId={data.id}
+        courseId={data._id}
         courseDescription={data.description}
         courseDuration={findCourseDuration()}
       />
@@ -98,7 +99,7 @@ const CoursePageClient = () => {
         <div className='md:w-2/5 w-full'>
           <CourseCard 
             data={data.courseDetails} 
-            courseId={data.id}
+            courseId={data._id}
             courseName={data.courseName}
             imagePath={data.imagePath}
           />

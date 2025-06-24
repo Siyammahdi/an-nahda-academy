@@ -63,6 +63,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatPrice } from "@/lib/utils";
 
 // Mock data for payments
 const paymentHistory = [
@@ -501,7 +502,7 @@ const PaymentHistoryPage = () => {
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <p className="text-muted-foreground">Amount</p>
-                            <p className="font-medium">${sub.price.toFixed(2)} / month</p>
+                            <p className="font-medium">{formatPrice(sub.price, '৳')} / month</p>
                           </div>
                           <div>
                             <p className="text-muted-foreground">Next billing</p>

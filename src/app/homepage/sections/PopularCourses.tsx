@@ -3,15 +3,17 @@
 import { Card, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { FaArrowRight, FaRegClock, FaRegHeart } from "react-icons/fa6";
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { TbTimeDuration10, TbWorld } from 'react-icons/tb';
+import 'swiper/css/pagination';
+import { FaArrowRight, FaRegHeart, FaRegClock } from "react-icons/fa";
 import { SlCalender } from 'react-icons/sl';
+import { TbTimeDuration10, TbWorld } from 'react-icons/tb';
 import { useState, useEffect } from 'react';
+import { getCourses, Course } from "@/lib/api";
 
 type ReusableButtonProps = {
    labelTop?: string;
@@ -81,67 +83,12 @@ const ReusableButton: React.FC<ReusableButtonProps> = ({
    );
 };
 
-const list = [
-   {
-      id: 1,
-      title: "Learning Arabic",
-      language: "Bangla,Arabic",
-      age: "10+",
-      time: "9+ months (Live Class)",
-      start: "After Enrollment",
-      img: "/poster_square/learning_arabic.png",
-      price: "650 Tk. monthly",
-      classes: "Flexible class schedule",
-   },
-   {
-      id: 2,
-      title: "Hasanul Khuluk",
-      language: "Bangla, Arabic",
-      age: "12+",
-      time: "2 months",
-      start: "Next batch (March 1st, 2025)",
-      img: "/poster_square/husnul_khuluk.png",
-      price: "1000 Tk.",
-      classes: "Online, combining engaging pre-recorded videos, live discussions, and assignments.",
-   },
-   {
-      id: 3,
-      title: "Fiqhun-Nisa",
-      language: "Bangla,Arabic",
-      age: "10+",
-      time: "18+ hours (Live + Recorded)",
-      start: "After Enrollment",
-      img: "/poster_square/fiqhun_nisa.png",
-      price: "1050 Tk.",
-      classes: "20+ Classes",
-   },
-   {
-      id: 4,
-      title: "Alima Course",
-      language: "Bangla,Arabic",
-      age: "12+",
-      time: "3 Years (Live Class)",
-      start: "After Enrollment",
-      img: "/poster_square/aleema.png",
-      price: "550 Tk. monthly",
-      classes: "Flexible class schedule",
-   },
-   {
-      id: 5,
-      title: "Parenting Course",
-      language: "Bangla,Arabic",
-      age: "12+",
-      time: "3 Years (Live Class)",
-      start: "After Enrollment",
-      img: "/poster_square/parenting.png",
-      price: "1050 Tk.",
-      classes: "Flexible class schedule",
-   },
-];
-
 const PopularCourses: React.FC = () => {
    // Add state for current date
    const [currentDate, setCurrentDate] = useState(new Date());
+   const [courses, setCourses] = useState<Course[]>([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState<string | null>(null);
    
    // Update the date every minute
    useEffect(() => {
@@ -151,12 +98,72 @@ const PopularCourses: React.FC = () => {
       
       return () => clearInterval(interval);
    }, []);
+
+   // Fetch courses from backend
+   useEffect(() => {
+      const fetchCourses = async () => {
+         try {
+            setLoading(true);
+            setError(null);
+            const backendCourses = await getCourses();
+            setCourses(backendCourses);
+         } catch (error) {
+            console.error('Error fetching courses:', error);
+            setError('Failed to load courses. Please try again later.');
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      fetchCourses();
+   }, []);
    
    // Extract date components
    const year = currentDate.getFullYear();
    const month = currentDate.getMonth(); // 0-11
    const day = currentDate.getDate(); // 1-31
    const dayOfWeek = currentDate.getDay(); // 0-6
+
+   // Transform backend courses to display format
+   const transformCourseForDisplay = (course: Course) => {
+      // Find course duration from schedule
+      const durationItem = course.courseDetails.schedule.find(item => 
+         Object.keys(item)[0] === "courseDuration"
+      );
+      const duration = durationItem ? Object.values(durationItem)[0] : "Flexible Schedule";
+      
+      // Find starting time from schedule
+      const startingTimeItem = course.courseDetails.schedule.find(item => 
+         Object.keys(item)[0] === "startingTime"
+      );
+      const startingTime = startingTimeItem ? Object.values(startingTimeItem)[0] : "After Enrollment";
+      
+      // Find age requirement from schedule
+      const ageItem = course.courseDetails.schedule.find(item => 
+         Object.keys(item)[0] === "ageRequirement"
+      );
+      const age = ageItem ? Object.values(ageItem)[0] : "12+";
+      
+      // Find course language from schedule
+      const languageItem = course.courseDetails.schedule.find(item => 
+         Object.keys(item)[0] === "courseLanguage"
+      );
+      const language = languageItem ? Object.values(languageItem)[0] : "Bangla, Arabic";
+
+      return {
+         id: course._id,
+         title: course.courseName,
+         language: language,
+         age: age,
+         time: duration,
+         start: startingTime,
+         img: course.imagePath,
+         price: course.courseDetails.fees.courseFee,
+         classes: course.courseDetails.platform,
+      };
+   };
+
+   const displayCourses = courses.map(transformCourseForDisplay);
    
    return (
       <div className='lg:mx-0'>
@@ -196,80 +203,105 @@ const PopularCourses: React.FC = () => {
             </div>
          </div>
          {/* Swiper Slider */}
-         <Swiper
-            spaceBetween={0}
-            slidesPerView={1}
-            centeredSlides={true}
-            breakpoints={{
-               640: { slidesPerView: 1 },
-               768: { slidesPerView: 2 },
-               1024: { slidesPerView: 5 },
-            }}
-            className="w-full "
-         >
-            {list.map((item) => (
-               <SwiperSlide key={item.id}>
-                  <Card className="h-full bg-opacity-40 backdrop-blur-md rounded-3xl mx-auto w-4/5 overflow-hidden">
-                     <Image
-                        width={500}
-                        height={500}
-                        alt={item.title}
-                        className="object-cover"
-                        src={item.img}
-                     />
+         {loading ? (
+            <div className="flex items-center justify-center py-20">
+               <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                  <p className="text-lg text-gray-600">Loading courses...</p>
+               </div>
+            </div>
+         ) : error ? (
+            <div className="flex items-center justify-center py-20">
+               <div className="text-center">
+                  <p className="text-lg text-red-600 mb-4">{error}</p>
+                  <button 
+                     onClick={() => window.location.reload()} 
+                     className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  >
+                     Try Again
+                  </button>
+               </div>
+            </div>
+         ) : displayCourses.length === 0 ? (
+            <div className="text-center py-20">
+               <p className="text-lg text-gray-600">No courses available at the moment.</p>
+            </div>
+         ) : (
+            <Swiper
+               spaceBetween={0}
+               slidesPerView={1}
+               centeredSlides={true}
+               breakpoints={{
+                  640: { slidesPerView: 1 },
+                  768: { slidesPerView: 2 },
+                  1024: { slidesPerView: 5 },
+               }}
+               className="w-full "
+            >
+               {displayCourses.map((item) => (
+                  <SwiperSlide key={item.id}>
+                     <Card className="h-full bg-opacity-40 backdrop-blur-md rounded-3xl mx-auto w-4/5 overflow-hidden">
+                        <Image
+                           width={500}
+                           height={500}
+                           alt={item.title}
+                           className="object-cover"
+                           src={item.img}
+                        />
 
-                     <CardFooter className="p-3 flex flex-col items-start gap-4">
-                        <div className="w-full flex flex-row justify-between">
-                           <div className="flex flex-row items-center gap-2">
+                        <CardFooter className="p-3 flex flex-col items-start gap-4">
+                           <div className="w-full flex flex-row justify-between">
+                              <div className="flex flex-row items-center gap-2">
+                                 <Link href={`course_details/${item?.id}`}>
+                                    <Button size="sm" className="bg-purple-200 text-purple-600 hover:text-white text-[10px] h-6">
+                                       About Course
+                                    </Button>
+                                 </Link>
+                                 <Link href="https://www.facebook.com/messages/t/103915368128673">
+                                    <Button size="sm" className="bg-green-200 text-green-600 hover:text-white text-[10px] h-6">
+                                       Message Us
+                                    </Button>
+                                 </Link>
+                              </div>
+                              <div className="w-[30px] h-[30px] rounded-full flex flex-col items-center justify-center border">
+                                 <FaRegHeart className="text-red-500" />
+                              </div>
+                           </div>
+                           <b className="text-xl">{item.title}</b>
+
+                           <div className='text-xs space-y-2'>
+                              <div className="flex flex-nowrap items-center gap-2">
+                                 <SlCalender />
+                                 <span className="break-words">{item.start}</span>
+                              </div>
+                              <div className="flex flex-nowrap items-center gap-2">
+                                 <FaRegClock />
+                                 <span className="break-words">{item.time}</span>
+                              </div>
+                              <div className="flex flex-nowrap items-center gap-2">
+                                 <TbTimeDuration10 />
+                                 <span className="break-words">{item.age} Years</span>
+                              </div>
+                              <div className="flex flex-nowrap items-center gap-2">
+                                 <TbWorld />
+                                 <span className="break-words">{item.language}</span>
+                              </div>
+                           </div>
+                           <span className={`text-purple-600 ${item.classes ? "block" : "hidden"}`}>{item.classes?.slice(0, 25)}...</span>
+                           <div className="w-full">
                               <Link href={`course_details/${item?.id}`}>
-                                 <Button size="sm" className="bg-purple-200 text-purple-600 hover:text-white text-[10px] h-6">
-                                    About Course
-                                 </Button>
-                              </Link>
-                              <Link href="https://www.facebook.com/messages/t/103915368128673">
-                                 <Button size="sm" className="bg-green-200 text-green-600 hover:text-white text-[10px] h-6">
-                                    Message Us
+                                 <Button className="w-full rounded-full bg-purple-600 text-white">
+                                    Fee {item.price}
                                  </Button>
                               </Link>
                            </div>
-                           <div className="w-[30px] h-[30px] rounded-full flex flex-col items-center justify-center border">
-                              <FaRegHeart className="text-red-500" />
-                           </div>
-                        </div>
-                        <b className="text-xl">{item.title}</b>
-
-                        <div className='text-xs space-y-2'>
-                           <div className="flex flex-nowrap items-center gap-2">
-                              <SlCalender />
-                              <span className="break-words">{item.start}</span>
-                           </div>
-                           <div className="flex flex-nowrap items-center gap-2">
-                              <FaRegClock />
-                              <span className="break-words">{item.time}</span>
-                           </div>
-                           <div className="flex flex-nowrap items-center gap-2">
-                              <TbTimeDuration10 />
-                              <span className="break-words">{item.age} Years</span>
-                           </div>
-                           <div className="flex flex-nowrap items-center gap-2">
-                              <TbWorld />
-                              <span className="break-words">{item.language}</span>
-                           </div>
-                        </div>
-                        <span className={`text-purple-600 ${item.classes ? "block" : "hidden"}`}>{item.classes?.slice(0, 25)}...</span>
-                        <div className="w-full">
-                           <Link href={`course_details/${item?.id}`}>
-                              <Button className="w-full rounded-full bg-purple-600 text-white">
-                                 Fee {item.price}
-                              </Button>
-                           </Link>
-                        </div>
-                     </CardFooter>
-                  </Card>
-                  
-               </SwiperSlide>
-            ))}
-         </Swiper>
+                        </CardFooter>
+                     </Card>
+                     
+                  </SwiperSlide>
+               ))}
+            </Swiper>
+         )}
       </div>
    );
 };

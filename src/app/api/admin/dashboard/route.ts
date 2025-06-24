@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Set the backend API URL from environment or use a default
-const API_URL = process.env.BACKEND_API_URL || "http://localhost:5000/api";
+// Set the backend API URL from environment or use Vercel backend
+const API_URL = process.env.BACKEND_API_URL || "https://an-nahda-backend.vercel.app/api";
 
 // Get dashboard statistics
 export async function GET(request: NextRequest) {
   try {
     const url = `${API_URL}/admin/dashboard`;
+
+    // Debug logs for Vercel function logs
+    console.log("BACKEND_API_URL:", process.env.BACKEND_API_URL);
+    console.log("Dashboard backend URL:", url);
 
     // Get the token from the cookies or Authorization header
     const authHeader = request.headers.get("Authorization");

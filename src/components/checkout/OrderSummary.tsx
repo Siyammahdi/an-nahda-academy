@@ -16,13 +16,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 interface OrderSummaryProps {
   orderId: string;
   cartItems: CartItem[];
   subtotal: number;
   discount: number;
-  taxes: number;
   total: number;
   note?: string;
   className?: string;
@@ -33,7 +33,6 @@ const OrderSummary = ({
   cartItems,
   subtotal,
   discount,
-  taxes,
   total,
   note,
   className = ""
@@ -65,7 +64,7 @@ const OrderSummary = ({
               </div>
               <div className="text-right">
                 <span className="text-sm font-medium">
-                  ${(item.discountedPrice || item.price).toFixed(2)}
+                  {formatPrice(item.discountedPrice || item.price, '৳')}
                 </span>
               </div>
             </div>
@@ -82,7 +81,7 @@ const OrderSummary = ({
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
                     <span>{item.title}</span>
-                    <span>${(item.discountedPrice || item.price).toFixed(2)}</span>
+                    <span>{formatPrice(item.discountedPrice || item.price, '৳')}</span>
                   </div>
                 ))}
               </div>
@@ -95,22 +94,18 @@ const OrderSummary = ({
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatPrice(subtotal, '৳')}</span>
           </div>
           {discount > 0 && (
             <div className="flex justify-between text-sm text-green-600">
               <span>Discount</span>
-              <span>-${discount.toFixed(2)}</span>
+              <span>-{formatPrice(discount, '৳')}</span>
             </div>
           )}
-          <div className="flex justify-between text-sm">
-            <span>Taxes (5%)</span>
-            <span>${taxes.toFixed(2)}</span>
-          </div>
           <Separator />
           <div className="flex justify-between font-bold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatPrice(total, '৳')}</span>
           </div>
         </div>
 

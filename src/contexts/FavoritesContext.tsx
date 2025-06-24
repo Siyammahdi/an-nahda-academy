@@ -7,9 +7,9 @@ import { CartItem } from './CartContext';
 interface FavoritesContextType {
   favoriteItems: CartItem[];
   addToFavorites: (item: CartItem) => void;
-  removeFromFavorites: (id: number) => void;
+  removeFromFavorites: (id: string) => void;
   clearFavorites: () => void;
-  isFavorite: (id: number) => boolean;
+  isFavorite: (id: string) => boolean;
   getFavoritesCount: () => number;
 }
 
@@ -60,7 +60,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Remove item from favorites
-  const removeFromFavorites = (id: number) => {
+  const removeFromFavorites = (id: string) => {
     setFavoriteItems(favoriteItems.filter(item => item.id !== id));
   };
 
@@ -70,7 +70,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Check if item is in favorites
-  const isFavorite = (id: number) => {
+  const isFavorite = (id: string) => {
     return favoriteItems.some(item => item.id === id);
   };
 

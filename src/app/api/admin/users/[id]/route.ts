@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Set the backend API URL from environment or use a default
-const API_URL = process.env.BACKEND_API_URL || "http://localhost:5000/api";
+const API_URL = process.env.BACKEND_API_URL || "https://an-nahda-backend.vercel.app/api";
 
 // Mock users data for development (will be replaced with actual API call in production)
 const mockUsers = [

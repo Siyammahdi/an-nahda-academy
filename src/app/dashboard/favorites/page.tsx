@@ -17,6 +17,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 const DashboardFavoritesPage = () => {
   const router = useRouter();
@@ -149,7 +150,7 @@ const DashboardFavoritesPage = () => {
                           </div>
                         )}
                       </div>
-                      <span className="font-bold">${item.discountedPrice || item.price}</span>
+                      <span className="font-bold">{formatPrice(item.discountedPrice || item.price, '৳')}</span>
                     </div>
                   </CardContent>
                   <CardFooter className="p-4 pt-0 flex gap-2">

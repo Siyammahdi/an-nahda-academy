@@ -18,10 +18,12 @@ import { useCart, CartItem } from "@/contexts/CartContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
+import { parsePrice, formatPrice } from "@/lib/utils";
+import { getCourses, Course } from "@/lib/api";
 
-// Mock data types
+// Define course type for display
 interface CourseType {
-  id: number;
+  id: string;
   title: string;
   instructor: string;
   image: string;
@@ -42,112 +44,91 @@ interface CourseType {
   nextLesson?: string;
 }
 
-// Mock data for demonstration
-const enrolledCourses: CourseType[] = [
-  {
-    id: 1,
-    title: "Learning Arabic Course",
-    instructor: "Not Specified",
-    progress: 65,
-    totalLessons: "Flexible",
-    completedLessons: 16,
-    image: "/course_poster/learning_arabic.png",
-    lastAccessed: "2 days ago",
-    nextLesson: "To Be Determined",
-    level: "Beginner",
-    category: "Arabic Language",
-    language: "Bangla, Arabic",
-    age: "10+",
-    duration: "9+ months (Live Class)",
-    start: "After Enrollment",
-    price: 650,
-    description: "Comprehensive Arabic language course covering basic to intermediate concepts with focus on practical usage."
-  },
-  {
-    id: 2,
-    title: "Hasanul Khuluk",
-    instructor: "Not Specified",
-    progress: 32,
-    totalLessons: "Live & Pre-recorded",
-    completedLessons: 13,
-    image: "/course_poster/husnul_khuluk.png",
-    lastAccessed: "5 days ago",
-    nextLesson: "To Be Determined",
-    level: "Intermediate",
-    category: "Islamic Studies",
-    language: "Bangla, Arabic",
-    age: "12+",
-    duration: "2 months",
-    start: "Next batch starts on March 1st, 2025",
-    price: 1000,
-    description: "Learn about character building and ethics from an Islamic perspective."
-  },
-  {
-    id: 3,
-    title: "Fiqhun-Nisa",
-    instructor: "Not Specified",
-    progress: 89,
-    totalLessons: "20+ Classes",
-    completedLessons: 16,
-    image: "/course_poster/fiqhun_nisa.png",
-    lastAccessed: "Yesterday",
-    nextLesson: "To Be Determined",
-    level: "Beginner",
-    category: "Islamic Studies",
-    language: "Bangla, Arabic",
-    age: "10+",
-    duration: "18+ hours (Live + Recorded)",
-    start: "After Enrollment",
-    price: 1050,
-    description: "Special course on Islamic jurisprudence focusing on issues pertaining to women."
-  },
-];
-
-const availableCourses = [
-  {
-    id: 4,
-    title: "Alima Course",
-    instructor: "Not Specified",
-    image: "/course_poster/aleema.png",
-    level: "Advanced",
-    category: "Islamic Studies",
-    duration: "3 Years (Live Class)",
-    price: 550,
-    language: "Bangla, Arabic",
-    age: "12+",
-    start: "After Enrollment",
-    classes: "Flexible class schedule",
-    startingTime: "Next batch starts on April 1st, 2025",
-    description: "Comprehensive Islamic studies course covering various Islamic sciences to train female scholars."
-  },
-  {
-    id: 5,
-    title: "Parenting Course",
-    instructor: "Not Specified",
-    image: "/course_poster/parenting.png",
-    level: "Beginner",
-    category: "Parenting & Family",
-    duration: "6 months (Live Class)",
-    price: 550,
-    language: "Bangla",
-    age: "16+",
-    start: "After Enrollment",
-    classes: "Flexible class schedule",
-    startingTime: "Next batch starts on April 1st, 2025",
-    description: "Learn effective parenting techniques from an Islamic perspective for raising righteous children."
-  },
-];
-
-
 const CoursesPage = () => {
   const { addToCart, isInCart } = useCart();
   const { addToFavorites, isFavorite, removeFromFavorites } = useFavorites();
   const [mounted, setMounted] = useState(false);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Set mounted to true after first render to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Fetch courses from backend
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const backendCourses = await getCourses();
+        setCourses(backendCourses);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+        setError('Failed to load courses. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Transform backend courses to display format
+  const transformCourseForDisplay = (course: Course): CourseType => {
+    // Find course duration from schedule
+    const durationItem = course.courseDetails.schedule.find(item => 
+      Object.keys(item)[0] === "courseDuration"
+    );
+    const duration = durationItem ? Object.values(durationItem)[0] : "Flexible Schedule";
+    
+    // Find starting time from schedule
+    const startingTimeItem = course.courseDetails.schedule.find(item => 
+      Object.keys(item)[0] === "startingTime"
+    );
+    const startingTime = startingTimeItem ? Object.values(startingTimeItem)[0] : "After Enrollment";
+    
+    // Find age requirement from schedule
+    const ageItem = course.courseDetails.schedule.find(item => 
+      Object.keys(item)[0] === "ageRequirement"
+    );
+    const age = ageItem ? Object.values(ageItem)[0] : "12+";
+    
+    // Find course language from schedule
+    const languageItem = course.courseDetails.schedule.find(item => 
+      Object.keys(item)[0] === "courseLanguage"
+    );
+    const language = languageItem ? Object.values(languageItem)[0] : "Bangla, Arabic";
+
+    return {
+      id: course._id,
+      title: course.courseName,
+      instructor: "An-Nahda Academy",
+      image: course.imagePath,
+      level: "Beginner", // Default level
+      category: "Islamic Studies", // Default category
+      duration: duration,
+      price: course.courseDetails.fees.courseFee,
+      description: course.description,
+      language: language,
+      age: age,
+      start: startingTime,
+      classes: course.courseDetails.platform,
+      startingTime: startingTime,
+      // Mock progress data for enrolled courses (in real app, this would come from user enrollment data)
+      progress: Math.floor(Math.random() * 100),
+      totalLessons: "Flexible",
+      completedLessons: Math.floor(Math.random() * 20),
+      lastAccessed: `${Math.floor(Math.random() * 7)} days ago`,
+      nextLesson: "To Be Determined",
+    };
+  };
+
+  // For demo purposes, we'll show first 3 courses as enrolled and rest as available
+  const enrolledCourses: CourseType[] = courses.slice(0, 3).map(transformCourseForDisplay);
+  const availableCourses: CourseType[] = courses.slice(3).map(transformCourseForDisplay);
 
   const handleAddToCart = (course: CourseType) => {
     // Format the course to match CartItem type
@@ -157,8 +138,7 @@ const CoursesPage = () => {
       title: course.title,
       description: course.description || `${course.title} - ${course.level} level course`,
       instructor: course.instructor,
-      price: typeof course.price === 'number' ? course.price : 
-        typeof course.price === 'string' ? parseFloat(course.price.split(' ')[0]) : 0,
+      price: typeof course.price === 'number' ? course.price : parsePrice(course.price),
       discountedPrice: null,
       image: course.image,
       duration: course.duration,
@@ -169,13 +149,13 @@ const CoursesPage = () => {
   };
 
   // A safe version of isInCart that only runs on client-side
-  const checkIsInCart = (id: number) => {
+  const checkIsInCart = (id: string) => {
     if (!mounted) return false;
     return isInCart(id);
   };
 
   // A safe version of isFavorite that only runs on client-side
-  const checkIsFavorite = (id: number) => {
+  const checkIsFavorite = (id: string) => {
     if (!mounted) return false;
     return isFavorite(id);
   };
@@ -189,8 +169,7 @@ const CoursesPage = () => {
       title: course.title,
       description: course.description || `${course.title} - ${course.level} level course`,
       instructor: course.instructor,
-      price: typeof course.price === 'number' ? course.price : 
-        typeof course.price === 'string' ? parseFloat(course.price.split(' ')[0]) : 0,
+      price: typeof course.price === 'number' ? course.price : parsePrice(course.price),
       discountedPrice: null,
       image: course.image,
       duration: course.duration,
@@ -204,6 +183,33 @@ const CoursesPage = () => {
       toast.success(`${course.title} added to favorites!`);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <p className="text-lg text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -310,79 +316,90 @@ const CoursesPage = () => {
         </TabsContent>
         
         <TabsContent value="available" className="space-y-4 sm:space-y-6">
-          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
-            {availableCourses.map((course) => (
-              <Card key={course.id} className="overflow-hidden shadow-sm flex flex-col h-full">
-                <div className="relative">
-                  <Image
-                    src={course.image}
-                    alt={course.title}
-                    width={400}
-                    height={225}
-                    className="w-full h-48 object-cover"
-                  />
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="absolute top-2 right-2 h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-background/80 hover:bg-background"
-                    onClick={() => toggleFavorite(course)}
-                  >
-                    <Heart 
-                      className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${checkIsFavorite(course.id) ? 'fill-red-500 text-red-500' : ''}`} 
+          {availableCourses.length === 0 ? (
+            <Card className="shadow-sm">
+              <CardHeader className="px-3 py-2 sm:px-6 sm:py-4">
+                <CardTitle className="text-base sm:text-lg">No Available Courses</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">
+                  No additional courses are available at the moment
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+              {availableCourses.map((course) => (
+                <Card key={course.id} className="overflow-hidden shadow-sm flex flex-col h-full">
+                  <div className="relative">
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      width={400}
+                      height={225}
+                      className="w-full h-48 object-cover"
                     />
-                  </Button>
-                </div>
-                <CardContent className="flex-1 p-3 sm:p-4">
-                  <div className="flex items-start justify-between mb-1 sm:mb-2">
-                    <h3 className="font-semibold text-sm sm:text-base line-clamp-2">{course.title}</h3>
-                    <Badge variant="outline" className="text-[10px] sm:text-xs ml-2 shrink-0">
-                      {course.level}
-                    </Badge>
-                  </div>
-                  
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
-                    <span className="font-medium">Instructor:</span> {course.instructor}
-                  </p>
-                  
-                  <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 mb-2 sm:mb-3">
-                    {course.description}
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-1 sm:gap-2 mb-2 sm:mb-3">
-                    <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
-                      <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
-                      <span className="truncate">{course.duration}</span>
-                    </div>
-                    <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
-                      <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
-                      <span className="truncate">{course.age}</span>
-                    </div>
-                  </div>
-                  
-                  <Separator className="my-2 sm:my-3" />
-                  
-                  <div className="flex justify-between items-center">
-                    <div className="font-bold text-sm sm:text-base">${typeof course.price === 'number' ? course.price.toFixed(2) : course.price}</div>
                     <Button 
-                      size="sm" 
-                      className="h-7 sm:h-8 text-[10px] sm:text-xs px-2 sm:px-3"
-                      onClick={() => handleAddToCart(course)}
-                      disabled={checkIsInCart(course.id)}
+                      variant="ghost" 
+                      size="icon" 
+                      className="absolute top-2 right-2 h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-background/80 hover:bg-background"
+                      onClick={() => toggleFavorite(course)}
                     >
-                      {checkIsInCart(course.id) ? (
-                        <span>Added to Cart</span>
-                      ) : (
-                        <>
-                          <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
-                          Add to Cart
-                        </>
-                      )}
+                      <Heart 
+                        className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${checkIsFavorite(course.id) ? 'fill-red-500 text-red-500' : ''}`} 
+                      />
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <CardContent className="flex-1 p-3 sm:p-4">
+                    <div className="flex items-start justify-between mb-1 sm:mb-2">
+                      <h3 className="font-semibold text-sm sm:text-base line-clamp-2">{course.title}</h3>
+                      <Badge variant="outline" className="text-[10px] sm:text-xs ml-2 shrink-0">
+                        {course.level}
+                      </Badge>
+                    </div>
+                    
+                    <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+                      <span className="font-medium">Instructor:</span> {course.instructor}
+                    </p>
+                    
+                    <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-2 mb-2 sm:mb-3">
+                      {course.description}
+                    </p>
+                    
+                    <div className="grid grid-cols-2 gap-1 sm:gap-2 mb-2 sm:mb-3">
+                      <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                        <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                        <span className="truncate">{course.duration}</span>
+                      </div>
+                      <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                        <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                        <span className="truncate">{course.age}</span>
+                      </div>
+                    </div>
+                    
+                    <Separator className="my-2 sm:my-3" />
+                    
+                    <div className="flex justify-between items-center">
+                      <div className="font-bold text-sm sm:text-base">{formatPrice(typeof course.price === 'number' ? course.price : parsePrice(course.price), '৳')}</div>
+                      <Button 
+                        size="sm" 
+                        className="h-7 sm:h-8 text-[10px] sm:text-xs px-2 sm:px-3"
+                        onClick={() => handleAddToCart(course)}
+                        disabled={checkIsInCart(course.id)}
+                      >
+                        {checkIsInCart(course.id) ? (
+                          <span>Added to Cart</span>
+                        ) : (
+                          <>
+                            <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-1" />
+                            Add to Cart
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
