@@ -357,11 +357,11 @@ export default function MessagesPage() {
       </div>
       
       {/* Coming Soon Notice */}
-      <div className="text-center p-6 bg-blue-50  rounded-lg mt-6">
-        <h3 className="text-lg font-medium text-blue-800  mb-2">
+      <div className="text-center p-6 bg-blue-50 rounded-lg mt-6">
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">
           Enhanced Messaging Features Coming Soon
         </h3>
-        <p className="text-sm text-blue-600  max-w-md mx-auto">
+        <p className="text-sm text-blue-700 max-w-md mx-auto">
           We&apos;re working on adding features like file attachments, message templates, and bulk messaging capabilities.
         </p>
       </div>

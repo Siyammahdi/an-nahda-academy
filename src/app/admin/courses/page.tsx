@@ -70,12 +70,16 @@ export default function CoursesPage() {
   const fetchCourses = async () => {
     try {
       setLoading(true);
-      const response = await Axios.get('/courses');
+      const response = await Axios.get('/admin/courses');
       setCourses(response.data);
       setError(null);
-    } catch (error: any) {
-      console.error('Error fetching courses:', error);
-      setError(error.message || 'Failed to fetch courses');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching courses:', error);
+        setError(error.message);
+      } else {
+        setError('Failed to fetch courses');
+      }
     } finally {
       setLoading(false);
     }
@@ -120,23 +124,6 @@ export default function CoursesPage() {
     
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
-  };
-  
-  // Reset form
-  const resetForm = () => {
-    setFormData({
-      courseName: '',
-      imagePath: '',
-      title: '',
-      description: ''
-    });
-    setFormErrors({});
-  };
-  
-  // Open add course dialog
-  const openAddDialog = () => {
-    resetForm();
-    setIsAddDialogOpen(true);
   };
   
   // Open edit course dialog
@@ -190,7 +177,7 @@ export default function CoursesPage() {
         }
       };
       
-      const response = await Axios.post('/courses', courseData);
+      const response = await Axios.post('/admin/courses', courseData);
       
       // Update courses list
       setCourses(prev => [...prev, response.data]);
@@ -200,9 +187,13 @@ export default function CoursesPage() {
       
       // Show success message
       toast.success('Course created successfully');
-    } catch (error: any) {
-      console.error('Error creating course:', error);
-      toast.error(error.message || 'Failed to create course');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error creating course:', error);
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to create course');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -215,7 +206,9 @@ export default function CoursesPage() {
     try {
       setIsSubmitting(true);
       
-      const response = await Axios.put(`/courses/${selectedCourse._id}`, formData);
+      const response = await Axios.put(`/admin/courses/${selectedCourse._id}`, {
+        ...formData,
+      });
       
       // Update courses list
       setCourses(prev => 
@@ -229,9 +222,13 @@ export default function CoursesPage() {
       
       // Show success message
       toast.success('Course updated successfully');
-    } catch (error: any) {
-      console.error('Error updating course:', error);
-      toast.error(error.message || 'Failed to update course');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error updating course:', error);
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to update course');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -244,7 +241,7 @@ export default function CoursesPage() {
     try {
       setIsSubmitting(true);
       
-      await Axios.delete(`/courses/${selectedCourse._id}`);
+      await Axios.delete(`/admin/courses/${selectedCourse._id}`);
       
       // Update courses list
       setCourses(prev => 
@@ -256,9 +253,13 @@ export default function CoursesPage() {
       
       // Show success message
       toast.success('Course deleted successfully');
-    } catch (error: any) {
-      console.error('Error deleting course:', error);
-      toast.error(error.message || 'Failed to delete course');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error deleting course:', error);
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to delete course');
+      }
     } finally {
       setIsSubmitting(false);
     }

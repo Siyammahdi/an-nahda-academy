@@ -169,7 +169,7 @@ export default function EnrollmentsPage() {
       {/* Filters and Search */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
           <Input
             placeholder="Search enrollments..."
             className="pl-8"
@@ -254,9 +254,9 @@ export default function EnrollmentsPage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className={
-                        enrollment.status === 'active' ? 'border-green-200 bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                        enrollment.status === 'completed' ? 'border-blue-200 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                        'border-amber-200 bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                        enrollment.status === 'active' ? 'border-green-200 bg-green-50 text-green-700' :
+                        enrollment.status === 'completed' ? 'border-blue-200 bg-blue-50 text-blue-700' :
+                        'border-amber-200 bg-amber-50 text-amber-700'
                       }>
                         {enrollment.status === 'active' && <Check className="h-3.5 w-3.5 mr-1" />}
                         {enrollment.status === 'completed' && <Check className="h-3.5 w-3.5 mr-1" />}
@@ -268,7 +268,7 @@ export default function EnrollmentsPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div 
                             className={`h-full rounded-full ${
                               enrollment.progress >= 80 ? 'bg-green-500' : 
@@ -285,9 +285,9 @@ export default function EnrollmentsPage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className={
-                        enrollment.paymentStatus === 'paid' ? 'border-green-200 bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                        enrollment.paymentStatus === 'partial' ? 'border-amber-200 bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
-                        'border-red-200 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                        enrollment.paymentStatus === 'paid' ? 'border-green-200 bg-green-50 text-green-700' :
+                        enrollment.paymentStatus === 'partial' ? 'border-amber-200 bg-amber-50 text-amber-700' :
+                        'border-red-200 bg-red-50 text-red-700'
                       }>
                         {enrollment.paymentStatus}
                       </Badge>
@@ -332,11 +332,11 @@ export default function EnrollmentsPage() {
       </div>
       
       {/* Coming Soon Notice */}
-      <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-        <h3 className="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">
+      <div className="text-center p-6 bg-blue-50 rounded-lg">
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">
           Enhanced Enrollment Management Coming Soon
         </h3>
-        <p className="text-sm text-blue-600 dark:text-blue-300 max-w-md mx-auto">
+        <p className="text-sm text-blue-700 max-w-md mx-auto">
           We're working on building advanced enrollment features including bulk actions, detailed progress tracking, and automated reminders.
         </p>
       </div>

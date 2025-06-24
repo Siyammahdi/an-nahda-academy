@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams.toString();
     const queryString = searchParams ? `?${searchParams}` : "";
-    const url = `${API_URL}/admin/courses${queryString}`;
+    const url = `${API_URL}/courses${queryString}`;
 
     // Get the token from the cookies or Authorization header
     const authHeader = request.headers.get("Authorization");
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 // Create a new course
 export async function POST(request: NextRequest) {
   try {
-    const url = `${API_URL}/admin/courses`;
+    const url = `${API_URL}/courses`;
     const body = await request.json();
 
     // Get the token from the cookies or Authorization header

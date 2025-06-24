@@ -58,6 +58,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   // Function to check if a link is active
   const isLinkActive = (path: string) => {
+    if (path === '/admin') {
+      return pathname === '/admin';
+    }
+    if (path === '/admin/website') {
+      return false;
+    }
     return pathname === path || pathname?.startsWith(`${path}/`);
   };
 
@@ -106,7 +112,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       title: "System",
       items: [
         { name: "Settings", href: "/admin/settings", icon: Settings },
-        { name: "Website", href: "/admin/website", icon: Globe },
+        { name: "Website", href: "/", icon: Globe, external: true },
         { name: "Help", href: "/admin/help", icon: HelpCircle },
       ]
     }
@@ -158,6 +164,23 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <nav className="space-y-1">
                 {group.items.map((item) => {
                   const isActive = isLinkActive(item.href);
+                  if (item.name === 'Website') {
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          "flex items-center px-3 py-2 text-sm rounded-md transition-colors group text-gray-700 hover:bg-gray-100"
+                        )}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <item.icon className="mr-3 flex-shrink-0 h-5 w-5 text-gray-500 group-hover:text-gray-700" />
+                        <span>{item.name}</span>
+                      </a>
+                    );
+                  }
                   return (
                     <Link
                       key={item.name}

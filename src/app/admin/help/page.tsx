@@ -354,10 +354,10 @@ export default function HelpPage() {
         <TabsContent value="guides" className="mt-6">
           <div className="text-center py-12 bg-blue-50 rounded-lg">
             <FileText className="h-12 w-12 mx-auto text-blue-500 mb-4" />
-            <h3 className="text-lg font-medium text-blue-800 mb-2">
+            <h3 className="text-lg font-semibold text-blue-800 mb-2">
               Comprehensive Guides Coming Soon
             </h3>
-            <p className="text-blue-600 max-w-md mx-auto">
+            <p className="text-blue-700 max-w-md mx-auto">
               We're working on detailed documentation to help you get the most out of the admin dashboard.
               Check back soon for step-by-step guides on all features.
             </p>

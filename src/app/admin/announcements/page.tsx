@@ -128,21 +128,21 @@ export default function AnnouncementsPage() {
     switch (status) {
       case 'published':
         return (
-          <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200">
+          <Badge className="bg-green-100 text-green-800 border-green-200">
             <Check className="h-3.5 w-3.5 mr-1" />
             Published
           </Badge>
         );
       case 'scheduled':
         return (
-          <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200">
+          <Badge className="bg-blue-100 text-blue-800 border-blue-200">
             <CalendarIcon className="h-3.5 w-3.5 mr-1" />
             Scheduled
           </Badge>
         );
       case 'draft':
         return (
-          <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300 border-gray-200">
+          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
             Draft
           </Badge>
         );
@@ -338,11 +338,11 @@ export default function AnnouncementsPage() {
       )}
       
       {/* Coming Soon Notice */}
-      <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-        <h3 className="text-lg font-medium text-blue-800 dark:text-blue-200 mb-2">
+      <div className="text-center p-6 bg-blue-50 rounded-lg">
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">
           Enhanced Announcement Features Coming Soon
         </h3>
-        <p className="text-sm text-blue-600 dark:text-blue-300 max-w-md mx-auto">
+        <p className="text-sm text-blue-700 max-w-md mx-auto">
           We&apos;re working on adding rich text formatting, image attachments, email notifications, and targeted audience selection for more effective communication.
         </p>
       </div>
